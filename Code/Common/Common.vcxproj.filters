@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{0421196d-ed7e-481d-86da-2b2f9b991900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\WorldModule">
+      <UniqueIdentifier>{cb5ddeb0-43d6-489d-9a38-57fab6c9c2f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\AIModule">
+      <UniqueIdentifier>{a78cbc69-3fac-4dac-9ea9-ccb1d00fb061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\AnimModule">
+      <UniqueIdentifier>{c0266882-134d-4218-90e8-b41f286e23cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\ScriptsModule">
+      <UniqueIdentifier>{42e687fe-3d5c-47e9-9554-8688e2b093d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\RenderModule">
+      <UniqueIdentifier>{96bc1eec-7f8c-460f-a2cc-878dbfb73be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\PhysicsModule">
+      <UniqueIdentifier>{68640a5b-efaf-4cd4-88aa-009e9609bbce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngineModule.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ISystem.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemInitParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldModule\IWorldModule.h">
+      <Filter>Interfaces\WorldModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimModule\IAnimModule.h">
+      <Filter>Interfaces\AnimModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AIModule\IAIModule.h">
+      <Filter>Interfaces\AIModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule\IRenderModule.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsModule\IPhysicsModule.h">
+      <Filter>Interfaces\PhysicsModule</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptsModule\IScriptsModule.h">
+      <Filter>Interfaces\ScriptsModule</Filter>
+    </ClInclude>
+    <ClInclude Include="platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Library.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Library.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
