@@ -2,6 +2,7 @@
 #include "System.h"
 
 #include <RenderModule\IRenderer.h>
+#include <RenderModule\IRenderModule.h>
 
 System::System(const SystemInitParams& startupParams)
 	: m_hWnd(nullptr)
@@ -360,7 +361,29 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 
 HMODULE System::LoadDLL(const char* dllName)
 {
-	return nullptr;
+	HMODULE handle = nullptr;
+
+	handle = LoadLibraryA(dllName);
+	if (!handle)
+	{
+
+	}
+	if (handle == nullptr)
+	{
+		Quit();
+	}
+
+	//m_moduleDLLHandles.emplace(dllName, handle);
+	//std::string moduleName = PathUtil::GetFileName(dllName);
+	
+	typedef void* (*PtrFunc_ModuleInitISystem)(ISystem* pSystem, const char* dllName);
+	PtrFunc_ModuleInitISystem pfnModuleInitISystem = (PtrFunc_ModuleInitISystem)GetProcAddress(handle, "ModuleInitISystem");
+	if (pfnModuleInitISystem)
+	{
+		pfnModuleInitISystem(this, dllName);
+	}
+
+	return handle;
 }
 
 bool System::UnloadDLL(const char* dllName)
@@ -375,10 +398,12 @@ void System::GetLoadedDLLs(std::vector<std::string>& moduleNames) const
 
 bool System::InitModule(const SystemInitParams& startupParams, const char* dllName)
 {
-	std::shared_ptr<IEngineModule> pModule;
+	HMODULE dll = LoadDLL(dllName);
 
-	if (LoadDLL(dllName) == 0)
+	if (dll == 0)
 		return false;
+
+	IEngineModule* pModule = (IEngineModule*)(dll);
 
 	if (pModule == nullptr)
 		return false;
@@ -401,6 +426,15 @@ bool System::InitRenderModule(SystemInitParams& startupParams)
 
 	if (!m_env.pRenderer)
 		return false;
+
+	if (m_env.pRenderer)
+	{
+		int width = m_width;
+		int height = m_height;
+
+		m_hWnd = m_env.pRenderer->Init( 0, 0, width, height, startupParams );
+		return m_hWnd != 0;
+	}
 
 	return true;
 }

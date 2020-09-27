@@ -3,11 +3,12 @@
 #pragma once
 
 #include <RenderModule\IRenderer.h>
+#include <RenderModule\IRenderModule.h>
 
 class Renderer : public IRenderer
 {
-					Renderer();
-	virtual			~Renderer();
+					Renderer() {}
+	virtual			~Renderer() {}
 
 	PHWND			Init(int x, int y, int width, int height, SystemInitParams& initParams) override = 0;
 	virtual bool	InitRenderer() = 0;

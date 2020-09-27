@@ -19,27 +19,24 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-extern "C"
+extern "C" SYSTEM_API ISystem* LoadSystem(SystemInitParams& startupParams)
 {
-	SYSTEM_API ISystem* LoadSystem(SystemInitParams& startupParams)
+	std::unique_ptr<System> pSystem;
 	{
-		std::unique_ptr<System> pSystem;
+		pSystem = std::make_unique<System>(startupParams);
+		startupParams.pSystem = pSystem.get();
+		ModuleInitISystem(pSystem.get(), "System");
+
+		if (!pSystem->Initialise(startupParams))
 		{
-			pSystem = std::make_unique<System>(startupParams);
-			startupParams.pSystem = pSystem.get();
-			ModuleInitISystem(pSystem.get(), "System");
-
-			if (!pSystem->Initialise(startupParams))
-			{
-				pSystem.release();
-				startupParams.pSystem = nullptr;
-				gEnv->pSystem = nullptr;
-				return nullptr;
-			}
+			pSystem.release();
+			startupParams.pSystem = nullptr;
+			gEnv->pSystem = nullptr;
+			return nullptr;
 		}
-
-		// run main loop
-		pSystem->RunMainLoop();
-		return nullptr;
 	}
+
+	// run main loop
+	pSystem->RunMainLoop();
+	return nullptr;
 };

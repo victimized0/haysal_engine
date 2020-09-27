@@ -1,28 +1,26 @@
 #include "stdafx.h"
 #include "Renderer.h"
 
-#include <RenderModule\IRenderModule.h>
-
 Renderer* gRenderer = nullptr;
 
-extern "C" DLL_EXPORT IRenderer * CreateRenderInterface(ISystem * pSystem)
+extern "C" DLL_EXPORT IRenderer* CreateRenderInterface(ISystem *pSystem)
 {
 	//std::unique_ptr<Renderer> pRenderer;
 	//gcpRendD3D->InitRenderer();
 	return gRenderer;
 }
 
-class RendererModule : public IRenderModule
+class RenderModule : public IRenderModule
 {
 public:
-	virtual ~RendererModule()
+	~RenderModule()
 	{
 		SAFE_RELEASE(gEnv->pRenderer);
 	}
 
-	const char* GetName() const final { return "RendererModule"; }
+	const char* GetName() const { return "RenderModule"; }
 
-	bool Initialize(Environment& env, const SystemInitParams& initParams) final
+	bool Initialize(Environment& env, const SystemInitParams& initParams)
 	{
 		ISystem* pSystem = env.pSystem;
 		env.pRenderer = CreateRenderInterface(pSystem);
