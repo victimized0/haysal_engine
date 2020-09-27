@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="DX11Renderer.cpp" />
-    <ClCompile Include="..\RenderCommon\Renderer.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DX11Renderer.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="VKRenderer.h" />
     <ClInclude Include="..\RenderCommon\StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\RenderCommon\Renderer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="VKRenderer.cpp" />
+    <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Common">
-      <UniqueIdentifier>{cea342a9-5fd5-4904-aa4c-e1af18a27223}</UniqueIdentifier>
+      <UniqueIdentifier>{6ceba306-598e-49d4-91eb-5509f05c30af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

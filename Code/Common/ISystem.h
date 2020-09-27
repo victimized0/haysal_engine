@@ -8,6 +8,10 @@
 #define SYSTEM_API DLL_IMPORT
 #endif
 
+#include <IEngineModule.h>
+
+typedef void* PHWND;
+
 struct ISystem;
 struct IPhysics;
 struct IRenderer;
@@ -16,7 +20,6 @@ struct IScripts;
 struct IAnimModule;
 struct IWorldModule;
 
-struct IEngineModule;
 struct SystemInitParams;
 
 struct Environment
@@ -29,6 +32,8 @@ struct Environment
 	IScripts*		pScripts	= nullptr;
 	IAnimModule*	pAnimation	= nullptr;
 };
+
+extern Environment* gEnv;
 
 struct ISystem
 {
@@ -57,7 +62,7 @@ struct ISystem
 	virtual IAIModule*			GetIAIModule() = 0;
 	virtual IAnimModule*		GetIAnimModule() = 0;
 
-	//virtual HWND				GetHWND() = 0;
+	virtual PHWND				GetHWND() = 0;
 
 	//virtual void				SetViewCamera(Camera& camera) = 0;
 	//virtual const Camera&		GetViewCamera() const = 0;
@@ -69,6 +74,9 @@ struct ISystem
 
 	virtual IEngineModule*		LoadModule(const char* moduleName, const SystemInitParams& initParams) = 0;
 	virtual bool				UnloadEngineModule(const char* moduleName) = 0;
+
+	virtual int					PumpWindowMessage(bool bAll, PHWND hWnd) = 0;
+
 	//ISystemEventListener
 };
 

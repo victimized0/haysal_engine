@@ -13,15 +13,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldModule", "..\WorldModu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "..\SystemModule\SystemModule.vcxproj", "{50B33E6C-0BD9-430A-942B-D2F46AFD6D07}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX11Module", "..\DX11Module\DX11Module.vcxproj", "{45E0B3B5-9754-48C6-B946-3ED288F7A6F4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX11Renderer", "..\DX11Module\DX11Module.vcxproj", "{45E0B3B5-9754-48C6-B946-3ED288F7A6F4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldEditor", "..\WorldEditor\WorldEditor.vcxproj", "{3045EBCB-74CE-431A-9EAD-5A6188309A95}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LUAModule", "..\LUAModule\LUAModule.vcxproj", "{FD7A1E95-18BD-43E8-8455-60ACB19F39B6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaModule", "..\LUAModule\LUAModule.vcxproj", "{FD7A1E95-18BD-43E8-8455-60ACB19F39B6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinLauncher", "..\WinLauncher\WinLauncher.vcxproj", "{75124E2A-C235-499F-8AF1-E6E7A1CDBB95}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "..\Common\Common.vcxproj", "{D5D46CAF-F9DA-44C4-A45A-4357421A3166}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKRenderer", "..\VKRenderer\VKRenderer.vcxproj", "{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,14 @@ Global
 		{D5D46CAF-F9DA-44C4-A45A-4357421A3166}.Release|x64.Build.0 = Release|x64
 		{D5D46CAF-F9DA-44C4-A45A-4357421A3166}.Release|x86.ActiveCfg = Release|Win32
 		{D5D46CAF-F9DA-44C4-A45A-4357421A3166}.Release|x86.Build.0 = Release|Win32
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Debug|x64.ActiveCfg = Debug|x64
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Debug|x64.Build.0 = Debug|x64
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Debug|x86.ActiveCfg = Debug|Win32
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Debug|x86.Build.0 = Debug|Win32
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x64.ActiveCfg = Release|x64
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x64.Build.0 = Release|x64
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x86.ActiveCfg = Release|Win32
+		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -71,6 +71,9 @@
     <ClInclude Include="PlatformDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenderModule\IRenderer.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common.cpp">
@@ -79,5 +82,10 @@
     <ClCompile Include="Library.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="platform.inl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

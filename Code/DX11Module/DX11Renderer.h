@@ -1,16 +1,17 @@
-#ifndef DIRECTX11_RENDER_MODULE_H
-#define DIRECTX11_RENDER_MODULE_H
+#ifndef DIRECTX11_RENDERER_H
+#define DIRECTX11_RENDERER_H
 #pragma once
 
 #include <RenderModule\IRenderModule.h>
+#include <platform.inl>
+#include <Renderer.h>
 
-class DX11RendModule : public IRenderModule
+class DX11Renderer final : public Renderer
 {
 public:
-	virtual			~DX11RendModule();
+	virtual			~DX11Renderer();
 
-	const char*		GetName() const final;
-	bool			Initialize(Environment& env, const SystemInitParams& initParams) final;
+	static PHWND	CreateWindowCallback();
 };
 
-#endif //DIRECTX11_RENDER_MODULE_H
+#endif //DIRECTX11_RENDERER_H

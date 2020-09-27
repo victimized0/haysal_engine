@@ -9,9 +9,4 @@ struct IRenderModule : public IEngineModule
 
 };
 
-struct IRenderer
-{
-
-};
-
 #endif //INTERFACE_RENDERING_MODULE_H

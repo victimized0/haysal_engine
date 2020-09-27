@@ -20,6 +20,7 @@ public:
 	bool					Update() final;
 	bool					DoFrame() final;
 	void					RenderBegin() final;
+	void					Render();
 	void					RenderEnd() final;
 
 	void					Quit() final;
@@ -36,7 +37,7 @@ public:
 	IAIModule*				GetIAIModule() final;
 	IAnimModule*			GetIAnimModule() final;
 
-	//HWND					GetHWND() final;
+	PHWND					GetHWND() final;
 
 	//void					SetViewCamera(Camera& camera) final;
 	//const Camera&			GetViewCamera() const final;
@@ -62,11 +63,13 @@ public:
 	//void*					GetRootWindowMessageHandler() final;
 	//void					RegisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
 	//void					UnregisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
-	//int						PumpWindowMessage(bool bAll, CRY_HWND hWnd) final;
+	int						PumpWindowMessage(bool bAll, PHWND hWnd) final;
 
 	HMODULE					LoadDLL(const char* dllName);
 	bool					UnloadDLL(const char* dllName);
 	void					GetLoadedDLLs(std::vector<std::string>& moduleNames) const;
+
+	bool					ShouldQuit() { return m_shouldQuit; }
 
 private:
 	bool					InitModule(const SystemInitParams& startupParams, const char* dllName);
@@ -83,7 +86,7 @@ private:
 	void					ShutDown();
 
 private:
-	HWND					m_hWnd;
+	PHWND					m_hWnd;
 	Environment				m_env;
 	//Timer					m_timer;
 	//Camera				m_viewCamera;
@@ -97,6 +100,7 @@ private:
 	int						m_width;
 	bool					m_isDevMode;
 	bool					m_isPaused;
+	bool					m_shouldQuit;
 
 	struct SDllHandles
 	{

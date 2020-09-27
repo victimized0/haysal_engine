@@ -150,6 +150,7 @@
     <ClInclude Include="PhysicsModule\IPhysicsModule.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="PlatformDefines.h" />
+    <ClInclude Include="RenderModule\IRenderer.h" />
     <ClInclude Include="RenderModule\IRenderModule.h" />
     <ClInclude Include="ScriptsModule\IScriptsModule.h" />
     <ClInclude Include="WorldModule\IWorldModule.h" />
@@ -161,6 +162,9 @@
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Library.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="platform.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
