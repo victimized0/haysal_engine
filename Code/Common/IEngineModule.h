@@ -7,7 +7,7 @@ struct SystemInitParams;
 
 struct IEngineModule
 {
-	virtual ~IEngineModule() = default;
+	virtual ~IEngineModule() {};
 	virtual const char* GetName() const = 0;
 	virtual bool Initialize(Environment& env, const SystemInitParams& initParams) = 0;
 };

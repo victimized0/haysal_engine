@@ -403,7 +403,14 @@ bool System::InitModule(const SystemInitParams& startupParams, const char* dllNa
 	if (dll == 0)
 		return false;
 
-	IEngineModule* pModule = (IEngineModule*)(dll);
+	IEngineModule* pModule = nullptr;
+
+	typedef void* (*pfnInitIModule)(ISystem* pSystem, const char* dllName);
+	pfnInitIModule _pfnInitIModule = (pfnInitIModule)GetProcAddress(dll, "CreateRenderInterface");
+	if (_pfnInitIModule)
+	{
+		pModule = static_cast<IEngineModule*>(_pfnInitIModule(this, dllName));
+	}
 
 	if (pModule == nullptr)
 		return false;
