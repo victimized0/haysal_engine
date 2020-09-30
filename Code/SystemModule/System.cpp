@@ -405,11 +405,11 @@ bool System::InitModule(const SystemInitParams& startupParams, const char* dllNa
 
 	IEngineModule* pModule = nullptr;
 
-	typedef void* (*pfnInitIModule)(ISystem* pSystem, const char* dllName);
-	pfnInitIModule _pfnInitIModule = (pfnInitIModule)GetProcAddress(dll, "CreateRenderInterface");
-	if (_pfnInitIModule)
+	typedef void* (*CreateModuleFunc)(ISystem* pSystem, const char* dllName);
+	auto pCreateModuleFunc = (CreateModuleFunc)GetProcAddress(dll, "CreateModule");
+	if (pCreateModuleFunc)
 	{
-		pModule = static_cast<IEngineModule*>(_pfnInitIModule(this, dllName));
+		pModule = static_cast<IEngineModule*>(pCreateModuleFunc(this, dllName));
 	}
 
 	if (pModule == nullptr)

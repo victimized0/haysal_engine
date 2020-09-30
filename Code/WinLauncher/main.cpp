@@ -11,6 +11,36 @@ extern "C"
     __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 
+bool InitialiseEngine(SystemInitParams& startupParams)
+{
+	//FindRootFolderAndSetAsCurrentWorkingDirectory();
+
+	Library systemLibrary("System");
+	if (!systemLibrary.IsLoaded())
+	{
+		return false;
+	}
+
+	auto LoadSystem = (PFNLoadSystemInterface)systemLibrary.GetProcedureAddress("LoadSystem");
+
+	if (LoadSystem(startupParams) != nullptr)
+	{
+		//if (bManualEngineLoop)
+		//{
+			// Forward ownership to the function caller
+			// This is done since the engine loop will be updated outside of this function scope
+			// In other cases we would be exiting the engine at this point.
+			//systemLibrary.ReleaseOwnership();
+		//}
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     SystemInitParams startupParams;

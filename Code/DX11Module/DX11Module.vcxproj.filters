@@ -3,20 +3,24 @@
   <ItemGroup>
     <ClCompile Include="DX11Renderer.cpp" />
     <ClCompile Include="..\RenderCommon\Renderer.cpp">
-      <Filter>Common</Filter>
+      <Filter>RndCommon</Filter>
     </ClCompile>
-    <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
+    <ClCompile Include="..\RenderCommon\StdAfx.cpp">
+      <Filter>RndCommon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX11Renderer.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h">
-      <Filter>Common</Filter>
+      <Filter>RndCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\RenderCommon\StdAfx.h" />
+    <ClInclude Include="..\RenderCommon\StdAfx.h">
+      <Filter>RndCommon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Common">
-      <UniqueIdentifier>{cea342a9-5fd5-4904-aa4c-e1af18a27223}</UniqueIdentifier>
+    <Filter Include="RndCommon">
+      <UniqueIdentifier>{10efb22f-bb05-441f-b871-1ea14154c035}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

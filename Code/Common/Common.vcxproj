@@ -154,13 +154,11 @@
     <ClInclude Include="RenderModule\IRenderModule.h" />
     <ClInclude Include="ScriptsModule\IScriptsModule.h" />
     <ClInclude Include="WorldModule\IWorldModule.h" />
-    <ClInclude Include="Common.h" />
     <ClInclude Include="IEngineModule.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="SystemInitParams.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Common.cpp" />
     <ClCompile Include="Library.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -2,11 +2,13 @@
 #define RENDERER_H
 #pragma once
 
+#include "platform.h"
 #include <RenderModule\IRenderer.h>
 #include <RenderModule\IRenderModule.h>
 
 class Renderer : public IRenderer
 {
+public:
 					Renderer() {}
 	virtual			~Renderer() {}
 

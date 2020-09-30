@@ -32,9 +32,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IEngineModule.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -76,9 +73,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Library.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -1,22 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\RenderCommon\Renderer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="VKRenderer.h" />
-    <ClInclude Include="..\RenderCommon\StdAfx.h" />
+    <ClInclude Include="..\RenderCommon\Renderer.h">
+      <Filter>RndCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\StdAfx.h">
+      <Filter>RndCommon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\RenderCommon\Renderer.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="VKRenderer.cpp" />
-    <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
+    <ClCompile Include="..\RenderCommon\Renderer.cpp">
+      <Filter>RndCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\StdAfx.cpp">
+      <Filter>RndCommon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Common">
-      <UniqueIdentifier>{6ceba306-598e-49d4-91eb-5509f05c30af}</UniqueIdentifier>
+    <Filter Include="RndCommon">
+      <UniqueIdentifier>{1db7ec6d-e663-4f42-8eb7-c72c9be7052c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
