@@ -2,7 +2,7 @@
 #define RENDERER_STDAFX_H
 #pragma once
 
-//#include <platform.h>
+#include <platform.h>
 #include <memory>
 
 #endif //RENDERER_STDAFX_H

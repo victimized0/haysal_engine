@@ -428,7 +428,7 @@ bool System::InitRenderModule(SystemInitParams& startupParams)
 	// else if (param == "Vulkan")
 	// libName = Vulkan
 	
-	if (!InitModule(startupParams, "VKRenderer"))
+	if (!InitModule(startupParams, "DX11Renderer"))
 		return false;
 
 	if (!m_env.pRenderer)
