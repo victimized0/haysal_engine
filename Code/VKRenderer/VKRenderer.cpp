@@ -131,6 +131,6 @@ public:
 extern "C" DLL_EXPORT IEngineModule* CreateModule(ISystem* pSystem)
 {
 	g_vkRenderer = new VKRenderer();
-	auto pModule = std::make_unique<VKRenderModule>();
-	return pModule.get();
+	auto pModule = new VKRenderModule();
+	return pModule;
 }

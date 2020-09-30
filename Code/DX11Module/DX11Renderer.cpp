@@ -78,7 +78,7 @@ bool DX11Renderer::SetWindowIcon(const char* path)
 
 PHWND DX11Renderer::Init(int x, int y, int width, int height, SystemInitParams& initParams)
 {
-	return PHWND();
+	return 0;
 }
 
 bool DX11Renderer::InitRenderer()
@@ -115,7 +115,7 @@ void DX11Renderer::RenderScene()
 {
 }
 
-class DX11RenderModule : public IRenderModule
+class DX11RenderModule : public IEngineModule
 {
 public:
 	virtual ~DX11RenderModule()
@@ -136,6 +136,6 @@ public:
 extern "C" DLL_EXPORT IEngineModule* CreateModule(ISystem* pSystem)
 {
 	g_d3d11Renderer = new DX11Renderer();
-	auto pModule = std::make_unique<DX11RenderModule>();
-	return pModule.get();
+	auto pModule = new DX11RenderModule();
+	return pModule;
 }

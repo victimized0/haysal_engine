@@ -405,11 +405,11 @@ bool System::InitModule(const SystemInitParams& startupParams, const char* dllNa
 
 	IEngineModule* pModule = nullptr;
 
-	typedef void* (*CreateModuleFunc)(ISystem* pSystem, const char* dllName);
+	typedef IEngineModule* (*CreateModuleFunc)(ISystem* pSystem, const char* dllName);
 	auto pCreateModuleFunc = (CreateModuleFunc)GetProcAddress(dll, "CreateModule");
 	if (pCreateModuleFunc)
 	{
-		pModule = static_cast<IEngineModule*>(pCreateModuleFunc(this, dllName));
+		pModule = pCreateModuleFunc(this, dllName);
 	}
 
 	if (pModule == nullptr)
@@ -428,7 +428,7 @@ bool System::InitRenderModule(SystemInitParams& startupParams)
 	// else if (param == "Vulkan")
 	// libName = Vulkan
 	
-	if (!InitModule(startupParams, "DX11Renderer"))
+	if (!InitModule(startupParams, "VKRenderer"))
 		return false;
 
 	if (!m_env.pRenderer)
