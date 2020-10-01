@@ -4,6 +4,49 @@
 #include <RenderModule\IRenderer.h>
 #include <RenderModule\IRenderModule.h>
 
+#if PLATFORM_WINDOWS
+static LRESULT WINAPI WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	System* pSystem = 0;
+	if (gEnv)
+	{
+		pSystem = static_cast<System*>(gEnv->pSystem);
+	}
+
+	if (pSystem && !pSystem->ShouldQuit())
+	{
+		LRESULT result = S_OK;
+		bool bAny = false;
+		//for (std::vector<IWindowMessageHandler*>::const_iterator it = pSystem->m_windowMessageHandlers.begin(); it != pSystem->m_windowMessageHandlers.end(); ++it)
+		//{
+		//	IWindowMessageHandler* pHandler = *it;
+		//	LRESULT maybeResult = 0xDEADDEAD;
+		//	if (pHandler->HandleMessage(hWnd, uMsg, wParam, lParam, &maybeResult))
+		//	{
+		//		assert(maybeResult != 0xDEADDEAD && "Message handler indicated a resulting value, but no value was written");
+		//		if (bAny)
+		//		{
+		//			assert(result == maybeResult && "Two window message handlers tried to return different result values");
+		//		}
+		//		else
+		//		{
+		//			bAny = true;
+		//			result = maybeResult;
+		//		}
+		//	}
+		//}
+		if (bAny)
+		{
+			// One of the registered handlers returned something
+			return result;
+		}
+	}
+
+	// Handle with the default procedure
+	return DefWindowProc((HWND)hWnd, uMsg, wParam, lParam);
+}
+#endif //PLATFORM_WINDOWS
+
 System::System(const SystemInitParams& startupParams)
 	: m_hWnd(nullptr)
 	, m_width(0)
@@ -13,6 +56,7 @@ System::System(const SystemInitParams& startupParams)
 	, m_shouldQuit(false)
 {
 	gEnv = &m_env;
+	m_env.pSystem = this;
 }
 
 System::~System()
@@ -439,8 +483,8 @@ bool System::InitRenderModule(SystemInitParams& startupParams)
 		int width = m_width;
 		int height = m_height;
 
-		m_hWnd = m_env.pRenderer->Init( 0, 0, width, height, startupParams );
-		return m_hWnd != 0;
+		m_hWnd = m_env.pRenderer->Init( width, height, startupParams );
+		return m_hWnd != nullptr;
 	}
 
 	return true;
@@ -474,6 +518,15 @@ bool System::InitWorldModule(const SystemInitParams& startupParams)
 void System::ShutDown()
 {
 
+}
+
+void* System::GetWndProcHandler()
+{
+#if PLATFORM_WINDOWS
+	return &WndProc;
+#else
+	return nullptr;
+#endif
 }
 
 int System::PumpWindowMessage(bool bAll, PHWND opaqueHWnd)
@@ -510,46 +563,3 @@ PHWND System::GetHWND()
 {
 	return m_hWnd;
 }
-
-#if PLATFORM_WINDOWS
-static LRESULT WINAPI WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	System* pSystem = 0;
-	if (gEnv)
-	{
-		pSystem = static_cast<System*>(gEnv->pSystem);
-	}
-
-	if (pSystem && !pSystem->ShouldQuit())
-	{
-		LRESULT result;
-		bool bAny = false;
-		//for (std::vector<IWindowMessageHandler*>::const_iterator it = pSystem->m_windowMessageHandlers.begin(); it != pSystem->m_windowMessageHandlers.end(); ++it)
-		//{
-		//	IWindowMessageHandler* pHandler = *it;
-		//	LRESULT maybeResult = 0xDEADDEAD;
-		//	if (pHandler->HandleMessage(hWnd, uMsg, wParam, lParam, &maybeResult))
-		//	{
-		//		assert(maybeResult != 0xDEADDEAD && "Message handler indicated a resulting value, but no value was written");
-		//		if (bAny)
-		//		{
-		//			assert(result == maybeResult && "Two window message handlers tried to return different result values");
-		//		}
-		//		else
-		//		{
-		//			bAny = true;
-		//			result = maybeResult;
-		//		}
-		//	}
-		//}
-		if (bAny)
-		{
-			// One of the registered handlers returned something
-			return result;
-		}
-	}
-
-	// Handle with the default procedure
-	return DefWindowProc((HWND)hWnd, uMsg, wParam, lParam);
-}
-#endif //PLATFORM_WINDOWS

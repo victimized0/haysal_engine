@@ -17,24 +17,11 @@ void VKRenderer::PostInit()
 {
 }
 
-int VKRenderer::GetFeatures()
-{
-	return 0;
-}
-
 void VKRenderer::Release()
 {
 }
 
 void VKRenderer::ShutDown()
-{
-}
-
-void VKRenderer::InitSystemResources(int nFlags)
-{
-}
-
-void VKRenderer::FreeSystemResources(int nFlags)
 {
 }
 
@@ -66,12 +53,7 @@ PHWND VKRenderer::GetHWND()
 	return PHWND();
 }
 
-bool VKRenderer::SetWindowIcon(const char* path)
-{
-	return false;
-}
-
-PHWND VKRenderer::Init(int x, int y, int width, int height, SystemInitParams& initParams)
+PHWND VKRenderer::Init(int width, int height, SystemInitParams& initParams)
 {
 	return PHWND();
 }

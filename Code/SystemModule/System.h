@@ -56,11 +56,11 @@ public:
 	void					RunMainLoop();
 
 #if PLATFORM_WINDOWS
-	friend LRESULT WINAPI	WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	friend LRESULT WINAPI	WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	bool					HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 #endif
 
-	//void*					GetRootWindowMessageHandler() final;
+	void*					GetWndProcHandler() final;
 	//void					RegisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
 	//void					UnregisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
 	int						PumpWindowMessage(bool bAll, PHWND hWnd) final;

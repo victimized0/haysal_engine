@@ -8,10 +8,10 @@ struct IRenderer
 {
 	virtual				~IRenderer() {}
 
-	virtual PHWND		Init(int x, int y, int width, int height, struct SystemInitParams& initParams) = 0;
+	virtual PHWND		Init(int width, int height, struct SystemInitParams& initParams) = 0;
 	virtual void		PostInit() = 0;
 	
-	virtual int			GetFeatures() = 0;
+	//virtual int			GetFeatures() = 0;
 	virtual void		Release() = 0;
 	virtual void		ShutDown() = 0;
 
@@ -19,8 +19,8 @@ struct IRenderer
 	virtual void		FillFrame(float clearColor) = 0;
 	virtual void		EndFrame() = 0;
 
-	virtual void		InitSystemResources(int nFlags) = 0;
-	virtual void		FreeSystemResources(int nFlags) = 0;
+	//virtual void		InitSystemResources(int nFlags) = 0;
+	//virtual void		FreeSystemResources(int nFlags) = 0;
 
 	virtual int			GetHeight() const = 0;
 	virtual int			GetWidth() const = 0;
@@ -44,7 +44,7 @@ struct IRenderer
 	virtual void		PopProfileMarker(const char* label) = 0;
 
 	virtual PHWND		GetHWND() = 0;
-	virtual bool        SetWindowIcon(const char* path) = 0;
+	//virtual bool        SetWindowIcon(const char* path) = 0;
 };
 
 #endif //INTERFACE_RENDERER_H

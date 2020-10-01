@@ -75,6 +75,7 @@ struct ISystem
 	virtual IEngineModule*		LoadModule(const char* moduleName, const SystemInitParams& initParams) = 0;
 	virtual bool				UnloadEngineModule(const char* moduleName) = 0;
 
+	virtual void*				GetWndProcHandler() = 0;
 	virtual int					PumpWindowMessage(bool bAll, PHWND hWnd) = 0;
 
 	//ISystemEventListener

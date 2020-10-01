@@ -17,28 +17,38 @@ public:
 
 	static PHWND	CreateWindowCallback();
 
-	void			PostInit() final;
-	int				GetFeatures() final;
-	void			Release() final;
-	void			ShutDown() final;
-	void			InitSystemResources(int nFlags) final;
-	void			FreeSystemResources(int nFlags) final;
+	PHWND			GetHWND() final;
+	bool			CreateMainWindow(int width, int height);
+	//bool			SetWindowIcon(const char* path) final;
+
 	int				GetHeight() const final;
 	int				GetWidth() const final;
 	float			GetPixelAspectRatio() const final;
+
+	PHWND			Init(int width, int height, SystemInitParams& initParams) final;
+	void			PostInit() final;
+	bool			InitRenderer() final;
+	//int				GetFeatures() final;
+	bool			CreateDevice() final;
+	void			Reset() final;
+	void			Release() final;
+	void			ShutDown() final;
+	void			ShutDown(uint32 nFlags) final;
+
+	//void			InitSystemResources(int nFlags) final;
+	//void			FreeSystemResources(int nFlags) final;
+
 	void			PushProfileMarker(const char* label) final;
 	void			PopProfileMarker(const char* label) final;
-	PHWND			GetHWND() final;
-	bool			SetWindowIcon(const char* path) final;
-	PHWND			Init(int x, int y, int width, int height, SystemInitParams& initParams) final;
-	bool			InitRenderer() final;
+
 	void			BeginFrame() final;
 	void			FillFrame(float clearColor) final;
 	void			EndFrame() final;
-	void			ShutDown(uint32 nFlags) final;
-	bool			CreateDevice() final;
-	void			Reset() final;
 	void			RenderScene() final;
+
+private:
+	PHWND			m_hWnd;
+	std::wstring	m_wndCaption;
 };
 
 #endif //DIRECTX11_RENDERER_H

@@ -4,5 +4,6 @@
 
 #include <platform.h>
 #include <memory>
+#include <string>
 
 #endif //RENDERER_STDAFX_H

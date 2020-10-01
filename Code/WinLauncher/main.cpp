@@ -21,9 +21,9 @@ bool InitialiseEngine(SystemInitParams& startupParams)
 		return false;
 	}
 
-	auto LoadSystem = (PFNLoadSystemInterface)systemLibrary.GetProcedureAddress("LoadSystem");
+	auto LoadSystemFunc = (PFNLoadSystemInterface)systemLibrary.GetProcedureAddress("LoadSystem");
 
-	if (LoadSystem(startupParams) != nullptr)
+	if (LoadSystemFunc(startupParams) != nullptr)
 	{
 		//if (bManualEngineLoop)
 		//{
