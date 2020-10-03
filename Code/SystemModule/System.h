@@ -42,10 +42,10 @@ public:
 	IAIModule*				GetIAIModule() final;
 	IAnimModule*			GetIAnimModule() final;
 
-	WIN_HWND					GetHWND() final;
+	WIN_HWND				GetHWND() final;
 
-	//void					SetViewCamera(Camera& camera) final;
-	//const Camera&			GetViewCamera() const final;
+	void					SetViewCamera(Camera& camera) final;
+	const Camera&			GetViewCamera() const final;
 
 	void					SaveConfiguration() final;
 	void					LoadConfiguration(const char* sFilename) final;
@@ -95,7 +95,7 @@ private:
 	WIN_HWND				m_hWnd;
 	Environment				m_env;
 	Timer					m_timer;
-	//Camera				m_viewCamera;
+	Camera					m_viewCamera;
 	//ResourceManager*		m_pResMan;
 	//IFont*				m_pFont;
 	//CmdLine*				m_pCmdLine;

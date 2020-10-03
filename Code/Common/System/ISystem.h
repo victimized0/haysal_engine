@@ -8,8 +8,9 @@
 #define SYSTEM_API DLL_IMPORT
 #endif
 
-#include <System\IEngineModule.h>
-#include <System\IWindowMessageHandler.h>
+#include "IEngineModule.h"
+#include "IWindowMessageHandler.h"
+#include "..\Camera.h"
 
 // Have to define this because other platforms might not have Windows types
 typedef void* WIN_HWND;
@@ -55,7 +56,6 @@ struct ISystem
 
 	virtual void				Quit() = 0;
 
-	//virtual ILocManager*		GetLocalizationManager() = 0;
 	//virtual IResourceManager*	GetIResourceManager() = 0;
 	//virtual ICmdLine*			GetICmdLine() = 0;
 	//virtual ILog*				GetILog() = 0;
@@ -67,10 +67,10 @@ struct ISystem
 	virtual IAIModule*			GetIAIModule() = 0;
 	virtual IAnimModule*		GetIAnimModule() = 0;
 
-	virtual WIN_HWND				GetHWND() = 0;
+	virtual WIN_HWND			GetHWND() = 0;
 
-	//virtual void				SetViewCamera(Camera& camera) = 0;
-	//virtual const Camera&		GetViewCamera() const = 0;
+	virtual void				SetViewCamera(Camera& camera) = 0;
+	virtual const Camera&		GetViewCamera() const = 0;
 
 	virtual void				SaveConfiguration() = 0;
 	virtual void				LoadConfiguration(const char* sFilename) = 0;

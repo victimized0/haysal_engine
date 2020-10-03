@@ -28,6 +28,11 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+static constexpr float g_PI     = DirectX::XM_PI;
+static constexpr float g_2PI    = 2.f * g_PI;
+static constexpr float g_PIdiv2 = g_PI / 2.f;
+static constexpr float g_PIdiv3 = g_PI / 3.f;
+static constexpr float g_PIdiv4 = g_PI / 4.f;
 
 namespace DirectX
 {

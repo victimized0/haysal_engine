@@ -82,7 +82,7 @@ int64 Timer::GetTicksPerSecond()
 float Timer::GetFrameRate()
 {
     if (m_frameTime != 0.f)
-        return 1.f / m_frameTime;
+        return 1.f / static_cast<float>(m_frameTime);
     return 0.f;
 }
 

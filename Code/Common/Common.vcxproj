@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="AIModule\IAIModule.h" />
     <ClInclude Include="AnimModule\IAnimModule.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="System\IWindowMessageHandler.h" />
     <ClInclude Include="Library.h" />
     <ClInclude Include="Math\SimpleMath.h" />
@@ -164,7 +165,6 @@
     <ClInclude Include="WorldModule\IWorldObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Library.cpp" />
     <ClCompile Include="Math\SimpleMath.cpp" />
   </ItemGroup>
   <ItemGroup>

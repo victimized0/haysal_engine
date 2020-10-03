@@ -168,7 +168,16 @@ bool System::IsDevMode() const
 
 bool System::Update()
 {
-	// View camera update
+	Camera camera = GetViewCamera();
+	const int newWidth	= gEnv->pRenderer->GetWidth();
+	const int newHeight = gEnv->pRenderer->GetHeight();
+
+	if ((newWidth != camera.GetWidth()) || (newHeight != camera.GetHeight()))
+	{
+		camera.SetFrustum( newWidth, newHeight, camera.GetFov(), camera.GetNearPlane(), camera.GetFarPlane() );
+		SetViewCamera(camera);
+	}
+
 	// Game pause state update
 	// Return false if game is to be closed
 
@@ -689,4 +698,15 @@ int System::PumpWindowMessage(bool bAll, WIN_HWND phWnd)
 WIN_HWND System::GetHWND()
 {
 	return m_hWnd;
+}
+
+void System::SetViewCamera(Camera& camera)
+{
+	m_viewCamera = camera;
+	m_viewCamera.CalculateMatrices();
+}
+
+const Camera& System::GetViewCamera() const
+{
+	return m_viewCamera;
 }
