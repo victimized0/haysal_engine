@@ -8,7 +8,10 @@
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\SceneNode.cpp" />
+    <ClCompile Include="Scene\OctreeNode.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -18,7 +21,10 @@
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\SceneNode.h" />
+    <ClInclude Include="Scene\OctreeNode.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="WorldEngine">
@@ -26,6 +32,9 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{9336cb1e-6cb7-40b2-8498-bc1092bbd2a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{fdc9c0e5-f106-4121-aeda-8c12419f1d87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

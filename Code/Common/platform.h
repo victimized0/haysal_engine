@@ -24,6 +24,8 @@
 
 #include <windows.h>
 
+typedef unsigned long int uint64;
+typedef long int int64;
 typedef unsigned int uint32;
 typedef int int32;
 typedef unsigned short uint16;
@@ -37,18 +39,42 @@ typedef sbyte int8;
 
 #if PLATFORM_WINDOWS
 //#include <WindowsSpecific.h>
+//#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
+
+#include "Math\SimpleMath.h"
+
+typedef DirectX::SimpleMath::Vector2	Vec2;
+typedef DirectX::SimpleMath::Vector3	Vec3;
+typedef DirectX::SimpleMath::Vector4	Vec4;
+typedef DirectX::SimpleMath::Quaternion	Quat;
+typedef DirectX::SimpleMath::Matrix		Matrix;
+typedef DirectX::SimpleMath::Color		Color;
+typedef DirectX::BoundingBox			AABB;
+typedef DirectX::BoundingOrientedBox	OBB;
 #endif
 
 #if PLATFORM_LINUX
 //#include <LinuxSpecific.h>
+#error No uuid generator...
+#error No math lib...
 #endif
 
 #if PLATFORM_DURANGO
 //#include <DurangoSpecific.h>
+#error No uuid generator...
+#error No math lib...
 #endif
 
 #if PLATFORM_ORBIS
 //#include <OrbisSpecific.h>
+#error No uuid generator...
+#error No math lib...
 #endif
+
+#include <memory>
+#include <vector>
+#include <string>
+#include <map>
+#include <unordered_map>
 
 #endif //PLATFORM_H

@@ -30,14 +30,14 @@
     <Filter Include="Interfaces\PhysicsModule">
       <UniqueIdentifier>{68640a5b-efaf-4cd4-88aa-009e9609bbce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{78d22510-b371-4bbd-b651-6441b3e12645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\System">
+      <UniqueIdentifier>{539d86c5-44ba-46a0-bc00-9a7d1817e51c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IEngineModule.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ISystem.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="SystemInitParams.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -71,18 +71,42 @@
     <ClInclude Include="RenderModule\IRenderer.h">
       <Filter>Interfaces\RenderModule</Filter>
     </ClInclude>
+    <ClInclude Include="WorldModule\ISceneNode.h">
+      <Filter>Interfaces\WorldModule</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldModule\IWorldObject.h">
+      <Filter>Interfaces\WorldModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\SimpleMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="ISystem.h">
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngineModule.h">
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
     <ClInclude Include="IWindowMessageHandler.h">
-      <Filter>Interfaces</Filter>
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ITimer.h">
+      <Filter>Interfaces\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Math\SimpleMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="platform.inl">
       <Filter>Source Files</Filter>
+    </None>
+    <None Include="Math\SimpleMath.inl">
+      <Filter>Math</Filter>
     </None>
   </ItemGroup>
 </Project>

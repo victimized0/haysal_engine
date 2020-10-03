@@ -4,14 +4,11 @@
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="dllmain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Shared">
-      <UniqueIdentifier>{8e99430f-f317-4317-b425-350cbd85bb12}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
 </Project>

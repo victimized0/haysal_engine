@@ -2,7 +2,17 @@
 #define INTERFACE_RENDERER_H
 #pragma once
 
-#include "../SystemInitParams.h"
+#include "SystemInitParams.h"
+
+struct RenderInfo
+{
+
+};
+
+struct Material
+{
+
+};
 
 struct IRenderer
 {

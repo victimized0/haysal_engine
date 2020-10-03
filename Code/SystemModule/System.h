@@ -5,6 +5,7 @@
 #include <ISystem.h>
 #include <SystemInitParams.h>
 #include <Library.h>
+#include <Timer.h>
 
 #define DLL_DX11_MODULE		"DX11Renderer"
 #define DLL_VK_MODULE		"VKRenderer"
@@ -30,7 +31,6 @@ public:
 
 	void					Quit() final;
 
-	//ILocManager*			GetLocalizationManager() final;
 	//IResourceManager*		GetIResourceManager() final;
 	//ICmdLine*				GetICmdLine() final;
 	//ILog*					GetILog() final;
@@ -94,7 +94,7 @@ private:
 private:
 	WIN_HWND				m_hWnd;
 	Environment				m_env;
-	//Timer					m_timer;
+	Timer					m_timer;
 	//Camera				m_viewCamera;
 	//ResourceManager*		m_pResMan;
 	//IFont*				m_pFont;

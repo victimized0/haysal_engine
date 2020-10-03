@@ -22,6 +22,7 @@ struct IAIModule;
 struct IScripts;
 struct IAnimModule;
 struct IWorldEngine;
+struct ITimer;
 
 struct SystemInitParams;
 
@@ -34,6 +35,7 @@ struct Environment
 	IAIModule*		pAI			= nullptr;
 	IScripts*		pScripts	= nullptr;
 	IAnimModule*	pAnimation	= nullptr;
+	ITimer*			pTimer		= nullptr;
 };
 
 extern Environment* gEnv;

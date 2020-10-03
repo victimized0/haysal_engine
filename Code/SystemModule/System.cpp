@@ -3,6 +3,7 @@
 
 #include <RenderModule\IRenderer.h>
 #include <RenderModule\IRenderModule.h>
+#include <WorldModule\IWorldModule.h>
 
 #if PLATFORM_WINDOWS
 static LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -108,9 +109,9 @@ bool System::Initialise(SystemInitParams& initParams)
 		return false;
 	m_env.pRenderer->PostInit();
 
-	//if (!m_timer.Init())
-	//	return (false);
-	//m_timer.Reset();
+	if (!m_timer.Init())
+		return (false);
+	m_timer.Reset();
 
 	//if (!InitInput(startupParams))
 	//	return false;
@@ -176,6 +177,19 @@ bool System::Update()
 		}
 	}
 #endif
+
+	m_timer.Update();
+
+	if (m_env.pWorld /* && bNotLoading*/)
+		m_env.pWorld->OnFrameStart();
+
+	//if (m_env.pScripts /* && bNotLoading*/)
+	//	m_env.pScripts->Update();
+
+	//m_pResourceManager->Update();
+
+	//if (m_env.pWorld)
+	//	m_env.pWorld->Tick();  // clear per frame temp data
 
 	return true;
 }

@@ -148,21 +148,27 @@
     <ClInclude Include="AnimModule\IAnimModule.h" />
     <ClInclude Include="IWindowMessageHandler.h" />
     <ClInclude Include="Library.h" />
+    <ClInclude Include="Math\SimpleMath.h" />
     <ClInclude Include="PhysicsModule\IPhysicsModule.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="PlatformDefines.h" />
     <ClInclude Include="RenderModule\IRenderer.h" />
     <ClInclude Include="RenderModule\IRenderModule.h" />
     <ClInclude Include="ScriptsModule\IScriptsModule.h" />
+    <ClInclude Include="System\ITimer.h" />
+    <ClInclude Include="WorldModule\ISceneNode.h" />
     <ClInclude Include="WorldModule\IWorldModule.h" />
     <ClInclude Include="IEngineModule.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="SystemInitParams.h" />
+    <ClInclude Include="WorldModule\IWorldObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library.cpp" />
+    <ClCompile Include="Math\SimpleMath.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Math\SimpleMath.inl" />
     <None Include="platform.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

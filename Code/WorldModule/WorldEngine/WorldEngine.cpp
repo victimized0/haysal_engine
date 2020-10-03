@@ -21,6 +21,20 @@ void WorldEngine::ShutDown()
 {
 }
 
+void WorldEngine::OnFrameStart()
+{
+}
+
+IWorldObject* WorldEngine::CreateObject()
+{
+	return nullptr;
+}
+
+bool WorldEngine::DeleteObject(IWorldObject* pObj)
+{
+	return false;
+}
+
 class WorldModule final : public IWorldModule
 {
 public:
