@@ -2,7 +2,7 @@
 #define INTERFACE_RENDERER_H
 #pragma once
 
-#include "SystemInitParams.h"
+#include "System\SystemInitParams.h"
 
 struct RenderInfo
 {

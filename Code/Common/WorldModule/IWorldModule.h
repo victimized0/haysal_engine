@@ -2,7 +2,7 @@
 #define INTERFACE_WORLD_MODULE_H
 #pragma once
 
-#include "IEngineModule.h"
+#include "System\IEngineModule.h"
 #include <WorldModule\IWorldObject.h>
 
 struct IWorldModule : public IEngineModule

@@ -8,8 +8,8 @@
 #define SYSTEM_API DLL_IMPORT
 #endif
 
-#include <IEngineModule.h>
-#include <IWindowMessageHandler.h>
+#include <System\IEngineModule.h>
+#include <System\IWindowMessageHandler.h>
 
 // Have to define this because other platforms might not have Windows types
 typedef void* WIN_HWND;

@@ -56,8 +56,11 @@ System::System(const SystemInitParams& startupParams)
 	, m_isPaused(false)
 	, m_shouldQuit(false)
 {
+	memset(&m_dll, 0, sizeof(m_dll));
+
 	gEnv = &m_env;
 	m_env.pSystem = this;
+	m_env.pTimer = &m_timer;
 
 	RegisterWindowMessageHandler(this);
 }

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "System.h"
 #include <platform.inl>
-#include "SystemInitParams.h"
+#include "System\SystemInitParams.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,

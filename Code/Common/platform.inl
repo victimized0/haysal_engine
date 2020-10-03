@@ -3,8 +3,8 @@
 #pragma once
 
 #include "platform.h"
-#include "ISystem.h"
 #include "Library.h"
+#include "System\ISystem.h"
 
 Environment* gEnv = nullptr;
 

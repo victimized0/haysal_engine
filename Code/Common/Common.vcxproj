@@ -146,7 +146,7 @@
   <ItemGroup>
     <ClInclude Include="AIModule\IAIModule.h" />
     <ClInclude Include="AnimModule\IAnimModule.h" />
-    <ClInclude Include="IWindowMessageHandler.h" />
+    <ClInclude Include="System\IWindowMessageHandler.h" />
     <ClInclude Include="Library.h" />
     <ClInclude Include="Math\SimpleMath.h" />
     <ClInclude Include="PhysicsModule\IPhysicsModule.h" />
@@ -158,9 +158,9 @@
     <ClInclude Include="System\ITimer.h" />
     <ClInclude Include="WorldModule\ISceneNode.h" />
     <ClInclude Include="WorldModule\IWorldModule.h" />
-    <ClInclude Include="IEngineModule.h" />
-    <ClInclude Include="ISystem.h" />
-    <ClInclude Include="SystemInitParams.h" />
+    <ClInclude Include="System\IEngineModule.h" />
+    <ClInclude Include="System\ISystem.h" />
+    <ClInclude Include="System\SystemInitParams.h" />
     <ClInclude Include="WorldModule\IWorldObject.h" />
   </ItemGroup>
   <ItemGroup>

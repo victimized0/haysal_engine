@@ -38,9 +38,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SystemInitParams.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WorldModule\IWorldModule.h">
       <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
@@ -80,16 +77,19 @@
     <ClInclude Include="Math\SimpleMath.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="ISystem.h">
-      <Filter>Interfaces\System</Filter>
-    </ClInclude>
-    <ClInclude Include="IEngineModule.h">
-      <Filter>Interfaces\System</Filter>
-    </ClInclude>
-    <ClInclude Include="IWindowMessageHandler.h">
-      <Filter>Interfaces\System</Filter>
-    </ClInclude>
     <ClInclude Include="System\ITimer.h">
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\IEngineModule.h">
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ISystem.h">
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\IWindowMessageHandler.h">
+      <Filter>Interfaces\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\SystemInitParams.h">
       <Filter>Interfaces\System</Filter>
     </ClInclude>
   </ItemGroup>

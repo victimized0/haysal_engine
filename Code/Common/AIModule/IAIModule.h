@@ -2,7 +2,7 @@
 #define INTERFACE_AI_MODULE_H
 #pragma once
 
-#include "IEngineModule.h"
+#include "System\IEngineModule.h"
 
 struct IAIModule : public IEngineModule
 {

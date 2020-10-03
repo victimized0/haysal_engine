@@ -2,7 +2,7 @@
 #define INTERFACE_PHYSICS_MODULE_H
 #pragma once
 
-#include "..\IEngineModule.h"
+#include "System\IEngineModule.h"
 
 struct IPhysicsModule : public IEngineModule
 {

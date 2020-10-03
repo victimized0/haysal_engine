@@ -2,8 +2,8 @@
 #define SYSTEM_H
 #pragma once
 
-#include <ISystem.h>
-#include <SystemInitParams.h>
+#include <System\ISystem.h>
+#include <System\SystemInitParams.h>
 #include <Library.h>
 #include <Timer.h>
 

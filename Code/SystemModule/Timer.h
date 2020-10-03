@@ -11,22 +11,30 @@ public:
 	virtual		~Timer();
 
 	bool		Init();
-	void		Reset() override;
-	void		Update() override;
-
-	void		EnableTimer(bool enable) override;
-	bool		IsTimerEnabled() const override;
-	bool		PauseTimer(bool pause) override;
 	bool		IsTimerPaused() const override;
+
+	void		Start() override;
+	void		Stop() override;
+	void		Reset() override;
+	void		Tick() override;
 
 	float		TicksToSeconds(int64 ticks) const override;
 	int64		GetTicksPerSecond() override;
 	float		GetFrameTime() const override;
 	float		GetFrameRate() override;
+	float		GetTotalTime() const;
 
 private:
-
-
+	bool		m_isPaused;
+	float		m_frameTime;
+	double		m_secsPerTick;
+	int64       m_ticksPerSec;
+	int64		m_prevTime;
+	int64		m_currTime;
+	int64		m_startTime;
+	int64		m_pauseTime;
+	int64		m_stopTime;
+	uint32		m_frameCounter;
 };
 
 #endif //TIMER_H

@@ -2,7 +2,7 @@
 #define INTERFACE_RENDER_MODULE_H
 #pragma once
 
-#include "..\IEngineModule.h"
+#include "System\IEngineModule.h"
 
 struct IRenderModule : public IEngineModule
 {

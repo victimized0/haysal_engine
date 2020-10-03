@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include <platform.inl>
-#include "SystemInitParams.h"
+#include "System\SystemInitParams.h"
 
 // Advise notebook graphics drivers to prefer discrete GPU when no explicit application profile exists
 extern "C"
