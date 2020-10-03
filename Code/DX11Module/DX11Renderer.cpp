@@ -14,7 +14,7 @@ DX11Renderer::~DX11Renderer()
 
 }
 
-PHWND DX11Renderer::CreateWindowCallback()
+WIN_HWND DX11Renderer::CreateWindowCallback()
 {
 	return 0;
 }
@@ -54,7 +54,7 @@ void DX11Renderer::PopProfileMarker(const char* label)
 {
 }
 
-PHWND DX11Renderer::GetHWND()
+WIN_HWND DX11Renderer::GetHWND()
 {
 	return m_hWnd;
 }
@@ -115,7 +115,18 @@ bool DX11Renderer::CreateMainWindow(int width, int height)
 	return m_hWnd != nullptr;
 }
 
-PHWND DX11Renderer::Init(int width, int height, SystemInitParams& initParams)
+void DX11Renderer::DestroyMainWindow()
+{
+#if PLATFORM_WINDOWS
+if (m_hWnd)
+{
+	::DestroyWindow((HWND)m_hWnd);
+	m_hWnd = nullptr;
+}
+#endif
+}
+
+WIN_HWND DX11Renderer::Init(int width, int height, SystemInitParams& initParams)
 {
 	if (!CreateMainWindow(width, height))
 	{
@@ -151,6 +162,7 @@ void DX11Renderer::EndFrame()
 
 void DX11Renderer::ShutDown(uint32 nFlags)
 {
+	DestroyMainWindow();
 }
 
 bool DX11Renderer::CreateDevice()
@@ -169,14 +181,9 @@ void DX11Renderer::RenderScene()
 class DX11RenderModule : public IEngineModule
 {
 public:
-	virtual ~DX11RenderModule()
-	{
-		SAFE_RELEASE(gEnv->pRenderer);
-	}
-
-	const char* GetName() const { return "DX11RenderModule"; }
-
-	bool Initialize(Environment& env, const SystemInitParams& initParams)
+	virtual ~DX11RenderModule() { SAFE_RELEASE(gEnv->pRenderer); }
+	const char*	GetName() const final { return "DX11RenderModule"; }
+	bool Initialize(Environment& env, const SystemInitParams& initParams) final
 	{
 		ISystem* pSystem = env.pSystem;
 		env.pRenderer = g_d3d11Renderer;

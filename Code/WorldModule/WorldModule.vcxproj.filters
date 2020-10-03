@@ -5,18 +5,27 @@
     <ClCompile Include="WorldEngine\WorldEngine.cpp">
       <Filter>WorldEngine</Filter>
     </ClCompile>
-    <ClCompile Include="WorldModule.cpp" />
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="WorldEngine\WorldEngine.h">
       <Filter>WorldEngine</Filter>
     </ClInclude>
-    <ClInclude Include="WorldModule.h" />
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneNode.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="WorldEngine">
       <UniqueIdentifier>{f337ba5a-0ea2-41f9-8f70-46d129429b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{9336cb1e-6cb7-40b2-8498-bc1092bbd2a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

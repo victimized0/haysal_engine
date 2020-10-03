@@ -12,7 +12,7 @@ public:
 					Renderer() {}
 	virtual			~Renderer() {}
 
-	PHWND			Init(int width, int height, SystemInitParams& initParams) override = 0;
+	WIN_HWND		Init(int width, int height, SystemInitParams& initParams) override = 0;
 	virtual bool	InitRenderer() = 0;
 
 	void			BeginFrame() override = 0;

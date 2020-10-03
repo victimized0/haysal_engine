@@ -15,17 +15,18 @@ public:
 					DX11Renderer();
 	virtual			~DX11Renderer();
 
-	static PHWND	CreateWindowCallback();
+	static WIN_HWND	CreateWindowCallback();
 
-	PHWND			GetHWND() final;
+	WIN_HWND		GetHWND() final;
 	bool			CreateMainWindow(int width, int height);
+	void			DestroyMainWindow();
 	//bool			SetWindowIcon(const char* path) final;
 
 	int				GetHeight() const final;
 	int				GetWidth() const final;
 	float			GetPixelAspectRatio() const final;
 
-	PHWND			Init(int width, int height, SystemInitParams& initParams) final;
+	WIN_HWND		Init(int width, int height, SystemInitParams& initParams) final;
 	void			PostInit() final;
 	bool			InitRenderer() final;
 	//int				GetFeatures() final;
@@ -47,7 +48,7 @@ public:
 	void			RenderScene() final;
 
 private:
-	PHWND			m_hWnd;
+	WIN_HWND		m_hWnd;
 	std::wstring	m_wndCaption;
 };
 

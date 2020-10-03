@@ -8,7 +8,7 @@ struct IRenderer
 {
 	virtual				~IRenderer() {}
 
-	virtual PHWND		Init(int width, int height, struct SystemInitParams& initParams) = 0;
+	virtual WIN_HWND	Init(int width, int height, struct SystemInitParams& initParams) = 0;
 	virtual void		PostInit() = 0;
 	
 	//virtual int			GetFeatures() = 0;
@@ -43,7 +43,7 @@ struct IRenderer
 	virtual void		PushProfileMarker(const char* label) = 0;
 	virtual void		PopProfileMarker(const char* label) = 0;
 
-	virtual PHWND		GetHWND() = 0;
+	virtual WIN_HWND		GetHWND() = 0;
 	//virtual bool        SetWindowIcon(const char* path) = 0;
 };
 

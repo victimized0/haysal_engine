@@ -5,7 +5,7 @@
 #include <RenderModule\IRenderModule.h>
 
 #if PLATFORM_WINDOWS
-static LRESULT WINAPI WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	System* pSystem = 0;
 	if (gEnv)
@@ -17,24 +17,24 @@ static LRESULT WINAPI WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	{
 		LRESULT result = S_OK;
 		bool bAny = false;
-		//for (std::vector<IWindowMessageHandler*>::const_iterator it = pSystem->m_windowMessageHandlers.begin(); it != pSystem->m_windowMessageHandlers.end(); ++it)
-		//{
-		//	IWindowMessageHandler* pHandler = *it;
-		//	LRESULT maybeResult = 0xDEADDEAD;
-		//	if (pHandler->HandleMessage(hWnd, uMsg, wParam, lParam, &maybeResult))
-		//	{
-		//		assert(maybeResult != 0xDEADDEAD && "Message handler indicated a resulting value, but no value was written");
-		//		if (bAny)
-		//		{
-		//			assert(result == maybeResult && "Two window message handlers tried to return different result values");
-		//		}
-		//		else
-		//		{
-		//			bAny = true;
-		//			result = maybeResult;
-		//		}
-		//	}
-		//}
+		for (std::vector<IWindowMessageHandler*>::const_iterator it = pSystem->m_winMsgHandlers.begin(); it != pSystem->m_winMsgHandlers.end(); ++it)
+		{
+			IWindowMessageHandler* pHandler = *it;
+			LRESULT maybeResult = 0xDEADDEAD;
+			if (pHandler->HandleMessage(hWnd, uMsg, wParam, lParam, &maybeResult))
+			{
+				//assert(maybeResult != 0xDEADDEAD && "Message handler indicated a resulting value, but no value was written");
+				if (bAny)
+				{
+					//assert(result == maybeResult && "Two window message handlers tried to return different result values");
+				}
+				else
+				{
+					bAny = true;
+					result = maybeResult;
+				}
+			}
+		}
 		if (bAny)
 		{
 			// One of the registered handlers returned something
@@ -43,7 +43,7 @@ static LRESULT WINAPI WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	}
 
 	// Handle with the default procedure
-	return DefWindowProc((HWND)hWnd, uMsg, wParam, lParam);
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 #endif //PLATFORM_WINDOWS
 
@@ -57,10 +57,27 @@ System::System(const SystemInitParams& startupParams)
 {
 	gEnv = &m_env;
 	m_env.pSystem = this;
+
+	RegisterWindowMessageHandler(this);
 }
 
 System::~System()
 {
+	ShutDown();
+	UnregisterWindowMessageHandler(this);
+
+	SafeFreeLib(m_dll.hAI);
+	SafeFreeLib(m_dll.hScript);
+	SafeFreeLib(m_dll.hPhysics);
+	//SafeFreeLib(m_dll.hEntitySystem);
+	SafeFreeLib(m_dll.hRenderer);
+	SafeFreeLib(m_dll.hWorld);
+	SafeFreeLib(m_dll.hAnimation);
+
+	//SAFE_DELETE(m_pResourceManager);
+	//SAFE_DELETE(m_pSystemEventDispatcher);
+
+	m_env.pSystem = nullptr;
 	gEnv = nullptr;
 }
 
@@ -101,8 +118,8 @@ bool System::Initialise(SystemInitParams& initParams)
 	//if (!InitAnimationSystem(startupParams))
 	//	return false;
 
-	//if (!Init3DEngine(startupParams))
-	//	return false;
+	if (!InitWorldEngine(initParams))
+		return false;
 
 	//if (!InitScriptSystem(startupParams))
 	//	return false;
@@ -115,7 +132,6 @@ bool System::Initialise(SystemInitParams& initParams)
 
 	//InitGameFramework(startupParams);
 	//m_env.pInput->PostInit();
-
 
 	return true;
 }
@@ -217,10 +233,23 @@ void System::RenderEnd()
 
 void System::Quit()
 {
+	if (m_env.pRenderer)
+		m_env.pRenderer->ShutDown();
 
+#if PLATFORM_ORBIS
+	_Exit(0);
+#elif PLATFORM_WINDOWS
+	TerminateProcess(GetCurrentProcess(), 0);
+#else
+	_exit(0);
+#endif
+
+#if !PLATFORM_LINUX && !PLATFORM_DURANGO && !PLATFORM_ORBIS
+PostQuitMessage(0);
+#endif
 }
 
-IWorldModule* System::GetIWorld()
+IWorldEngine* System::GetIWorld()
 {
 	return m_env.pWorld;
 }
@@ -270,9 +299,9 @@ IEngineModule* System::LoadModule(const char* moduleName, const SystemInitParams
 	return nullptr;
 }
 
-bool System::UnloadEngineModule(const char* moduleName)
+bool System::UnloadModule(const char* moduleName)
 {
-	return true;
+	return UnloadDLL(moduleName);
 }
 
 #ifdef PLATFORM_WINDOWS
@@ -298,9 +327,18 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 	{
 	// System event translation
 	case WM_CLOSE:
+	{
 		Quit();
 		return false;
-
+	}
+	case WM_KEYDOWN:
+	{
+		if (wParam == VK_ESCAPE)
+		{
+			Quit();
+			return false;
+		}
+	}
 	case WM_WINDOWPOSCHANGED:
 	{
 		wpos = (LPWINDOWPOS)lParam;
@@ -403,11 +441,11 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 }
 #endif //PLATFORM_WINDOWS
 
-HMODULE System::LoadDLL(const char* dllName)
+WIN_HMODULE System::LoadDLL(const char* dllName)
 {
-	HMODULE handle = nullptr;
+	WIN_HMODULE handle = nullptr;
 
-	handle = LoadLibraryA(dllName);
+	handle = LoadLib(dllName);
 	if (!handle)
 	{
 
@@ -417,8 +455,7 @@ HMODULE System::LoadDLL(const char* dllName)
 		Quit();
 	}
 
-	//m_moduleDLLHandles.emplace(dllName, handle);
-	//std::string moduleName = PathUtil::GetFileName(dllName);
+	m_dllHandles.emplace(dllName, handle);
 	
 	typedef void* (*PtrFunc_ModuleInitISystem)(ISystem* pSystem, const char* dllName);
 	PtrFunc_ModuleInitISystem pfnModuleInitISystem = (PtrFunc_ModuleInitISystem)GetProcAddress(handle, "ModuleInitISystem");
@@ -432,17 +469,24 @@ HMODULE System::LoadDLL(const char* dllName)
 
 bool System::UnloadDLL(const char* dllName)
 {
-	return true;
-}
+	auto it = m_dllHandles.find(dllName);
+	if (it != m_dllHandles.end())
+	{
+#if PLATFORM_WINDOWS || PLATFORM_DURANGO || PLATFORM_LINUX
+		WIN_HMODULE hModule = it->second;
+#endif
+		FreeLib(hModule);
+		m_dllHandles.erase(it);
 
-void System::GetLoadedDLLs(std::vector<std::string>& moduleNames) const
-{
+		return true;
+	}
 
+	return false;
 }
 
 bool System::InitModule(const SystemInitParams& startupParams, const char* dllName)
 {
-	HMODULE dll = LoadDLL(dllName);
+	WIN_HMODULE dll = LoadDLL(dllName);
 
 	if (dll == 0)
 		return false;
@@ -467,12 +511,13 @@ bool System::InitModule(const SystemInitParams& startupParams, const char* dllNa
 
 bool System::InitRenderModule(SystemInitParams& startupParams)
 {
+	const char* libName = DLL_DX11_MODULE;
 	//if (param == "DX11")
-	// libName = DX11
-	// else if (param == "Vulkan")
-	// libName = Vulkan
+	// libName = DLL_DX11_MODULE
+	// else if (param == "VK")
+	// libName = DLL_VK_MODULE
 	
-	if (!InitModule(startupParams, "DX11Renderer"))
+	if (!InitModule(startupParams, libName))
 		return false;
 
 	if (!m_env.pRenderer)
@@ -510,13 +555,64 @@ bool System::InitScriptModule(const SystemInitParams& startupParams)
 	return true;
 }
 
-bool System::InitWorldModule(const SystemInitParams& startupParams)
+bool System::InitWorldEngine(const SystemInitParams& startupParams)
 {
+	if (!InitModule(startupParams, DLL_WORLD_MODULE))
+		return false;
+
+	if (!m_env.pWorld)
+		return false;
+
 	return true;
+}
+
+bool System::CloseRenderModule()
+{
+	std::string libName = "DX11Renderer";
+	//if (param == "DX11")
+	// libName = "DX11Renderer"
+	// else if (param == "VK")
+	// libName = "VKRenderer"
+
+	return UnloadModule(libName.c_str());
+
+	return false;
 }
 
 void System::ShutDown()
 {
+	//if (m_pSystemEventDispatcher)
+	//{
+	//	m_pSystemEventDispatcher->RemoveListener(this);
+	//}
+
+	/*if (m_pUserCallback)
+	{
+		m_pUserCallback->OnShutdown();
+		m_pUserCallback = nullptr;
+	}*/
+
+	SAFE_RELEASE(m_env.pRenderer);
+
+	//if (m_env.pEntitySystem)
+	//	m_env.pEntitySystem->Unload();
+
+	//if (m_env.pWorld)
+	//	m_env.pWorld->ShutDown();
+
+	//m_pResourceManager->Shutdown();
+
+	UnloadModule("AIModule");
+	UnloadModule("AnimationModule");
+	UnloadModule("WorldModule");
+	//UnloadModule("EntitySystem");
+	UnloadModule("PhysicsModule");
+	UnloadModule("LuaModule");
+	CloseRenderModule();			// TODO: might move this somewhere else
+
+	SAFE_DELETE(m_env.pRenderer);
+	//SAFE_DELETE(m_pCmdLine);
+	//SAFE_RELEASE(m_env.pConsole);
 
 }
 
@@ -529,11 +625,25 @@ void* System::GetWndProcHandler()
 #endif
 }
 
-int System::PumpWindowMessage(bool bAll, PHWND opaqueHWnd)
+void System::RegisterWindowMessageHandler(IWindowMessageHandler* pHandler)
+{
+	m_winMsgHandlers.push_back(pHandler);
+}
+
+void System::UnregisterWindowMessageHandler(IWindowMessageHandler* pHandler)
+{
+	auto it = std::find(m_winMsgHandlers.begin(), m_winMsgHandlers.end(), pHandler);
+	if (it != m_winMsgHandlers.end())
+	{
+		m_winMsgHandlers.erase(it);
+	}
+}
+
+int System::PumpWindowMessage(bool bAll, WIN_HWND phWnd)
 {
 #if PLATFORM_WINDOWS
 	int count = 0;
-	const HWND hWnd = (HWND)opaqueHWnd;
+	const HWND hWnd = (HWND)phWnd;
 
 	do
 	{
@@ -559,7 +669,7 @@ int System::PumpWindowMessage(bool bAll, PHWND opaqueHWnd)
 #endif
 }
 
-PHWND System::GetHWND()
+WIN_HWND System::GetHWND()
 {
 	return m_hWnd;
 }

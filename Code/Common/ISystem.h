@@ -9,8 +9,11 @@
 #endif
 
 #include <IEngineModule.h>
+#include <IWindowMessageHandler.h>
 
-typedef void* PHWND;
+// Have to define this because other platforms might not have Windows types
+typedef void* WIN_HWND;
+typedef void* WIN_HMODULE;
 
 struct ISystem;
 struct IPhysics;
@@ -18,7 +21,7 @@ struct IRenderer;
 struct IAIModule;
 struct IScripts;
 struct IAnimModule;
-struct IWorldModule;
+struct IWorldEngine;
 
 struct SystemInitParams;
 
@@ -27,7 +30,7 @@ struct Environment
 	ISystem*		pSystem		= nullptr;
 	IPhysics*		pPhysics	= nullptr;
 	IRenderer*		pRenderer	= nullptr;
-	IWorldModule*	pWorld		= nullptr;
+	IWorldEngine*	pWorld		= nullptr;
 	IAIModule*		pAI			= nullptr;
 	IScripts*		pScripts	= nullptr;
 	IAnimModule*	pAnimation	= nullptr;
@@ -55,14 +58,14 @@ struct ISystem
 	//virtual ICmdLine*			GetICmdLine() = 0;
 	//virtual ILog*				GetILog() = 0;
 	//virtual IEntitySystem*	GetIEntitySystem() = 0;
-	virtual IWorldModule*		GetIWorld() = 0;
+	virtual IWorldEngine*		GetIWorld() = 0;
 	virtual IScripts*			GetIScripts() = 0;
 	virtual IPhysics*			GetIPhysics() = 0;
 	virtual IRenderer*			GetIRenderer() = 0;
 	virtual IAIModule*			GetIAIModule() = 0;
 	virtual IAnimModule*		GetIAnimModule() = 0;
 
-	virtual PHWND				GetHWND() = 0;
+	virtual WIN_HWND				GetHWND() = 0;
 
 	//virtual void				SetViewCamera(Camera& camera) = 0;
 	//virtual const Camera&		GetViewCamera() const = 0;
@@ -73,10 +76,12 @@ struct ISystem
 	virtual void				ExecuteCommandLine() = 0;
 
 	virtual IEngineModule*		LoadModule(const char* moduleName, const SystemInitParams& initParams) = 0;
-	virtual bool				UnloadEngineModule(const char* moduleName) = 0;
+	virtual bool				UnloadModule(const char* moduleName) = 0;
 
 	virtual void*				GetWndProcHandler() = 0;
-	virtual int					PumpWindowMessage(bool bAll, PHWND hWnd) = 0;
+	virtual void				RegisterWindowMessageHandler(IWindowMessageHandler* pHandler) = 0;
+	virtual void				UnregisterWindowMessageHandler(IWindowMessageHandler* pHandler) = 0;
+	virtual int					PumpWindowMessage(bool bAll, WIN_HWND hWnd) = 0;
 
 	//ISystemEventListener
 };

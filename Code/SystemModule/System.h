@@ -4,8 +4,13 @@
 
 #include <ISystem.h>
 #include <SystemInitParams.h>
+#include <Library.h>
 
-class System final : public ISystem
+#define DLL_DX11_MODULE		"DX11Renderer"
+#define DLL_VK_MODULE		"VKRenderer"
+#define DLL_WORLD_MODULE	"WorldModule"
+
+class System final : public ISystem, public IWindowMessageHandler
 {
 public:
 							System(const SystemInitParams& startupParams);
@@ -30,14 +35,14 @@ public:
 	//ICmdLine*				GetICmdLine() final;
 	//ILog*					GetILog() final;
 	//IEntitySystem*		GetIEntitySystem() final;
-	IWorldModule*			GetIWorld() final;
+	IWorldEngine*			GetIWorld() final;
 	IScripts*				GetIScripts() final;
 	IPhysics*				GetIPhysics() final;
 	IRenderer*				GetIRenderer() final;
 	IAIModule*				GetIAIModule() final;
 	IAnimModule*			GetIAnimModule() final;
 
-	PHWND					GetHWND() final;
+	WIN_HWND					GetHWND() final;
 
 	//void					SetViewCamera(Camera& camera) final;
 	//const Camera&			GetViewCamera() const final;
@@ -48,7 +53,7 @@ public:
 	void					ExecuteCommandLine() final;
 
 	IEngineModule*			LoadModule(const char* moduleName, const SystemInitParams& initParams) final;
-	bool					UnloadEngineModule(const char* moduleName) final;
+	bool					UnloadModule(const char* moduleName) final;
 
 	//ISystemEventListener
 
@@ -56,18 +61,17 @@ public:
 	void					RunMainLoop();
 
 #if PLATFORM_WINDOWS
-	friend LRESULT WINAPI	WndProc(PHWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	bool					HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+	friend LRESULT WINAPI	WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	bool					HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT* pResult) final;
 #endif
 
 	void*					GetWndProcHandler() final;
-	//void					RegisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
-	//void					UnregisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
-	int						PumpWindowMessage(bool bAll, PHWND hWnd) final;
+	void					RegisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
+	void					UnregisterWindowMessageHandler(IWindowMessageHandler* pHandler) final;
+	int						PumpWindowMessage(bool bAll, WIN_HWND hWnd) final;
 
-	HMODULE					LoadDLL(const char* dllName);
+	WIN_HMODULE				LoadDLL(const char* dllName);
 	bool					UnloadDLL(const char* dllName);
-	void					GetLoadedDLLs(std::vector<std::string>& moduleNames) const;
 
 	bool					ShouldQuit() { return m_shouldQuit; }
 
@@ -78,15 +82,17 @@ private:
 	bool					InitAIModule(const SystemInitParams& startupParams);
 	bool					InitAnimModule(const SystemInitParams& startupParams);
 	bool					InitScriptModule(const SystemInitParams& startupParams);
-	bool					InitWorldModule(const SystemInitParams& startupParams);
+	bool					InitWorldEngine(const SystemInitParams& startupParams);
 	//bool					InitFileSystem(const SystemInitParams& startupParams);
 	//void					InitLog(const SystemInitParams& startupParams);
 	//bool					InitEntitySystem(const SystemInitParams& startupParams);
 
+	bool					CloseRenderModule();
+
 	void					ShutDown();
 
 private:
-	PHWND					m_hWnd;
+	WIN_HWND				m_hWnd;
 	Environment				m_env;
 	//Timer					m_timer;
 	//Camera				m_viewCamera;
@@ -102,18 +108,21 @@ private:
 	bool					m_isPaused;
 	bool					m_shouldQuit;
 
-	struct SDllHandles
+	struct DllHandles
 	{
-		HMODULE hRenderer;
-		//HMODULE hEntitySystem;
-		HMODULE hAI;
-		HMODULE hPhysics;
-		HMODULE hScript;
-		HMODULE hWorld;
-		HMODULE hAnimation;
+		WIN_HMODULE hRenderer;
+		//WIN_HMODULE hEntitySystem;
+		WIN_HMODULE hAI;
+		WIN_HMODULE hPhysics;
+		WIN_HMODULE hScript;
+		WIN_HMODULE hWorld;
+		WIN_HMODULE hAnimation;
 	};
-	SDllHandles				m_dll;
+	DllHandles m_dll;
 
+	std::unordered_map <std::string, WIN_HMODULE> m_dllHandles;
+
+	std::vector<IWindowMessageHandler*> m_winMsgHandlers;
 };
 
 #endif //SYSTEM_H

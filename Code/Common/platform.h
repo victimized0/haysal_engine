@@ -22,9 +22,6 @@
 
 #define NOMINMAX
 
-#define LoadLib(libName) ::LoadLibraryA(libName)
-#define FreeLib(libHandle) ::FreeLibrary((HMODULE)(libHandle))
-
 #include <windows.h>
 
 typedef unsigned int uint32;

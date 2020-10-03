@@ -71,6 +71,9 @@
     <ClInclude Include="RenderModule\IRenderer.h">
       <Filter>Interfaces\RenderModule</Filter>
     </ClInclude>
+    <ClInclude Include="IWindowMessageHandler.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library.cpp">

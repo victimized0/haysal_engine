@@ -23,8 +23,8 @@ public:
 	float			GetPixelAspectRatio() const final;
 	void			PushProfileMarker(const char* label) final;
 	void			PopProfileMarker(const char* label) final;
-	PHWND			GetHWND() final;
-	PHWND			Init(int width, int height, SystemInitParams& initParams) final;
+	WIN_HWND			GetHWND() final;
+	WIN_HWND			Init(int width, int height, SystemInitParams& initParams) final;
 	bool			InitRenderer() final;
 	void			BeginFrame() final;
 	void			FillFrame(float clearColor) final;

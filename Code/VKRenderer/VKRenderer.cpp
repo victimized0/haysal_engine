@@ -48,14 +48,14 @@ void VKRenderer::PopProfileMarker(const char* label)
 {
 }
 
-PHWND VKRenderer::GetHWND()
+WIN_HWND VKRenderer::GetHWND()
 {
-	return PHWND();
+	return WIN_HWND();
 }
 
-PHWND VKRenderer::Init(int width, int height, SystemInitParams& initParams)
+WIN_HWND VKRenderer::Init(int width, int height, SystemInitParams& initParams)
 {
-	return PHWND();
+	return WIN_HWND();
 }
 
 bool VKRenderer::InitRenderer()

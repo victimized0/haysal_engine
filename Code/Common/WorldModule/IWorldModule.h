@@ -11,6 +11,9 @@ struct IWorldModule : public IEngineModule
 
 struct IWorldEngine
 {
+	virtual				~IWorldEngine() {}
+	virtual void		Release() = 0;
+	virtual void		ShutDown() = 0;
 
 };
 
