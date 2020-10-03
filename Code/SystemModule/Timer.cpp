@@ -61,7 +61,7 @@ void Timer::Tick()
 
 float Timer::GetFrameTime() const
 {
-    return m_isPaused ? 0.0f : m_frameTime;
+    return m_isPaused ? 0.0f : static_cast<float>(m_frameTime);
 }
 
 bool Timer::IsTimerPaused() const
@@ -81,7 +81,9 @@ int64 Timer::GetTicksPerSecond()
 
 float Timer::GetFrameRate()
 {
-    return m_frameTime;
+    if (m_frameTime != 0.f)
+        return 1.f / m_frameTime;
+    return 0.f;
 }
 
 float Timer::GetTotalTime() const

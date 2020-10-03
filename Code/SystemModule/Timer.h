@@ -26,7 +26,7 @@ public:
 
 private:
 	bool		m_isPaused;
-	float		m_frameTime;
+	double		m_frameTime;
 	double		m_secsPerTick;
 	int64       m_ticksPerSec;
 	int64		m_prevTime;

@@ -181,7 +181,7 @@ bool System::Update()
 	}
 #endif
 
-	m_timer.Update();
+	m_timer.Tick();
 
 	if (m_env.pWorld /* && bNotLoading*/)
 		m_env.pWorld->OnFrameStart();
