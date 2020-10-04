@@ -31,7 +31,7 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{9336cb1e-6cb7-40b2-8498-bc1092bbd2a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
+    <Filter Include="RenderNodes">
       <UniqueIdentifier>{fdc9c0e5-f106-4121-aeda-8c12419f1d87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

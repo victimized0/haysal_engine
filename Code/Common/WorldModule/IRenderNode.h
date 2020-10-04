@@ -4,9 +4,21 @@
 
 #include <RenderModule\IRenderer.h>
 
+enum RenderNodeType
+{
+	eRNT_NonRenderable,
+	eRNT_Vegetation,
+	eRNT_Light,
+	eRNT_Mesh,
+	eRNT_Decal,
+	eRNT_Character,
+
+	eRNT_TotalCount
+};
+
 enum RenderNodeFlags : uint64
 {
-	eHidden = BIT64(0)
+	eRNF_Hidden = BIT64(0)
 };
 
 struct IRenderNode
@@ -28,7 +40,7 @@ struct IRenderNode
 	virtual void        Release() { delete this; }
 
 	virtual void		SetMatrix(const Matrix& mat) {}
-	bool				IsHidden() const { return (GetFlags() & RenderNodeFlags::eHidden) ? true : false; }
+	bool				IsHidden() const { return (GetFlags() & RenderNodeFlags::eRNF_Hidden) ? true : false; }
 	uint32				GetFlags() const { return m_flags; }
 
 	//virtual void		SetOwnerEntity(IEntity* pEntity) { assert(!"Not supported by this object type"); }
@@ -40,7 +52,7 @@ protected:
 		bool toggleHide = hide != IsHidden();
 		if (toggleHide)
 		{
-			m_flags ^= RenderNodeFlags::eHidden;
+			m_flags ^= RenderNodeFlags::eRNF_Hidden;
 			//if (m_pOcNode)
 			//	m_pOcNode->ReorderObject(this, !hide);
 		}
@@ -54,6 +66,31 @@ private:
 	IRenderNode*	m_pNext;
 	IRenderNode*	m_pPrev;
 	uint32			m_flags;
+};
+
+struct IVegetation : public IRenderNode
+{
+
+};
+
+struct ILightSource : public IRenderNode
+{
+
+};
+
+struct IDecalRenderNode : public IRenderNode
+{
+
+};
+
+struct IMeshRenderNode : public IRenderNode
+{
+
+};
+
+struct ICharacterRenderNode : public IRenderNode
+{
+
 };
 
 #endif //INTERFACE_RENDER_NODE_H
