@@ -23,7 +23,7 @@ struct IWorldEngine
 	virtual void					OnFrameStart() = 0;
 	virtual void					RenderWorld(const int renderFlags) = 0;
 
-	virtual const					Camera& GetRenderingCamera() const = 0;
+	//virtual const					Camera& GetRenderingCamera() const = 0;
 
 	//virtual int						SaveStatObj(IStatObj* pStatObj, TSerialize ser) = 0;
 	//virtual IStatObj*				LoadStatObj(TSerialize ser) = 0;

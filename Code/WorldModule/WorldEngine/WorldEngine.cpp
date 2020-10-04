@@ -42,10 +42,10 @@ void WorldEngine::RenderWorld(const int renderFlags)
 {
 }
 
-const Camera& WorldEngine::GetRenderingCamera() const
-{
-	// TODO: insert return statement here
-}
+//const Camera& WorldEngine::GetRenderingCamera() const
+//{
+//
+//}
 
 void WorldEngine::RemoveAllStaticObjects()
 {
@@ -76,7 +76,7 @@ void WorldEngine::FreeRenderNodeState(IRenderNode* pEntity)
 {
 }
 
-uint32 WorldEngine::GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects = 0)
+uint32 WorldEngine::GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects)
 {
 	return uint32();
 }
@@ -90,7 +90,7 @@ void WorldEngine::DeleteLightSource(ILightSource* pLightSource)
 {
 }
 
-float WorldEngine::GetLightAmountInRange(const Vec3& pPos, float fRange, bool bAccurate = 0)
+float WorldEngine::GetLightAmountInRange(const Vec3& pPos, float fRange, bool bAccurate)
 {
 	return 0.0f;
 }
@@ -149,7 +149,7 @@ void WorldEngine::GetSkyLightParams(Vec3& sunDir, Vec3& sunIntensity, float& Km,
 {
 }
 
-void WorldEngine::SetSkyLightParams(const Vec3& sunDir, const Vec3& sunIntensity, float Km, float Kr, float g, const Vec3& rgbWaveLengths, bool forceImmediateUpdate = false)
+void WorldEngine::SetSkyLightParams(const Vec3& sunDir, const Vec3& sunIntensity, float Km, float Kr, float g, const Vec3& rgbWaveLengths, bool forceImmediateUpdate)
 {
 }
 

@@ -22,7 +22,7 @@ public:
 
 	void				OnFrameStart() final;
 	void				RenderWorld(const int renderFlags) override;
-	const Camera&		GetRenderingCamera() const override;
+	//const Camera&		GetRenderingCamera() const override;
 
 	void				RemoveAllStaticObjects() override;
 	IRenderNode*		CreateRenderNode(RenderNodeType type) override;
