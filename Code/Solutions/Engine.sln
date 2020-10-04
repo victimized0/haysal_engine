@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "..\Common\Common.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKRenderer", "..\VKRenderer\VKRenderer.vcxproj", "{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InputModule", "..\InputModule\InputModule.vcxproj", "{E8A2D604-B1BB-4BE2-9772-81120FE983DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -131,6 +133,14 @@ Global
 		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x64.Build.0 = Release|x64
 		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x86.ActiveCfg = Release|Win32
 		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70}.Release|x86.Build.0 = Release|Win32
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Debug|x64.ActiveCfg = Debug|x64
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Debug|x64.Build.0 = Debug|x64
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Debug|x86.ActiveCfg = Debug|Win32
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Debug|x86.Build.0 = Debug|Win32
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Release|x64.ActiveCfg = Release|x64
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Release|x64.Build.0 = Release|x64
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Release|x86.ActiveCfg = Release|Win32
+		{E8A2D604-B1BB-4BE2-9772-81120FE983DD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

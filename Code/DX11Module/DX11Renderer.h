@@ -31,7 +31,6 @@ public:
 	void			Reset() final;
 	void			Release() final;
 	void			ShutDown() final;
-	void			ShutDown(uint32 nFlags) final;
 
 	//void			InitResources(int flags) final;
 	//void			FreeResources(int flags) final;
@@ -47,6 +46,8 @@ public:
 private:
 	WIN_HWND		m_hWnd;
 	std::wstring	m_wndCaption;
+
+
 };
 
 #endif //DIRECTX11_RENDERER_H

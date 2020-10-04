@@ -28,7 +28,6 @@ public:
 	void			BeginFrame() final;
 	void			FillFrame(float clearColor) final;
 	void			EndFrame() final;
-	void			ShutDown(uint32 nFlags) final;
 	bool			CreateDevice() final;
 	void			Reset() final;
 	void			RenderScene() final;

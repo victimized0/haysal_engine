@@ -3,18 +3,9 @@
 #pragma once
 
 #include "Math\SimpleMath.h"
-#include <algorithm>
 
 class Camera
 {
-private:
-	typedef DirectX::SimpleMath::Vector2 Vec2;
-	typedef DirectX::SimpleMath::Vector3 Vec3;
-	typedef DirectX::SimpleMath::Vector4 Vec4;
-	typedef DirectX::SimpleMath::Quaternion Quat;
-	typedef DirectX::SimpleMath::Matrix Matrix;
-	typedef DirectX::BoundingBox AABB;
-
 public:
 	Camera()
 		: Target(0.0f, 1.0f, 0.0f)
@@ -79,7 +70,7 @@ public:
 
 };
 
-inline Camera::Vec3 Camera::GetPosition() const
+inline Vec3 Camera::GetPosition() const
 {
 	float sinphi	= sinf(m_phi);
 	float costheta	= cosf(m_theta);

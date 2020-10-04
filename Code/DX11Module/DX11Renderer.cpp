@@ -112,13 +112,11 @@ bool DX11Renderer::CreateMainWindow(int width, int height)
 
 void DX11Renderer::DestroyMainWindow()
 {
-#if PLATFORM_WINDOWS
-if (m_hWnd)
-{
-	::DestroyWindow((HWND)m_hWnd);
-	m_hWnd = nullptr;
-}
-#endif
+	if (m_hWnd)
+	{
+		DestroyWindow((HWND)m_hWnd);
+		m_hWnd = nullptr;
+	}
 }
 
 WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initParams)
@@ -153,11 +151,6 @@ void DX11Renderer::FillFrame(float clearColor)
 
 void DX11Renderer::EndFrame()
 {
-}
-
-void DX11Renderer::ShutDown(uint32 nFlags)
-{
-	DestroyMainWindow();
 }
 
 bool DX11Renderer::CreateDevice()

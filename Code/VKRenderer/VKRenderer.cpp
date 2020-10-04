@@ -70,10 +70,6 @@ void VKRenderer::EndFrame()
 {
 }
 
-void VKRenderer::ShutDown(uint32 nFlags)
-{
-}
-
 bool VKRenderer::CreateDevice()
 {
 	return false;

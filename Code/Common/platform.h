@@ -21,6 +21,12 @@
 #endif //WIN32_LEAN_AND_MEAN
 
 #define NOMINMAX
+#define NODRAWTEXT
+//#define NOGDI
+#define NOBITMAP
+#define NOMCX
+#define NOSERVICE
+#define NOHELP
 
 #include <windows.h>
 
@@ -42,15 +48,6 @@ typedef sbyte int8;
 //#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
 
 #include "Math\SimpleMath.h"
-
-typedef DirectX::SimpleMath::Vector2	Vec2;
-typedef DirectX::SimpleMath::Vector3	Vec3;
-typedef DirectX::SimpleMath::Vector4	Vec4;
-typedef DirectX::SimpleMath::Quaternion	Quat;
-typedef DirectX::SimpleMath::Matrix		Matrix;
-typedef DirectX::SimpleMath::Color		Color;
-typedef DirectX::BoundingBox			AABB;
-typedef DirectX::BoundingOrientedBox	OBB;
 #endif
 
 #if PLATFORM_LINUX
@@ -71,6 +68,12 @@ typedef DirectX::BoundingOrientedBox	OBB;
 #error No math lib...
 #endif
 
+#define BIT8(x)  ((static_cast<uint8>(1)) << (x))
+#define BIT16(x) ((static_cast<uint16>(1)) << (x))
+#define BIT32(x) (1u << (x))
+#define BIT64(x) (1ull << (x))
+
+#include <algorithm>
 #include <memory>
 #include <vector>
 #include <string>

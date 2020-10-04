@@ -1081,6 +1081,15 @@ namespace std
 
 } // namespace std
 
+typedef DirectX::SimpleMath::Vector2	Vec2;
+typedef DirectX::SimpleMath::Vector3	Vec3;
+typedef DirectX::SimpleMath::Vector4	Vec4;
+typedef DirectX::SimpleMath::Quaternion	Quat;
+typedef DirectX::SimpleMath::Matrix		Matrix;
+typedef DirectX::SimpleMath::Color		Color;
+typedef DirectX::BoundingBox			AABB;
+typedef DirectX::BoundingOrientedBox	OBB;
+
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif

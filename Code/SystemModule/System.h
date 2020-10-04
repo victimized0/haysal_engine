@@ -10,6 +10,12 @@
 #define DLL_DX11_MODULE		"DX11Renderer"
 #define DLL_VK_MODULE		"VKRenderer"
 #define DLL_WORLD_MODULE	"WorldModule"
+#define DLL_AI_MODULE		"AIModule"
+#define DLL_ANIM_MODULE		"AnimationModule"
+#define DLL_LUA_MODULE		"LuaModule"
+#define DLL_PHYSICS_MODULE	"PhysicsModule"
+#define DLL_ENTITY_MODULE	"EntityModule"
+#define DLL_INPUT_MODULE	"InputModule"
 
 class System final : public ISystem, public IWindowMessageHandler
 {

@@ -147,6 +147,11 @@
     <ClInclude Include="AIModule\IAIModule.h" />
     <ClInclude Include="AnimModule\IAnimModule.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="InputModule\IInputModule.h" />
+    <ClInclude Include="RenderModule\IRenderElement.h" />
+    <ClInclude Include="WorldModule\IRenderNode.h" />
+    <ClInclude Include="RenderModule\IShader.h" />
+    <ClInclude Include="RenderModule\ITexture.h" />
     <ClInclude Include="System\IWindowMessageHandler.h" />
     <ClInclude Include="Library.h" />
     <ClInclude Include="Math\SimpleMath.h" />
@@ -162,7 +167,6 @@
     <ClInclude Include="System\IEngineModule.h" />
     <ClInclude Include="System\ISystem.h" />
     <ClInclude Include="System\SystemInitParams.h" />
-    <ClInclude Include="WorldModule\IWorldObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\SimpleMath.cpp" />

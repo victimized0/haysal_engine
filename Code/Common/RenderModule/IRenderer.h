@@ -2,14 +2,16 @@
 #define INTERFACE_RENDERER_H
 #pragma once
 
-#include "System\SystemInitParams.h"
+#include <System\SystemInitParams.h>
+
+struct IRenderNode;
 
 struct RenderInfo
 {
 
 };
 
-struct Material
+struct IMaterial
 {
 
 };
@@ -42,15 +44,13 @@ struct IRenderer
 	//virtual ITexture* CreateTexture(const char* name, int width, int height, int numMips, unsigned char* pData, ETEX_Format eTF, int flags) = 0;
 	//virtual ITexture* CreateTextureArray(const char* name, ETEX_Type eType, uint32 nWidth, uint32 nHeight, uint32 nArraySize, int nMips, uint32 nFlags, ETEX_Format eTF, int nCustomID) = 0;
 
-	//virtual void		AddDynLight(RenderLight* Source, const RenderingPassInfo& passInfo) = 0;
-	//virtual bool		UpdateDynLight(SRenderLight* pDL) const = 0;
-	//virtual int		AddDeferredLight(const RenderLight& pLight, float fMult, const RenderingPassInfo& passInfo) = 0;
-
-	//virtual int		GetFrameID() = 0;
+	virtual void		FlushRenderList() = 0;
+	virtual void		AddRenderItem(const RenderInfo& info) = 0;
 
 	virtual void		PushProfileMarker(const char* label) = 0;
 	virtual void		PopProfileMarker(const char* label) = 0;
 
+	virtual int			GetFrameID() = 0;
 	virtual WIN_HWND	GetHWND() = 0;
 };
 

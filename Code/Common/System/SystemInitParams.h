@@ -2,7 +2,7 @@
 #define SYSTEM_INIT_PARAMS_H
 #pragma once
 
-#include "ISystem.h"
+#include <System\ISystem.h>
 
 struct SystemInitParams
 {

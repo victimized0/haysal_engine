@@ -32,6 +32,9 @@
     <Filter Include="Interfaces\System">
       <UniqueIdentifier>{539d86c5-44ba-46a0-bc00-9a7d1817e51c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces\InputModule">
+      <UniqueIdentifier>{e6dcfb85-3e36-4de3-a464-a18197287467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldModule\IWorldModule.h">
@@ -67,9 +70,6 @@
     <ClInclude Include="WorldModule\ISceneNode.h">
       <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
-    <ClInclude Include="WorldModule\IWorldObject.h">
-      <Filter>Interfaces\WorldModule</Filter>
-    </ClInclude>
     <ClInclude Include="Math\SimpleMath.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -90,6 +90,21 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputModule\IInputModule.h">
+      <Filter>Interfaces\InputModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule\IRenderElement.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule\IShader.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule\ITexture.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldModule\IRenderNode.h">
+      <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
