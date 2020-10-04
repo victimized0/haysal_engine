@@ -20,11 +20,10 @@ public:
 	void			ShutDown() final;
 	int				GetHeight() const final;
 	int				GetWidth() const final;
-	float			GetPixelAspectRatio() const final;
 	void			PushProfileMarker(const char* label) final;
 	void			PopProfileMarker(const char* label) final;
-	WIN_HWND			GetHWND() final;
-	WIN_HWND			Init(int width, int height, SystemInitParams& initParams) final;
+	WIN_HWND		GetHWND() final;
+	WIN_HWND		Init(int width, int height, const SystemInitParams& initParams) final;
 	bool			InitRenderer() final;
 	void			BeginFrame() final;
 	void			FillFrame(float clearColor) final;

@@ -41,11 +41,6 @@ int DX11Renderer::GetWidth() const
 	return 0;
 }
 
-float DX11Renderer::GetPixelAspectRatio() const
-{
-	return 0.0f;
-}
-
 void DX11Renderer::PushProfileMarker(const char* label)
 {
 }
@@ -126,7 +121,7 @@ if (m_hWnd)
 #endif
 }
 
-WIN_HWND DX11Renderer::Init(int width, int height, SystemInitParams& initParams)
+WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initParams)
 {
 	if (!CreateMainWindow(width, height))
 	{

@@ -1,26 +1,26 @@
 #include "stdafx.h"
-#include "GameObject.h"
+#include "WorldObject.h"
 
-GameObject::GameObject()
+WorldObject::WorldObject()
 {
 
 }
 
-GameObject::~GameObject()
+WorldObject::~WorldObject()
 {
 }
 
-Matrix& GameObject::GetTransform()
+Matrix& WorldObject::GetTransform()
 {
 	return m_transform;
 }
 
-Vec3 GameObject::GetPosition()
+Vec3 WorldObject::GetPosition()
 {
 	return m_transform.Translation();
 }
 
-Quat GameObject::GetRotation()
+Quat WorldObject::GetRotation()
 {
 	Vec3 s, p;
 	Quat r;
@@ -28,7 +28,7 @@ Quat GameObject::GetRotation()
 	return r;
 }
 
-float GameObject::GetScale()
+float WorldObject::GetScale()
 {
 	Vec3 s, p;
 	Quat r;
@@ -36,17 +36,17 @@ float GameObject::GetScale()
 	return r.x;
 }
 
-void GameObject::Translate(Vec3 t)
+void WorldObject::Translate(Vec3 t)
 {
 	m_transform.Translate(t);
 }
 
-void GameObject::Rotate(Quat r)
+void WorldObject::Rotate(Quat r)
 {
 	m_transform = Matrix::Transform(m_transform, r);
 }
 
-void GameObject::Scale(float s)
+void WorldObject::Scale(float s)
 {
 	// Not implemented
 }

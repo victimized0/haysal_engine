@@ -4,10 +4,11 @@
 
 #include <platform.inl>
 #include <WorldModule\IWorldModule.h>
-#include <Objects\GameObject.h>
+#include <Objects\WorldObject.h>
 
 class WorldEngine;
 extern WorldEngine* g_world;
+typedef std::vector<std::unique_ptr<IWorldObject>> WorldObjectPtrsContainer;
 
 class WorldEngine final : public IWorldEngine
 {
@@ -20,11 +21,11 @@ public:
 	
 	void					OnFrameStart() final;
 
-	IWorldObject*			CreateObject() final;
+	IWorldObject*			CreateObject(const WorldObjectDescr& descr) final;
 	bool					DeleteObject(IWorldObject* pObj) final;
 
 private:
-	std::vector<GameObject>	m_worldObjects;
+	WorldObjectPtrsContainer	m_worldObjects;
 
 };
 

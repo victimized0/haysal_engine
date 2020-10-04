@@ -35,11 +35,6 @@ int VKRenderer::GetWidth() const
 	return 0;
 }
 
-float VKRenderer::GetPixelAspectRatio() const
-{
-	return 0.0f;
-}
-
 void VKRenderer::PushProfileMarker(const char* label)
 {
 }
@@ -53,7 +48,7 @@ WIN_HWND VKRenderer::GetHWND()
 	return WIN_HWND();
 }
 
-WIN_HWND VKRenderer::Init(int width, int height, SystemInitParams& initParams)
+WIN_HWND VKRenderer::Init(int width, int height, const SystemInitParams& initParams)
 {
 	return WIN_HWND();
 }

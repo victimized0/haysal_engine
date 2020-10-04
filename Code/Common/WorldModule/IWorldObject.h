@@ -2,6 +2,19 @@
 #define INTERFACE_WORLD_OBJECT_H
 #pragma once
 
+struct InstanceInfo
+{
+	Vec3 Position;
+	Quat Rotation;
+	float Scale;
+
+};
+
+struct WorldObjectDescr
+{
+
+};
+
 struct IWorldObject
 {
 	virtual				~IWorldObject() {}

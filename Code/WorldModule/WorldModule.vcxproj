@@ -163,7 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Objects\GameObject.cpp" />
+    <ClCompile Include="Objects\WorldObject.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\OctreeNode.cpp" />
     <ClCompile Include="StdAfx.cpp">
@@ -175,7 +175,7 @@
     <ClCompile Include="WorldEngine\WorldEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\WorldObject.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\OctreeNode.h" />
     <ClInclude Include="StdAfx.h" />

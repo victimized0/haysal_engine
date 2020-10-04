@@ -11,7 +11,9 @@
     <ClCompile Include="Scene\OctreeNode.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\GameObject.cpp" />
+    <ClCompile Include="Objects\WorldObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -24,7 +26,9 @@
     <ClInclude Include="Scene\OctreeNode.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\WorldObject.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="WorldEngine">

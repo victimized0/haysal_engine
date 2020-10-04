@@ -10,15 +10,6 @@ struct IWorldModule : public IEngineModule
 	virtual ~IWorldModule() {}
 };
 
-struct ObjectInfo
-{
-	Vec3 Position;
-	Quat Rotation;
-	float Scale;
-
-
-};
-
 struct IWorldEngine
 {
 	virtual					~IWorldEngine() {}
@@ -28,7 +19,7 @@ struct IWorldEngine
 
 	virtual void			OnFrameStart() = 0;
 
-	virtual IWorldObject*	CreateObject() = 0;
+	virtual IWorldObject*	CreateObject(const WorldObjectDescr& descr) = 0;
 	virtual bool			DeleteObject(IWorldObject* pObj) = 0;
 	//virtual IWorldObject*	FindObject(UUID uuid) = 0;
 

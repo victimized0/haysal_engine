@@ -20,24 +20,21 @@ public:
 	WIN_HWND		GetHWND() final;
 	bool			CreateMainWindow(int width, int height);
 	void			DestroyMainWindow();
-	//bool			SetWindowIcon(const char* path) final;
 
 	int				GetHeight() const final;
 	int				GetWidth() const final;
-	float			GetPixelAspectRatio() const final;
 
-	WIN_HWND		Init(int width, int height, SystemInitParams& initParams) final;
+	WIN_HWND		Init(int width, int height, const SystemInitParams& initParams) final;
 	void			PostInit() final;
 	bool			InitRenderer() final;
-	//int				GetFeatures() final;
 	bool			CreateDevice() final;
 	void			Reset() final;
 	void			Release() final;
 	void			ShutDown() final;
 	void			ShutDown(uint32 nFlags) final;
 
-	//void			InitSystemResources(int nFlags) final;
-	//void			FreeSystemResources(int nFlags) final;
+	//void			InitResources(int flags) final;
+	//void			FreeResources(int flags) final;
 
 	void			PushProfileMarker(const char* label) final;
 	void			PopProfileMarker(const char* label) final;
