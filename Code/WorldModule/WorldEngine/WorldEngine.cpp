@@ -3,6 +3,12 @@
 
 #include <WorldModule\IWorldModule.h>
 
+#include "RenderNodes\DecalRenderNode.h"
+#include "RenderNodes\LightSourceNode.h"
+#include "RenderNodes\MeshRenderNode.h"
+#include "RenderNodes\VegetationNode.h"
+#include "RenderNodes\CharacterRenderNode.h"
+
 WorldEngine* g_world = nullptr;
 
 WorldEngine::WorldEngine()
@@ -53,6 +59,19 @@ void WorldEngine::RemoveAllStaticObjects()
 
 IRenderNode* WorldEngine::CreateRenderNode(RenderNodeType type)
 {
+	switch (type)
+	{
+	case RenderNodeType::eRNT_Decal:
+		return new DecalRenderNode();
+	case RenderNodeType::eRNT_Light:
+		return new LightSourceNode();
+	case RenderNodeType::eRNT_Mesh:
+		return new MeshRenderNode();
+	case RenderNodeType::eRNT_Vegetation:
+		return new VegetationNode();
+	case RenderNodeType::eRNT_Character:
+		return new CharacterRenderNode();
+	}
 	return nullptr;
 }
 
@@ -78,15 +97,15 @@ void WorldEngine::FreeRenderNodeState(IRenderNode* pEntity)
 
 uint32 WorldEngine::GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects)
 {
-	return uint32();
+	return 0;
 }
 
-ILightSource* WorldEngine::CreateLightSource()
+ILightSourceNode* WorldEngine::CreateLightSource()
 {
 	return nullptr;
 }
 
-void WorldEngine::DeleteLightSource(ILightSource* pLightSource)
+void WorldEngine::DeleteLightSource(ILightSourceNode* pLightSource)
 {
 }
 

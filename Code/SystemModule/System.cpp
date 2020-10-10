@@ -3,7 +3,7 @@
 
 #include <RenderModule\IRenderer.h>
 #include <RenderModule\IRenderModule.h>
-#include <WorldModule\IWorldModule.h>
+#include <WorldModule\IWorldEngine.h>
 
 #if PLATFORM_WINDOWS
 static LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

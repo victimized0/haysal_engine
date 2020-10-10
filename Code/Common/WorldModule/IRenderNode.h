@@ -68,12 +68,12 @@ private:
 	uint32			m_flags;
 };
 
-struct IVegetation : public IRenderNode
+struct IVegetationNode : public IRenderNode
 {
 
 };
 
-struct ILightSource : public IRenderNode
+struct ILightSourceNode : public IRenderNode
 {
 
 };

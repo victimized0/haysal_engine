@@ -106,6 +106,9 @@
     <ClInclude Include="WorldModule\IRenderNode.h">
       <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
+    <ClInclude Include="WorldModule\IWorldEngine.h">
+      <Filter>Interfaces\WorldModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\SimpleMath.cpp">

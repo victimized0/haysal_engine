@@ -3,7 +3,7 @@
 #pragma once
 
 #include <platform.inl>
-#include <WorldModule\IWorldModule.h>
+#include <WorldModule\IWorldEngine.h>
 
 class WorldEngine;
 extern WorldEngine* g_world;
@@ -33,8 +33,8 @@ public:
 	void				FreeRenderNodeState(IRenderNode* pEntity) override;
 	uint32				GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects = 0) override;
 
-	ILightSource*		CreateLightSource() override;
-	void				DeleteLightSource(ILightSource* pLightSource) override;
+	ILightSourceNode*	CreateLightSource() override;
+	void				DeleteLightSource(ILightSourceNode* pLightSource) override;
 	float				GetLightAmountInRange(const Vec3& pPos, float fRange, bool bAccurate = 0) override;
 
 	void				DeleteDecalsInRange(AABB* pAreaBox, IRenderNode* pEntity) override;
@@ -58,7 +58,7 @@ public:
 	void				ApplyForceToEnvironment(Vec3 vPos, float fRadius, float fAmountOfForce) override;
 
 private:
-
+	std::vector<ILightSourceNode*>	m_staticLights;
 
 };
 

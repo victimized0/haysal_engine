@@ -11,6 +11,21 @@
     <ClCompile Include="Scene\OctreeNode.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="RenderNodes\DecalRenderNode.cpp">
+      <Filter>RenderNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderNodes\LightSourceNode.cpp">
+      <Filter>RenderNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderNodes\MeshRenderNode.cpp">
+      <Filter>RenderNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderNodes\VegetationNode.cpp">
+      <Filter>RenderNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderNodes\CharacterRenderNode.cpp">
+      <Filter>RenderNodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -22,6 +37,21 @@
     </ClInclude>
     <ClInclude Include="Scene\OctreeNode.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderNodes\DecalRenderNode.h">
+      <Filter>RenderNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderNodes\LightSourceNode.h">
+      <Filter>RenderNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderNodes\MeshRenderNode.h">
+      <Filter>RenderNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderNodes\VegetationNode.h">
+      <Filter>RenderNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderNodes\CharacterRenderNode.h">
+      <Filter>RenderNodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

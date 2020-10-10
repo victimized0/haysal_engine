@@ -163,6 +163,7 @@
     <ClInclude Include="ScriptsModule\IScriptsModule.h" />
     <ClInclude Include="System\ITimer.h" />
     <ClInclude Include="WorldModule\ISceneNode.h" />
+    <ClInclude Include="WorldModule\IWorldEngine.h" />
     <ClInclude Include="WorldModule\IWorldModule.h" />
     <ClInclude Include="System\IEngineModule.h" />
     <ClInclude Include="System\ISystem.h" />
