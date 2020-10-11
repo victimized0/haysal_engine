@@ -5,12 +5,6 @@
     <ClCompile Include="WorldEngine\WorldEngine.cpp">
       <Filter>WorldEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\OctreeNode.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="RenderNodes\DecalRenderNode.cpp">
       <Filter>RenderNodes</Filter>
     </ClCompile>
@@ -32,12 +26,6 @@
     <ClInclude Include="WorldEngine\WorldEngine.h">
       <Filter>WorldEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\OctreeNode.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="RenderNodes\DecalRenderNode.h">
       <Filter>RenderNodes</Filter>
     </ClInclude>
@@ -57,9 +45,6 @@
   <ItemGroup>
     <Filter Include="WorldEngine">
       <UniqueIdentifier>{f337ba5a-0ea2-41f9-8f70-46d129429b9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{9336cb1e-6cb7-40b2-8498-bc1092bbd2a2}</UniqueIdentifier>
     </Filter>
     <Filter Include="RenderNodes">
       <UniqueIdentifier>{fdc9c0e5-f106-4121-aeda-8c12419f1d87}</UniqueIdentifier>

@@ -13,7 +13,7 @@ public:
 						OctreeNode(OctreeNode const&)				= delete;	// Temporarily delete
 						OctreeNode(OctreeNode&&)					= delete;	// Temporarily delete
 						OctreeNode& operator=(OctreeNode const&)	= delete;	// Temporarily delete
-						OctreeNode& operator=(OctreeNode&&)		= delete;	// Temporarily delete
+						OctreeNode& operator=(OctreeNode&&)			= delete;	// Temporarily delete
 
 	void				AddChild(ISceneNode* child) override;
 	bool				RemoveChild(ISceneNode* child) override;

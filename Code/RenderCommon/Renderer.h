@@ -3,8 +3,8 @@
 #pragma once
 
 #include "platform.h"
+#include <WorldModule\IWorldEngine.h>
 #include <RenderModule\IRenderer.h>
-#include <RenderModule\IRenderModule.h>
 
 class Renderer;
 extern Renderer* gRenderer;
@@ -16,7 +16,7 @@ public:
 	virtual			~Renderer() {}
 
 	WIN_HWND		Init(int width, int height, const SystemInitParams& initParams) override = 0;
-	virtual bool	InitRenderer() = 0;
+	virtual void	InitRenderer();
 
 	virtual int		GetFrameID() override;
 	virtual void	BeginFrame() override = 0;
@@ -25,6 +25,7 @@ public:
 
 	virtual bool	CreateDevice() = 0;
 	virtual void	Reset() = 0;
+	virtual void	Release() override;
 
 	virtual void	RenderScene() = 0;
 

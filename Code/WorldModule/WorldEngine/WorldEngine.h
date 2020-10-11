@@ -17,11 +17,11 @@ public:
 	bool				Init() override;
 	void				Release() final;
 	void				ShutDown() final;
-	void				Tick() override;
 	void				Update() override;
+	void				UpdateCamera() override;
 
 	void				OnFrameStart() final;
-	void				RenderWorld(const int renderFlags) override;
+	void				RenderScene(const int renderFlags, const Camera& camera) override;
 	//const Camera&		GetRenderingCamera() const override;
 
 	void				RemoveAllStaticObjects() override;
@@ -58,7 +58,10 @@ public:
 	void				ApplyForceToEnvironment(Vec3 vPos, float fRadius, float fAmountOfForce) override;
 
 private:
+	Camera							m_camera;
 	std::vector<ILightSourceNode*>	m_staticLights;
+	//class LightEntity*			m_pSun;
+	//class OctreeNode*				m_pObjectsTree = nullptr;
 
 };
 

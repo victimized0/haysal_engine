@@ -3,6 +3,7 @@
 #pragma once
 
 #include "IRenderNode.h"
+#include "IMaterial.h"
 
 struct IWorldEngine
 {
@@ -13,9 +14,9 @@ struct IWorldEngine
 	virtual void					ShutDown() = 0;
 
 	virtual void					Update() = 0;
-	virtual void					Tick() = 0;
+	virtual void					UpdateCamera() = 0;
 	virtual void					OnFrameStart() = 0;
-	virtual void					RenderWorld(const int renderFlags) = 0;
+	virtual void					RenderScene(const int renderFlags, const Camera& camera) = 0;
 
 	//virtual const					Camera& GetRenderingCamera() const = 0;
 
@@ -80,7 +81,7 @@ struct IWorldEngine
 	//virtual void					SetMaxViewDistanceScale(float fScale) = 0;
 	//virtual float					  GetMaxViewDistance(bool bScaled = true) = 0;
 
-	virtual void					SetRenderNodeMaterialAtPosition(RenderNodeType eNodeType, const Vec3& vPos, IMaterial* pMat) = 0;
+	virtual void					SetRenderNodeMaterialAtPosition(RenderNodeType eNodeType, const Vec3& vPos, struct IMaterial* pMat) = 0;
 
 	//virtual ITerrain*				GetITerrain() = 0;
 	//virtual ITerrain*				CreateTerrain(const STerrainInfo& TerrainInfo) = 0;

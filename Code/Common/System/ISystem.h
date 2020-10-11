@@ -18,11 +18,11 @@ typedef void* WIN_HMODULE;
 
 struct ISystem;
 struct IPhysics;
+struct IWorldEngine;
 struct IRenderer;
 struct IAIModule;
 struct IScripts;
 struct IAnimModule;
-struct IWorldEngine;
 struct ITimer;
 
 struct SystemInitParams;

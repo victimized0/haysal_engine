@@ -17,10 +17,12 @@ WorldEngine::WorldEngine()
 
 WorldEngine::~WorldEngine()
 {
+
 }
 
 void WorldEngine::Release()
 {
+	if (this) delete this;
 }
 
 void WorldEngine::ShutDown()
@@ -40,12 +42,57 @@ void WorldEngine::Update()
 {
 }
 
-void WorldEngine::Tick()
+void WorldEngine::UpdateCamera()
 {
+
 }
 
-void WorldEngine::RenderWorld(const int renderFlags)
+void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 {
+	UpdateCamera();
+	//m_visibleNodesManager.UpdateVisibleNodes(passInfo.GetFrameID());
+	
+	//m_pPartManager->Update();
+
+	//UpdateScene();
+
+	// Start occlusion culling
+	//GetRenderer()->EF_StartEf(passInfo);
+	
+	//if (m_pPartManager)
+	//	m_pPartManager->PrepareForRender(passInfo);
+
+	//UpdateLightSources(passInfo);
+	//PrepareLightSourcesForRendering_0(passInfo);
+	//PrepareLightSourcesForRendering_1(passInfo);
+
+	//BeginOcclusionCulling(passInfo);
+
+	//Prepare shadows
+
+	//m_pVisAreaManager->DrawVisibleSectors(passInfo, passCullMask);
+	//m_pObjectsTree->Render_Object_Nodes(false, OCTREENODE_RENDER_FLAG_OBJECTS, GetSkyColor(), outdoorCullMask, passInfo);
+	//if draw objects AABBs
+	//	m_pObjectsTree->RenderDebug();
+
+	//render always visible objects
+
+	//if (m_pDecalManager && passInfo.RenderDecals())
+	//{
+	//	m_pDecalManager->Render(passInfo);
+	//}
+
+	// Render shadow maps
+
+	// Render sprites (far objects)
+
+	// Notify game framework OnRenderScene();
+
+	// Set fog
+
+	//GetRenderer()->EF_EndEf3D();
+
+	//EndOcclusionCulling();
 }
 
 //const Camera& WorldEngine::GetRenderingCamera() const

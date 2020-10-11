@@ -11,11 +11,6 @@ struct RenderInfo
 
 };
 
-struct IMaterial
-{
-
-};
-
 struct IRenderer
 {
 	virtual				~IRenderer() {}

@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "System.h"
 
-#include <RenderModule\IRenderer.h>
-#include <RenderModule\IRenderModule.h>
 #include <WorldModule\IWorldEngine.h>
+#include <RenderModule\IRenderer.h>
 
 #if PLATFORM_WINDOWS
 static LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -69,7 +68,7 @@ System::~System()
 {
 	ShutDown();
 	UnregisterWindowMessageHandler(this);
-
+	OutputDebugStringA("SHUTDDOWN!!");
 	SafeFreeLib(m_dll.hAI);
 	SafeFreeLib(m_dll.hScript);
 	SafeFreeLib(m_dll.hPhysics);
@@ -244,17 +243,41 @@ bool System::DoFrame()
 
 void System::RenderBegin()
 {
-
-}
-
-void System::Render()
-{
-
+	if (m_env.pRenderer)
+	{
+		m_env.pRenderer->BeginFrame();
+	}
 }
 
 void System::RenderEnd()
 {
+	if (!m_env.pRenderer)
+		return;
 
+#if !defined (_RELEASE)
+	// Flush render data and swap buffers.
+	//m_env.pRenderer->RenderDebug(bRenderStats);
+#endif
+
+	m_env.pRenderer->EndFrame();
+}
+
+void System::Render()
+{
+	const int renderFlags = 0;
+	
+	if (m_env.pRenderer)
+	{
+		if (m_env.pWorld)
+		{
+			m_env.pWorld->RenderScene(renderFlags, m_viewCamera);
+		}
+
+		if (m_env.pAI)
+		{
+		//	m_env.pAI->DebugDraw();
+		}
+	}
 }
 
 void System::Quit()
@@ -271,7 +294,7 @@ void System::Quit()
 #endif
 
 #if !PLATFORM_LINUX && !PLATFORM_DURANGO && !PLATFORM_ORBIS
-PostQuitMessage(0);
+	PostQuitMessage(0);
 #endif
 }
 
@@ -623,8 +646,8 @@ void System::ShutDown()
 	//if (m_env.pEntitySystem)
 	//	m_env.pEntitySystem->Unload();
 
-	//if (m_env.pWorld)
-	//	m_env.pWorld->ShutDown();
+	if (m_env.pWorld)
+		m_env.pWorld->ShutDown();
 
 	//m_pResourceManager->Shutdown();
 

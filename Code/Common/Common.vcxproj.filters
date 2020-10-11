@@ -67,9 +67,6 @@
     <ClInclude Include="RenderModule\IRenderer.h">
       <Filter>Interfaces\RenderModule</Filter>
     </ClInclude>
-    <ClInclude Include="WorldModule\ISceneNode.h">
-      <Filter>Interfaces\WorldModule</Filter>
-    </ClInclude>
     <ClInclude Include="Math\SimpleMath.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -107,6 +104,9 @@
       <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
     <ClInclude Include="WorldModule\IWorldEngine.h">
+      <Filter>Interfaces\WorldModule</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldModule\IMaterial.h">
       <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
   </ItemGroup>

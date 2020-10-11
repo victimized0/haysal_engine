@@ -38,5 +38,5 @@ extern "C" SYSTEM_API ISystem* LoadSystem(SystemInitParams& startupParams)
 
 	// run main loop
 	pSystem->RunMainLoop();
-	return nullptr;
+	return pSystem.release();
 };

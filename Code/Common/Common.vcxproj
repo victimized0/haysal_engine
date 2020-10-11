@@ -149,6 +149,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />
+    <ClInclude Include="WorldModule\IMaterial.h" />
     <ClInclude Include="WorldModule\IRenderNode.h" />
     <ClInclude Include="RenderModule\IShader.h" />
     <ClInclude Include="RenderModule\ITexture.h" />
@@ -162,7 +163,6 @@
     <ClInclude Include="RenderModule\IRenderModule.h" />
     <ClInclude Include="ScriptsModule\IScriptsModule.h" />
     <ClInclude Include="System\ITimer.h" />
-    <ClInclude Include="WorldModule\ISceneNode.h" />
     <ClInclude Include="WorldModule\IWorldEngine.h" />
     <ClInclude Include="WorldModule\IWorldModule.h" />
     <ClInclude Include="System\IEngineModule.h" />
