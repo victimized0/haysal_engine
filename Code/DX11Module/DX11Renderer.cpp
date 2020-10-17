@@ -220,7 +220,6 @@ bool DX11Renderer::CreateDevice()
 						pAdapter->GetDesc1(&m_adapterDesc);
 						break;
 					}
-
 				}
 
 				m_pContext.Reset();
