@@ -171,11 +171,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\RenderCommon\InputLayout.h" />
+    <ClInclude Include="..\RenderCommon\RenderCommon.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h" />
     <ClInclude Include="..\RenderCommon\StdAfx.h" />
     <ClInclude Include="VKRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\RenderCommon\InputLayout.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\RenderCommon\Renderer.cpp" />
     <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
     <ClCompile Include="VKRenderer.cpp" />

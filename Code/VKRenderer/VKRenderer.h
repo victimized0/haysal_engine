@@ -24,13 +24,17 @@ public:
 	void			PopProfileMarker(const char* label) final;
 	WIN_HWND		GetHWND() final;
 	WIN_HWND		Init(int width, int height, const SystemInitParams& initParams) final;
-	void			InitRenderer() final;
 	void			BeginFrame() final;
 	void			FillFrame(float clearColor) final;
 	void			EndFrame() final;
 	bool			CreateDevice() final;
+	void			CreateSwapChain() final;
 	void			Reset() final;
 	void			RenderScene() final;
+
+protected:
+	void			CreateOutput() final;
+
 };
 
 

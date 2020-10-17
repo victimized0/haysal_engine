@@ -6,9 +6,6 @@
 #include <platform.inl>
 #include <Renderer.h>
 
-#include <wrl/client.h>
-using Microsoft::WRL::ComPtr;
-
 class DX11Renderer;
 extern DX11Renderer* g_dx11Renderer;
 
@@ -17,8 +14,6 @@ class DX11Renderer final : public Renderer
 public:
 							DX11Renderer();
 	virtual					~DX11Renderer();
-
-	static WIN_HWND			CreateWindowCallback();
 
 	WIN_HWND				GetHWND() final;
 	bool					CreateMainWindow(int width, int height);
@@ -29,8 +24,9 @@ public:
 
 	WIN_HWND				Init(int width, int height, const SystemInitParams& initParams) final;
 	void					PostInit() final;
-	void					InitRenderer() final;
 	bool					CreateDevice() final;
+	void					CreateSwapChain() final;
+
 	void					Reset() final;
 	void					Release() final;
 	void					ShutDown() final;
@@ -47,23 +43,25 @@ public:
 	void					RenderScene() final;
 
 public:
-	const DxDevice*			GetDevice() const { return m_pDevice.Get(); }
-	DxDevice*				GetDevice() { return m_pDevice.Get(); }
-	const DxContext*		GetDeviceContext() const { return m_pContext.Get(); }
-	DxContext*				GetDeviceContext() { return m_pContext.Get(); }
+	const GpuDevice*		GetDevice() const { return m_pDevice.Get(); }
+	GpuDevice*				GetDevice() { return m_pDevice.Get(); }
+	const GpuContext*		GetDeviceContext() const { return m_pContext.Get(); }
+	GpuContext*				GetDeviceContext() { return m_pContext.Get(); }
+
+protected:
+	void					CreateOutput() final;
 
 private:
-	WIN_HWND				m_hWnd;
+	HWND					m_hWnd;
 	std::wstring			m_wndCaption;
 
-	ComPtr<DxDevice>		m_pDevice;
-	ComPtr<DxContext>		m_pContext;
-	ComPtr<DXGIFactory>		m_pFactory;
-	ComPtr<DXGIAdapter>		m_pAdapter;
+	ComPtr<GpuDevice>		m_pDevice;
+	ComPtr<GpuContext>		m_pContext;
 
 	uint32					m_creationFlags;
 	D3D_FEATURE_LEVEL		m_featureLevel;
 	DXGI_ADAPTER_DESC1		m_adapterDesc;
+
 };
 
 #endif //DIRECTX11_RENDERER_H

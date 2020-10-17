@@ -75,6 +75,7 @@ typedef sbyte int8;
 
 #include <algorithm>
 #include <memory>
+#include <array>
 #include <vector>
 #include <string>
 #include <map>

@@ -8,21 +8,14 @@ DX11Renderer::DX11Renderer()
 	, m_hWnd(nullptr)
 	, m_pDevice(nullptr)
 	, m_pContext(nullptr)
-	, m_pFactory(nullptr)
-	, m_pAdapter(nullptr)
 	, m_creationFlags(0)
 {
-
+	gRenderer = this;
 }
 
 DX11Renderer::~DX11Renderer()
 {
 
-}
-
-WIN_HWND DX11Renderer::CreateWindowCallback()
-{
-	return nullptr;
 }
 
 void DX11Renderer::PostInit()
@@ -34,6 +27,7 @@ void DX11Renderer::Release()
 	ShutDown();
 	Renderer::Release();
 	DestroyMainWindow();
+	//g_dx11Renderer = nullptr;
 }
 
 void DX11Renderer::ShutDown()
@@ -130,28 +124,52 @@ void DX11Renderer::DestroyMainWindow()
 
 WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initParams)
 {
-	InitRenderer();
-	
 	if (!CreateMainWindow(width, height))
 	{
 		return nullptr;
 	}
-
+	
 	if (!CreateDevice())
 	{
 		return nullptr;
 	}
 
+	DX11Renderer* pRnd = static_cast<DX11Renderer*>(gRenderer);
+	SetFeature(FEATURE_OCCLUSION_QUERIES | FEATURE_SHADER_MODEL_4_0 | FEATURE_SHADER_MODEL_5_0);
+
+	// TODO: Allocate predefined sampler states
+	// TODO: Allocate predefined input layouts
+
+	switch (pRnd->m_adapterDesc.VendorId)
+	{
+	case 4098: // Vendor = AMD
+		SetFeature(FEATURE_VENDOR_AMD);
+		//pRnd->InitAMDAPI();
+		break;
+	case 4318: // Vendor = NVidia
+		SetFeature(FEATURE_VENDOR_NVIDIA);
+		//pRnd->InitNVAPI();
+		break;
+	case 8086: // Vendor = Intel
+		SetFeature(FEATURE_VENDOR_INTEL);
+		break;
+	}
+
+#if PLATFORM_WINDOWS
+	HDC dc = GetDC(m_hWnd);
+	uint16 gamma[3][256];
+	if (GetDeviceGammaRamp(dc, gamma))
+		SetFeature(FEATURE_HARDWARE_GAMMA);
+	ReleaseDC(m_hWnd, dc);
+#endif
+
+	SetFeature(FEATURE_HDR);
+
+	CreateSwapChain();
+
 	PostInit();
 
 	return m_hWnd;
-}
-
-void DX11Renderer::InitRenderer()
-{
-	Renderer::InitRenderer();
-
-	//m_hWnd = nullptr;
 }
 
 bool DX11Renderer::CreateDevice()
@@ -193,8 +211,8 @@ bool DX11Renderer::CreateDevice()
 				hr = D3D11CreateDevice(pAdapter.Get(), D3D_DRIVER_TYPE_UNKNOWN, 0, m_creationFlags, featureLevels, featureLvlCount, D3D11_SDK_VERSION, &pDevice, &m_featureLevel, &pContext);
 				if (SUCCEEDED(hr) && pDevice && pContext)
 				{
-					pDevice->QueryInterface(__uuidof(DxDevice), (void**)(&m_pDevice));
-					pContext->QueryInterface(__uuidof(DxContext), (void**)(&m_pContext));
+					pDevice->QueryInterface(__uuidof(GpuDevice), (void**)(&m_pDevice));
+					pContext->QueryInterface(__uuidof(GpuContext), (void**)(&m_pContext));
 
 					ComPtr<IDXGIOutput> pOutput;
 					if (SUCCEEDED(pAdapter->EnumOutputs(0, &pOutput)) && pOutput.Get())
@@ -237,6 +255,85 @@ bool DX11Renderer::CreateDevice()
 	return true;
 }
 
+void DX11Renderer::CreateSwapChain()
+{
+	assert(m_hWnd);
+
+	int width = 0,
+		height = 0;
+
+#if PLATFORM_WINDOWS
+	if (TRUE == ::IsWindow(m_hWnd))
+	{
+		RECT rc;
+		if (TRUE == GetClientRect(m_hWnd, &rc))
+		{
+			// On Windows force screen resolution to be a real pixel size of the client rect of the real window
+			width = rc.right - rc.left;
+			height = rc.bottom - rc.top;
+		}
+	}
+
+	CreateOutput();
+
+	DXGI_SWAP_CHAIN_DESC swapChainDesc					= {};
+	swapChainDesc.BufferDesc.Width						= width;
+	swapChainDesc.BufferDesc.Height						= height;
+	swapChainDesc.BufferDesc.RefreshRate.Numerator		= 0;
+	swapChainDesc.BufferDesc.RefreshRate.Denominator	= 1;
+	swapChainDesc.BufferDesc.Format						= /*IsHDRMonitor() ? DXGI_FORMAT_R16G16B16A16_FLOAT :*/ DXGI_FORMAT_R8G8B8A8_UNORM;
+	swapChainDesc.BufferDesc.ScanlineOrdering			= DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	swapChainDesc.BufferDesc.Scaling					= DXGI_MODE_SCALING_UNSPECIFIED;
+	swapChainDesc.SampleDesc.Count						= 1;
+	swapChainDesc.SampleDesc.Quality					= 0;
+	swapChainDesc.BufferUsage							= DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
+	swapChainDesc.BufferCount							= 1;
+	swapChainDesc.OutputWindow							= m_hWnd;
+	swapChainDesc.Windowed								= 1;
+	swapChainDesc.SwapEffect							= DXGI_SWAP_EFFECT_DISCARD;
+	swapChainDesc.Flags									= DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+
+	m_pFactory->CreateSwapChain(m_pDevice.Get(), &swapChainDesc, &m_pSwapChain);
+#endif
+}
+
+void DX11Renderer::CreateOutput()
+{
+	HMONITOR hMonitor{ 0 };
+	DXGI_OUTPUT_DESC outDesc;
+	if (m_pOutput && SUCCEEDED(m_pOutput->GetDesc(&outDesc)))
+	{
+		hMonitor = outDesc.Monitor;
+	}
+
+	if (m_pOutput != nullptr)
+	{
+		m_pOutput = nullptr;
+	}
+
+	// Find the output that matches the monitor our window is currently on
+	IDXGIAdapter1* pAdapter = m_pAdapter.Get();
+	IDXGIOutput* pOutput = nullptr;
+
+	for (unsigned int i = 0; pAdapter->EnumOutputs(i, &pOutput) != DXGI_ERROR_NOT_FOUND && pOutput; ++i)
+	{
+		DXGI_OUTPUT_DESC outputDesc;
+		if (SUCCEEDED(pOutput->GetDesc(&outputDesc)) && outputDesc.Monitor == hMonitor)
+		{
+			pAdapter->QueryInterface(__uuidof(DXGIOutput), (void**)(&m_pOutput));
+			break;
+		}
+	}
+
+	if (m_pOutput == nullptr)
+	{
+		if (SUCCEEDED(pAdapter->EnumOutputs(0, &pOutput)))
+		{
+			pAdapter->QueryInterface(__uuidof(DXGIOutput), (void**)(&m_pOutput));
+		}
+	}
+}
+
 void DX11Renderer::BeginFrame()
 {
 }
@@ -272,7 +369,8 @@ public:
 
 extern "C" DLL_EXPORT IEngineModule* CreateModule(ISystem* pSystem)
 {
-	g_dx11Renderer = new DX11Renderer();
 	auto pModule = new DX11RenderModule();
+	g_dx11Renderer = new DX11Renderer();
+	// TODO: Subscribe to system events
 	return pModule;
 }

@@ -5,10 +5,8 @@
 // Advise notebook graphics drivers to prefer discrete GPU when no explicit application profile exists
 extern "C"
 {
-    // nVidia
     __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-    // AMD
-    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+    __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 0x00000001;
 }
 
 bool InitialiseEngine(SystemInitParams& startupParams)

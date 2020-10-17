@@ -3,23 +3,32 @@
   <ItemGroup>
     <ClInclude Include="VKRenderer.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\RenderCommon\StdAfx.h">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\InputLayout.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderCommon.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VKRenderer.cpp" />
     <ClCompile Include="..\RenderCommon\Renderer.cpp">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="..\RenderCommon\StdAfx.cpp">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\InputLayout.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="RndCommon">
+    <Filter Include="Common">
       <UniqueIdentifier>{1db7ec6d-e663-4f42-8eb7-c72c9be7052c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

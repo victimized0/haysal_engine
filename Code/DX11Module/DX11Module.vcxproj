@@ -164,12 +164,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\RenderCommon\InputLayout.cpp" />
     <ClCompile Include="..\RenderCommon\Renderer.cpp" />
+    <ClCompile Include="..\RenderCommon\SamplerState.cpp" />
     <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
     <ClCompile Include="DX11Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\RenderCommon\InputLayout.h" />
+    <ClInclude Include="..\RenderCommon\RenderCommon.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h" />
+    <ClInclude Include="..\RenderCommon\SamplerState.h" />
     <ClInclude Include="..\RenderCommon\StdAfx.h" />
     <ClInclude Include="DX11Renderer.h" />
   </ItemGroup>

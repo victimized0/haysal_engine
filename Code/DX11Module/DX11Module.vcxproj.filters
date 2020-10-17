@@ -3,23 +3,38 @@
   <ItemGroup>
     <ClCompile Include="DX11Renderer.cpp" />
     <ClCompile Include="..\RenderCommon\Renderer.cpp">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="..\RenderCommon\StdAfx.cpp">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\InputLayout.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\SamplerState.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX11Renderer.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\RenderCommon\StdAfx.h">
-      <Filter>RndCommon</Filter>
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\InputLayout.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderCommon.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\SamplerState.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="RndCommon">
+    <Filter Include="Common">
       <UniqueIdentifier>{10efb22f-bb05-441f-b871-1ea14154c035}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

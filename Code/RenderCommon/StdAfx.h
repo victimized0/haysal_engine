@@ -15,6 +15,9 @@
 	#pragma comment(lib, "dxgi.lib")
 	#pragma comment(lib, "d3dcompiler.lib")
 
+	#include <wrl/client.h>
+	using Microsoft::WRL::ComPtr;
+
 #elif PLATFORM_DURANGO
 	#include <d3d11_x.h>
 	#include <d3d11shader_x.h>
@@ -22,18 +25,28 @@
 #endif // PLATFORM
 
 #if RENDERER_DX11
-	#define DxDevice		ID3D11Device
-	#define DxContext		ID3D11DeviceContext
-	#define DXGIFactory		IDXGIFactory1
-	#define DXGIAdapter		IDXGIAdapter1
-	#define DXGISwapChain	IDXGISwapChain
+	#define GpuDevice			ID3D11Device1
+	#define GpuContext			ID3D11DeviceContext
+	#define DXGIFactory			IDXGIFactory1
+	#define DXGIAdapter			IDXGIAdapter1
+	#define DXGIOutput          IDXGIOutput
+	#define DXGISwapChain		IDXGISwapChain
+
+	#define InputElementDesc	D3D11_INPUT_ELEMENT_DESC
 
 #elif RENDERER_VK
-	#define DxDevice
-	#define DxContext
+	// TODO: Match Vulkan interfaces/structs/classes to the abstract defines
+	#define GpuDevice
+	#define GpuContext
 	#define DXGIFactory
 	#define DXGIAdapter
+	#define DXGIOutput
 	#define DXGISwapChain
+
+	#define InputElementDesc	D3D11_INPUT_ELEMENT_DESC
+
 #endif
+
+#include "RenderCommon.h"
 
 #endif //RENDERER_STDAFX_H

@@ -4,11 +4,29 @@
 
 #include <System\SystemInitParams.h>
 
+// Render features
+#define FEATURE_OCCLUSION_QUERIES	0x4
+#define FEATURE_HARDWARE_GAMMA		0x10
+#define FEATURE_HDR					0x80000
+#define FEATURE_SHADER_MODEL_4_0	0x0100000
+#define FEATURE_SHADER_MODEL_5_0	0x0200000
+#define FEATURE_VENDOR_INTEL		0x10000
+#define FEATURE_VENDOR_AMD			0x20000
+#define FEATURE_VENDOR_NVIDIA		0x40000
+#define FEATURE_ORDER_RGBA			0x20000000
+
 struct IRenderNode;
 
 struct RenderInfo
 {
 
+};
+
+enum class RasterState : byte
+{
+	Wireframe	= 0,
+	Solid		= 1,
+	Point		= 2
 };
 
 struct IRenderer
