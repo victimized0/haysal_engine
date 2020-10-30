@@ -12,14 +12,11 @@ extern VKRenderer* g_vkRenderer;
 class VKRenderer final : public Renderer
 {
 public:
-	VKRenderer();
+					VKRenderer();
 	virtual			~VKRenderer();
 
-	void			PostInit() final;
 	void			Release() final;
 	void			ShutDown() final;
-	int				GetHeight() const final;
-	int				GetWidth() const final;
 	void			PushProfileMarker(const char* label) final;
 	void			PopProfileMarker(const char* label) final;
 	WIN_HWND		GetHWND() final;

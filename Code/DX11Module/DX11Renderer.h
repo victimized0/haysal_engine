@@ -15,15 +15,11 @@ public:
 							DX11Renderer();
 	virtual					~DX11Renderer();
 
-	WIN_HWND				GetHWND() final;
+	WIN_HWND				GetHWND() final { return m_hWnd; }
 	bool					CreateMainWindow(int width, int height);
 	void					DestroyMainWindow();
 
-	int						GetHeight() const final;
-	int						GetWidth() const final;
-
 	WIN_HWND				Init(int width, int height, const SystemInitParams& initParams) final;
-	void					PostInit() final;
 	bool					CreateDevice() final;
 	void					CreateSwapChain() final;
 
@@ -48,9 +44,6 @@ public:
 	const GpuContext*		GetDeviceContext() const { return m_pContext.Get(); }
 	GpuContext*				GetDeviceContext() { return m_pContext.Get(); }
 
-protected:
-	void					CreateOutput() final;
-
 private:
 	HWND					m_hWnd;
 	std::wstring			m_wndCaption;
@@ -62,6 +55,7 @@ private:
 	D3D_FEATURE_LEVEL		m_featureLevel;
 	DXGI_ADAPTER_DESC1		m_adapterDesc;
 
+	ComPtr<ID3DUserDefinedAnnotation>	m_pProfileAnnotations;
 };
 
 #endif //DIRECTX11_RENDERER_H

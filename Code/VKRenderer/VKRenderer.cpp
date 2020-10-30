@@ -13,26 +13,12 @@ VKRenderer::~VKRenderer()
 
 }
 
-void VKRenderer::PostInit()
-{
-}
-
 void VKRenderer::Release()
 {
 }
 
 void VKRenderer::ShutDown()
 {
-}
-
-int VKRenderer::GetHeight() const
-{
-	return 0;
-}
-
-int VKRenderer::GetWidth() const
-{
-	return 0;
 }
 
 void VKRenderer::PushProfileMarker(const char* label)

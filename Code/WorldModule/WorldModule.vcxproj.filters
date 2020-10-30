@@ -20,6 +20,12 @@
     <ClCompile Include="RenderNodes\CharacterRenderNode.cpp">
       <Filter>RenderNodes</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -41,6 +47,12 @@
     <ClInclude Include="RenderNodes\CharacterRenderNode.h">
       <Filter>RenderNodes</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="WorldEngine">
@@ -48,6 +60,9 @@
     </Filter>
     <Filter Include="RenderNodes">
       <UniqueIdentifier>{fdc9c0e5-f106-4121-aeda-8c12419f1d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{01249bab-8c79-497d-a2d6-96b6914cc54e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,0 +1,5 @@
+<Textures>
+	<Texture Path="Engine/Textures/blank_black.dds" NoMips="true"/>
+	<Texture Path="Engine/Textures/blank_white.dds" NoMips="false"/>
+	<Texture Path="Engine/Textures/blank_normal.dds"/>
+</Textures>

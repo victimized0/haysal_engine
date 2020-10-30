@@ -14,6 +14,33 @@
     <ClCompile Include="..\RenderCommon\SamplerState.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\RenderCommon\SwapChain.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderCommon.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DeviceFormats.cpp">
+      <Filter>Common\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DeviceResources.cpp">
+      <Filter>Common\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DeviceObjects.cpp">
+      <Filter>Common\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\Texture.cpp">
+      <Filter>Common\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\TextureManager.cpp">
+      <Filter>Common\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DDSLoader.cpp">
+      <Filter>Common\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX11Renderer.h" />
@@ -32,10 +59,43 @@
     <ClInclude Include="..\RenderCommon\SamplerState.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\RenderCommon\SwapChain.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DeviceFormats.h">
+      <Filter>Common\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DeviceResources.h">
+      <Filter>Common\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DeviceObjects.h">
+      <Filter>Common\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\Texture.h">
+      <Filter>Common\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\TextureManager.h">
+      <Filter>Common\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DDSLoader.h">
+      <Filter>Common\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
       <UniqueIdentifier>{10efb22f-bb05-441f-b871-1ea14154c035}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Device">
+      <UniqueIdentifier>{e45bc82c-799e-47eb-b0fb-7150cbc0c1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Texture">
+      <UniqueIdentifier>{eec94b41-e69f-459d-bf77-34cbc1255ac5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DX11_impl.inl" />
   </ItemGroup>
 </Project>

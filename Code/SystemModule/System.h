@@ -25,9 +25,11 @@ public:
 
 	//void					OnSystemEvent(ESystemEvent event, UINT_PTR wparam, UINT_PTR lparam) final;
 
-	Environment*			GetEnv() final;
-	const char*				GetRootFolder() const final;
-	bool					IsDevMode() const final;
+	Environment*			GetEnv() final { return &m_env; }
+	const char*				GetRootDir() const final { return m_rootDir.c_str(); }
+	std::string				GetEngineDir() const final { return Path::AppendPath(m_rootDir, "Engine"); }
+	std::string				GetAbsPath(const char* path) const final { return Path::AppendPath(m_rootDir, path); }
+	bool					IsDevMode() const final { return true; }
 
 	bool					Update() final;
 	bool					DoFrame() final;
@@ -81,6 +83,10 @@ public:
 
 	bool					ShouldQuit() { return m_shouldQuit; }
 
+	const pugi::xml_node&	CreateXmlNode(const char* nodeName = "") final;
+	pugi::xml_document		LoadXmlFromBuffer(const char* buffer, size_t size) final;
+	pugi::xml_document		LoadXmlFromFile(const char* filename) final;
+
 private:
 	bool					InitModule(const SystemInitParams& startupParams, const char* dllName);
 	bool					InitRenderModule(SystemInitParams& startupParams);
@@ -94,7 +100,6 @@ private:
 	//bool					InitEntitySystem(const SystemInitParams& startupParams);
 
 	bool					CloseRenderModule();
-
 	void					ShutDown();
 
 private:
@@ -126,9 +131,8 @@ private:
 	};
 	DllHandles m_dll;
 
-	std::unordered_map <std::string, WIN_HMODULE> m_dllHandles;
-
-	std::vector<IWindowMessageHandler*> m_winMsgHandlers;
+	std::unordered_map <std::string, WIN_HMODULE>	m_dllHandles;
+	std::vector<IWindowMessageHandler*>				m_winMsgHandlers;
 };
 
 #endif //SYSTEM_H

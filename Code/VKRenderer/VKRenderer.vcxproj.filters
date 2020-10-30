@@ -14,6 +14,33 @@
     <ClInclude Include="..\RenderCommon\RenderCommon.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\RenderCommon\SwapChain.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\SamplerState.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DeviceFormats.h">
+      <Filter>Common\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DeviceResources.h">
+      <Filter>Common\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DeviceObjects.h">
+      <Filter>Common\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\Texture.h">
+      <Filter>Common\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\TextureManager.h">
+      <Filter>Common\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\DDSLoader.h">
+      <Filter>Common\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VKRenderer.cpp" />
@@ -26,10 +53,49 @@
     <ClCompile Include="..\RenderCommon\InputLayout.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\RenderCommon\SwapChain.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderCommon.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\SamplerState.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DeviceFormats.cpp">
+      <Filter>Common\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DeviceResources.cpp">
+      <Filter>Common\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DeviceObjects.cpp">
+      <Filter>Common\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\Texture.cpp">
+      <Filter>Common\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\TextureManager.cpp">
+      <Filter>Common\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\DDSLoader.cpp">
+      <Filter>Common\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
       <UniqueIdentifier>{1db7ec6d-e663-4f42-8eb7-c72c9be7052c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Device">
+      <UniqueIdentifier>{ead6ee58-1dc0-4bc9-bb93-2966e21daadf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Texture">
+      <UniqueIdentifier>{c14be291-595c-4fb9-b8fc-9f466f17ce56}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VK_impl.inl" />
   </ItemGroup>
 </Project>

@@ -61,6 +61,8 @@ System::System(const SystemInitParams& startupParams)
 	m_env.pSystem = this;
 	m_env.pTimer = &m_timer;
 
+	m_rootDir = Path::AppendSlash(GetRootFolder());
+
 	RegisterWindowMessageHandler(this);
 }
 
@@ -148,21 +150,6 @@ void System::RunMainLoop()
 			break;
 		}
 	}
-}
-
-Environment* System::GetEnv()
-{
-	return &m_env;
-}
-
-const char* System::GetRootFolder() const
-{
-	return nullptr;
-}
-
-bool System::IsDevMode() const
-{
-	return true;
 }
 
 bool System::Update()
@@ -264,13 +251,13 @@ void System::RenderEnd()
 
 void System::Render()
 {
-	const int renderFlags = 0;
+	const int flags = (RenderFlags::AllowHDR | RenderFlags::AllowPostProcess | RenderFlags::ZPass);
 	
 	if (m_env.pRenderer)
 	{
 		if (m_env.pWorld)
 		{
-			m_env.pWorld->RenderScene(renderFlags, m_viewCamera);
+			m_env.pWorld->RenderScene(flags, m_viewCamera);
 		}
 
 		if (m_env.pAI)
@@ -284,6 +271,8 @@ void System::Quit()
 {
 	if (m_env.pRenderer)
 		m_env.pRenderer->ShutDown();
+
+	ShutDown();
 
 #if PLATFORM_ORBIS
 	_Exit(0);
@@ -387,11 +376,12 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 			Quit();
 			return false;
 		}
+		return true;
 	}
 	case WM_WINDOWPOSCHANGED:
 	{
 		wpos = (LPWINDOWPOS)lParam;
-		if (!(wpos->flags & (SWP_NOMOVE | SWP_NOSIZE)))
+		if (wpos && !(wpos->flags & (SWP_NOMOVE | SWP_NOSIZE)))
 		{
 			if (!(wpos->flags & SWP_NOMOVE))
 			{
@@ -456,6 +446,7 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 		RECT clientRct = { 0, 0, 0, 0 };
 		::GetClientRect(static_cast<HWND>(hWnd), &clientRct);
 		//OnSystemEvent(ESYSTEM_EVENT_RESIZE, (clientRct.right - clientRct.left), (clientRct.bottom - clientRct.top));
+		return true;
 	}
 	// Events that should be forwarded to the hardware mouse
 	case WM_MOUSEMOVE:
@@ -533,6 +524,34 @@ bool System::UnloadDLL(const char* dllName)
 	return false;
 }
 
+const pugi::xml_node& System::CreateXmlNode(const char* nodeName)
+{
+	return pugi::xml_node();
+}
+
+pugi::xml_document System::LoadXmlFromBuffer(const char* buffer, size_t size)
+{
+	using namespace pugi;
+
+	xml_document doc;
+	xml_parse_result res = doc.load_buffer(buffer, size);
+	assert(res.status == status_ok);
+
+	return doc;
+}
+
+pugi::xml_document System::LoadXmlFromFile(const char* filename)
+{
+	using namespace pugi;
+	std::string path = m_rootDir + filename;
+
+	xml_document doc;
+	xml_parse_result res = doc.load_file(path.c_str());
+	assert(res.status == status_ok);
+
+	return doc;
+}
+
 bool System::InitModule(const SystemInitParams& startupParams, const char* dllName)
 {
 	WIN_HMODULE dll = LoadDLL(dllName);
@@ -581,6 +600,14 @@ bool System::InitRenderModule(SystemInitParams& startupParams)
 		return m_hWnd != nullptr;
 	}
 
+	// TODO: Init other systems and modules
+
+	if (m_env.pRenderer)
+	{
+		// Call post init after systems that renderer depends on were initialised
+		m_env.pRenderer->PostInit();
+	}
+
 	return true;
 }
 
@@ -624,8 +651,6 @@ bool System::CloseRenderModule()
 	// libName = "VKRenderer"
 
 	return UnloadModule(libName.c_str());
-
-	return false;
 }
 
 void System::ShutDown()

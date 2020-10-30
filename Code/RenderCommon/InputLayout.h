@@ -2,7 +2,7 @@
 #define INPUT_LAYOUT_H
 #pragma once
 
-enum class DefaultInputLayouts : byte
+enum class VertexFormat : byte
 {
 	None							= 0,
 	PosXYZ							= 1,
@@ -11,6 +11,9 @@ enum class DefaultInputLayouts : byte
 
 	Total
 };
+
+struct InputLayout;
+typedef std::pair<InputLayout, IVertexLayout*> InputLayoutPair;
 
 struct InputLayout
 {
@@ -29,6 +32,7 @@ struct InputLayout
 
 	InputLayout(std::vector<InputElementDesc>&& decs)
 		: m_ElementsDesc( std::move(decs) )
+		, m_StartSlot(0)
 	{
 
 	}

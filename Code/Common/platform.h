@@ -7,6 +7,8 @@
 #define DLL_EXPORT __declspec(dllexport)
 #define DLL_IMPORT __declspec(dllimport)
 
+#define COUNTOF(arr) sizeof(arr) / sizeof(arr[0])
+
 // Safe memory helpers
 #define SAFE_ACQUIRE(p)       { if (p) (p)->AddRef(); }
 #define SAFE_DELETE(p)        { if (p) { delete (p);          (p) = NULL; } }
@@ -30,16 +32,16 @@
 
 #include <windows.h>
 
-typedef unsigned long int uint64;
-typedef long int int64;
-typedef unsigned int uint32;
-typedef int int32;
-typedef unsigned short uint16;
-typedef short int16;
-typedef unsigned char byte;
-typedef char sbyte;
-typedef byte uint8;
-typedef sbyte int8;
+typedef unsigned long int	uint64;
+typedef long int			int64;
+typedef unsigned int		uint32;
+typedef int					int32;
+typedef unsigned short		uint16;
+typedef short				int16;
+typedef unsigned char		byte;
+typedef char				sbyte;
+typedef unsigned char		uint8;
+typedef char				int8;
 
 #endif //PLATFORM_WINDOWS
 
@@ -48,6 +50,7 @@ typedef sbyte int8;
 //#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
 
 #include "Math\SimpleMath.h"
+#include "Utils\PredefinedColors.h"
 #endif
 
 #if PLATFORM_LINUX
@@ -79,6 +82,42 @@ typedef sbyte int8;
 #include <vector>
 #include <string>
 #include <map>
+#include <tuple>
 #include <unordered_map>
+
+#include "Utils\PathUtils.h"
+#include "Utils\StringUtils.h"
+#include "Utils\pugixml.hpp"
+
+struct NoCopy
+{
+	NoCopy()							= default;
+	NoCopy(const NoCopy&)				= delete;
+	NoCopy& operator=(const NoCopy&)	= delete;
+	NoCopy(NoCopy&&)					= default;
+	NoCopy& operator=(NoCopy&&)			= default;
+};
+
+struct NoMove
+{
+	NoMove()							= default;
+	NoMove(const NoMove&)				= default;
+	NoMove& operator=(const NoMove&)	= default;
+	NoMove(NoMove&&)					= delete;
+	NoMove& operator=(NoMove&&)			= delete;
+};
+
+struct NoCopyNoMove
+{
+	NoCopyNoMove()									= default;
+	NoCopyNoMove(const NoCopyNoMove&)				= delete;
+	NoCopyNoMove& operator=(const NoCopyNoMove&)	= delete;
+	NoCopyNoMove(NoCopyNoMove&&)					= delete;
+	NoCopyNoMove& operator=(NoCopyNoMove&&)			= delete;
+};
+
+std::string FindExecFolder();
+std::string FindEngineFolder();
+std::string GetRootFolder();
 
 #endif //PLATFORM_H

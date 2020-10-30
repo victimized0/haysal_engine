@@ -99,14 +99,19 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);../RenderCommon/;../Common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SDKs\FreeImage\Include\;$(ProjectDir);..\RenderCommon\;..\Common\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)render-pre-build.bat $(SolutionDir) $(TargetDir) $(Platform)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -119,7 +124,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);../RenderCommon/;../Common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SDKs\FreeImage\Include\;$(ProjectDir);..\RenderCommon\;..\Common\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -128,7 +133,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)render-pre-build.bat $(SolutionDir) $(TargetDir) $(Platform)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -139,14 +149,19 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);../RenderCommon/;../Common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SDKs\FreeImage\Include\;$(ProjectDir);..\RenderCommon\;..\Common\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)render-pre-build.bat $(SolutionDir) $(TargetDir) $(Platform)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -159,7 +174,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);../RenderCommon/;../Common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SDKs\FreeImage\Include\;$(ProjectDir);..\RenderCommon\;..\Common\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -168,22 +183,49 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)render-pre-build.bat $(SolutionDir) $(TargetDir) $(Platform)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\RenderCommon\DDSLoader.h" />
+    <ClInclude Include="..\RenderCommon\DeviceFormats.h" />
+    <ClInclude Include="..\RenderCommon\DeviceObjects.h" />
+    <ClInclude Include="..\RenderCommon\DeviceResources.h" />
     <ClInclude Include="..\RenderCommon\InputLayout.h" />
     <ClInclude Include="..\RenderCommon\RenderCommon.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h" />
+    <ClInclude Include="..\RenderCommon\RenderResources.h" />
+    <ClInclude Include="..\RenderCommon\SamplerState.h" />
     <ClInclude Include="..\RenderCommon\StdAfx.h" />
+    <ClInclude Include="..\RenderCommon\SwapChain.h" />
+    <ClInclude Include="..\RenderCommon\Texture.h" />
+    <ClInclude Include="..\RenderCommon\TextureManager.h" />
     <ClInclude Include="VKRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\RenderCommon\DDSLoader.cpp" />
+    <ClCompile Include="..\RenderCommon\DeviceFormats.cpp" />
+    <ClCompile Include="..\RenderCommon\DeviceObjects.cpp" />
+    <ClCompile Include="..\RenderCommon\DeviceResources.cpp" />
     <ClCompile Include="..\RenderCommon\InputLayout.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderCommon.cpp" />
     <ClCompile Include="..\RenderCommon\Renderer.cpp" />
+    <ClCompile Include="..\RenderCommon\RenderResources.cpp" />
+    <ClCompile Include="..\RenderCommon\SamplerState.cpp" />
     <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
+    <ClCompile Include="..\RenderCommon\SwapChain.cpp" />
+    <ClCompile Include="..\RenderCommon\Texture.cpp" />
+    <ClCompile Include="..\RenderCommon\TextureManager.cpp" />
     <ClCompile Include="VKRenderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VK_impl.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

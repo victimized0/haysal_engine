@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -149,6 +150,11 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />
+    <ClInclude Include="Utils\PathUtils.h" />
+    <ClInclude Include="Utils\PredefinedColors.h" />
+    <ClInclude Include="Utils\pugixml.hpp" />
+    <ClInclude Include="Utils\StringUtils.h" />
+    <ClInclude Include="WorldModule\IBaseObj.h" />
     <ClInclude Include="WorldModule\IMaterial.h" />
     <ClInclude Include="WorldModule\IRenderNode.h" />
     <ClInclude Include="RenderModule\IShader.h" />
@@ -168,6 +174,7 @@
     <ClInclude Include="System\IEngineModule.h" />
     <ClInclude Include="System\ISystem.h" />
     <ClInclude Include="System\SystemInitParams.h" />
+    <ClInclude Include="WorldModule\IWorldObj.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\SimpleMath.cpp" />
@@ -175,6 +182,11 @@
   <ItemGroup>
     <None Include="Math\SimpleMath.inl" />
     <None Include="platform.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SDKs\pugixml\pugixml_vs2019.vcxproj">
+      <Project>{07cf01c0-b887-499d-ad9c-799cb6a9fe64}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

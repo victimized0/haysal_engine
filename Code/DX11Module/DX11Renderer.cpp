@@ -18,10 +18,6 @@ DX11Renderer::~DX11Renderer()
 
 }
 
-void DX11Renderer::PostInit()
-{
-}
-
 void DX11Renderer::Release()
 {
 	ShutDown();
@@ -32,29 +28,21 @@ void DX11Renderer::Release()
 
 void DX11Renderer::ShutDown()
 {
-}
-
-int DX11Renderer::GetHeight() const
-{
-	return 0;
-}
-
-int DX11Renderer::GetWidth() const
-{
-	return 0;
+	Renderer::ShutDown();
 }
 
 void DX11Renderer::PushProfileMarker(const char* label)
 {
+#if _DEBUG
+	m_pProfileAnnotations->BeginEvent(ToWString(label).c_str());
+#endif
 }
 
 void DX11Renderer::PopProfileMarker(const char* label)
 {
-}
-
-WIN_HWND DX11Renderer::GetHWND()
-{
-	return m_hWnd;
+#if _DEBUG
+	m_pProfileAnnotations->EndEvent();
+#endif
 }
 
 bool DX11Renderer::CreateMainWindow(int width, int height)
@@ -126,11 +114,13 @@ WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initP
 {
 	if (!CreateMainWindow(width, height))
 	{
+		ShutDown();
 		return nullptr;
 	}
 	
 	if (!CreateDevice())
 	{
+		ShutDown();
 		return nullptr;
 	}
 
@@ -165,10 +155,35 @@ WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initP
 
 	SetFeature(FEATURE_HDR);
 
-	CreateSwapChain();
+	if (!m_swapChain.Create(m_hWnd, m_pDevice.Get(), m_pAdapter.Get(), m_pFactory.Get()))
+	{
+		ShutDown();
+		return nullptr;
+	}
 
-	PostInit();
+	m_viewport.X		= 0;
+	m_viewport.Y		= 0;
+	m_viewport.Width	= m_swapChain.GetDisplayWidth();
+	m_viewport.Height	= m_swapChain.GetDisplayHeight();
+	m_viewport.MinDepth	= D3D11_MIN_DEPTH;
+	m_viewport.MaxDepth = D3D11_MAX_DEPTH;
 
+	// TODO: Allocate back buffer
+
+	// TODO: Initialise shaders
+	// TODO: Shaders manager init
+	// Shaders Manager:
+	// - Path to src shaders
+	// - Path to compiled shaders
+	// - Path to shader cache
+	// - User path
+	// Scan filesystem for shaders and their names
+	// System shaders are static members of ShaderMan class
+	// TODO: Load system shaders
+
+	DeviceFactory::Get().SetDevice(GetDevice());
+
+	m_isInit = true;
 	return m_hWnd;
 }
 
@@ -248,6 +263,8 @@ bool DX11Renderer::CreateDevice()
 		hr = m_pDevice->QueryInterface(__uuidof(ID3D11Debug), (void**)(&pDebugDevice));
 		if (SUCCEEDED(hr))
 			hr = pDebugDevice->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		
+		hr = m_pContext->QueryInterface(__uuidof(m_pProfileAnnotations), (void**)(&m_pProfileAnnotations));
 	}
 #endif //_DEBUG
 
@@ -256,81 +273,7 @@ bool DX11Renderer::CreateDevice()
 
 void DX11Renderer::CreateSwapChain()
 {
-	assert(m_hWnd);
 
-	int width = 0,
-		height = 0;
-
-#if PLATFORM_WINDOWS
-	if (TRUE == ::IsWindow(m_hWnd))
-	{
-		RECT rc;
-		if (TRUE == GetClientRect(m_hWnd, &rc))
-		{
-			// On Windows force screen resolution to be a real pixel size of the client rect of the real window
-			width = rc.right - rc.left;
-			height = rc.bottom - rc.top;
-		}
-	}
-
-	CreateOutput();
-
-	DXGI_SWAP_CHAIN_DESC swapChainDesc					= {};
-	swapChainDesc.BufferDesc.Width						= width;
-	swapChainDesc.BufferDesc.Height						= height;
-	swapChainDesc.BufferDesc.RefreshRate.Numerator		= 0;
-	swapChainDesc.BufferDesc.RefreshRate.Denominator	= 1;
-	swapChainDesc.BufferDesc.Format						= /*IsHDRMonitor() ? DXGI_FORMAT_R16G16B16A16_FLOAT :*/ DXGI_FORMAT_R8G8B8A8_UNORM;
-	swapChainDesc.BufferDesc.ScanlineOrdering			= DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	swapChainDesc.BufferDesc.Scaling					= DXGI_MODE_SCALING_UNSPECIFIED;
-	swapChainDesc.SampleDesc.Count						= 1;
-	swapChainDesc.SampleDesc.Quality					= 0;
-	swapChainDesc.BufferUsage							= DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
-	swapChainDesc.BufferCount							= 1;
-	swapChainDesc.OutputWindow							= m_hWnd;
-	swapChainDesc.Windowed								= 1;
-	swapChainDesc.SwapEffect							= DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Flags									= DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-
-	m_pFactory->CreateSwapChain(m_pDevice.Get(), &swapChainDesc, &m_pSwapChain);
-#endif
-}
-
-void DX11Renderer::CreateOutput()
-{
-	HMONITOR hMonitor{ 0 };
-	DXGI_OUTPUT_DESC outDesc;
-	if (m_pOutput && SUCCEEDED(m_pOutput->GetDesc(&outDesc)))
-	{
-		hMonitor = outDesc.Monitor;
-	}
-
-	if (m_pOutput != nullptr)
-	{
-		m_pOutput = nullptr;
-	}
-
-	// Find the output that matches the monitor our window is currently on
-	IDXGIAdapter1* pAdapter = m_pAdapter.Get();
-	IDXGIOutput* pOutput = nullptr;
-
-	for (unsigned int i = 0; pAdapter->EnumOutputs(i, &pOutput) != DXGI_ERROR_NOT_FOUND && pOutput; ++i)
-	{
-		DXGI_OUTPUT_DESC outputDesc;
-		if (SUCCEEDED(pOutput->GetDesc(&outputDesc)) && outputDesc.Monitor == hMonitor)
-		{
-			pAdapter->QueryInterface(__uuidof(DXGIOutput), (void**)(&m_pOutput));
-			break;
-		}
-	}
-
-	if (m_pOutput == nullptr)
-	{
-		if (SUCCEEDED(pAdapter->EnumOutputs(0, &pOutput)))
-		{
-			pAdapter->QueryInterface(__uuidof(DXGIOutput), (void**)(&m_pOutput));
-		}
-	}
 }
 
 void DX11Renderer::BeginFrame()
