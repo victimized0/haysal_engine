@@ -150,12 +150,14 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />
+    <ClInclude Include="RenderModule\IRenderMesh.h" />
+    <ClInclude Include="RenderModule\VertexFormats.h" />
     <ClInclude Include="Utils\PathUtils.h" />
     <ClInclude Include="Utils\PredefinedColors.h" />
     <ClInclude Include="Utils\pugixml.hpp" />
     <ClInclude Include="Utils\StringUtils.h" />
-    <ClInclude Include="WorldModule\IBaseObj.h" />
     <ClInclude Include="WorldModule\IMaterial.h" />
+    <ClInclude Include="WorldModule\IMesh.h" />
     <ClInclude Include="WorldModule\IRenderNode.h" />
     <ClInclude Include="RenderModule\IShader.h" />
     <ClInclude Include="RenderModule\ITexture.h" />

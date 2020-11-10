@@ -48,7 +48,7 @@
 
 	#define IVertexBuffer		ID3D11Buffer
 	#define IIndexBuffer		ID3D11Buffer
-	#define GpuBuffer           ID3D11Buffer
+	#define IGpuBuffer			ID3D11Buffer
 	#define GpuResource			ID3D11Resource
 	#define GpuBaseBuffer		ID3D11Resource
 	#define Texture2D			ID3D11Texture2D
@@ -60,6 +60,10 @@
 	#define IPixelShader		ID3D11PixelShader
 	#define IGeometryShader		ID3D11GeometryShader
 	#define IComputeShader		ID3D11ComputeShader
+
+	#define DxReflection			D3DReflect
+	#define IID_DxShaderReflection	IID_ID3D11ShaderReflection
+	#define DxShaderReflection      ID3D11ShaderReflection
 
 	#define	IOcclusionQuery     ID3D11Query
 
@@ -89,6 +93,8 @@
 	#define IGeometryShader	
 	#define IComputeShader	
 
+	#define IID_DxShaderReflection
+
 	#define InputElementDesc	D3D11_INPUT_ELEMENT_DESC
 
 #endif
@@ -96,9 +102,12 @@
 #include "Renderer.h"
 #include "RenderCommon.h"
 #include "RenderResources.h"
+#include "RenderMesh.h"
 #include "DeviceObjects.h"
 #include "DeviceResources.h"
 #include "Texture.h"
+#include "Shader.h"
+#include "GpuBuffer.h"
 
 // Include API-specific stuff
 #if RENDERER_DX11

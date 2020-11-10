@@ -20,10 +20,25 @@
     <ClCompile Include="RenderNodes\CharacterRenderNode.cpp">
       <Filter>RenderNodes</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
+    <ClCompile Include="ObjLoader\ObjLoader.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Material\Material.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Material\MaterialManager.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\ObjectsTree.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="WorldObject.cpp">
+    <ClCompile Include="Object\IndexedMesh.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\ObjectManager.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\WorldObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +62,28 @@
     <ClInclude Include="RenderNodes\CharacterRenderNode.h">
       <Filter>RenderNodes</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectManager.h">
+    <ClInclude Include="ObjLoader\ObjLoader.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLoader\tiny_obj_loader.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Material\Material.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Material\MaterialManager.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\ObjectsTree.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="WorldObject.h">
+    <ClInclude Include="Object\IndexedMesh.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\ObjectManager.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\WorldObject.h">
       <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,6 +96,12 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{01249bab-8c79-497d-a2d6-96b6914cc54e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjLoader">
+      <UniqueIdentifier>{223c11aa-dcfd-4bb2-b43c-da252c4801cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Material">
+      <UniqueIdentifier>{ee9be346-b708-4e1e-85ca-1ed6c95726d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

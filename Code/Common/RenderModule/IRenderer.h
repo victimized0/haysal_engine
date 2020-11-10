@@ -3,6 +3,7 @@
 #pragma once
 
 #include <System\SystemInitParams.h>
+#include "VertexFormats.h"
 
 // Render features
 #define FEATURE_OCCLUSION_QUERIES	0x4
@@ -16,6 +17,8 @@
 #define FEATURE_ORDER_RGBA			0x20000000
 
 struct IRenderNode;
+struct ShaderParam;
+struct RenderMesh;
 
 struct RenderParams
 {
@@ -28,16 +31,28 @@ struct RenderParams
 		, pInstance(nullptr)
 	{}
 
-	Matrix*				pMatrix;
-	IMaterial*			pMaterial;
-	IRenderNode*		pRenderNode;
-	void*				pInstance;
-	//DynArray<SShaderParam>* pShaderParams;
-	Color				AmbientColor;
-	float               Alpha;
-	float               Distance;
-	//RenderObjFlags      Flags;
-	uint16              CustomFlags;
+	Matrix*						pMatrix;
+	IMaterial*					pMaterial;
+	IRenderNode*				pRenderNode;
+	void*						pInstance;
+	std::vector<ShaderParam>*	pShaderParams;
+	Color						AmbientColor;
+	float						Alpha;
+	float						Distance;
+	//RenderObjFlags			  Flags;
+	uint16						CustomFlags;
+};
+
+struct RenderItem
+{
+	Matrix			WorldMatrix;
+	Matrix			LocalMatrix;
+	IRenderMesh*	pRenderMesh;
+};
+
+struct RenderPass
+{
+	std::vector<RenderItem>	RenderItems;
 };
 
 struct RenderPassInfo
@@ -45,7 +60,7 @@ struct RenderPassInfo
 
 };
 
-enum class RasterState : byte
+enum class RasterState : uint8
 {
 	Wireframe	= 0,
 	Solid		= 1,

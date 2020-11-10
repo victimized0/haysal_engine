@@ -167,7 +167,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Object\IndexedMesh.cpp" />
+    <ClCompile Include="Material\Material.cpp" />
+    <ClCompile Include="Material\MaterialManager.cpp" />
+    <ClCompile Include="Object\ObjectManager.cpp" />
+    <ClCompile Include="Object\ObjectsTree.cpp" />
+    <ClCompile Include="ObjLoader\ObjLoader.cpp" />
     <ClCompile Include="RenderNodes\CharacterRenderNode.cpp" />
     <ClCompile Include="RenderNodes\DecalRenderNode.cpp" />
     <ClCompile Include="RenderNodes\LightSourceNode.cpp" />
@@ -180,10 +185,16 @@
     </ClCompile>
     <ClCompile Include="RenderNodes\VegetationNode.cpp" />
     <ClCompile Include="WorldEngine\WorldEngine.cpp" />
-    <ClCompile Include="WorldObject.cpp" />
+    <ClCompile Include="Object\WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="Object\IndexedMesh.h" />
+    <ClInclude Include="Material\Material.h" />
+    <ClInclude Include="Material\MaterialManager.h" />
+    <ClInclude Include="Object\ObjectManager.h" />
+    <ClInclude Include="Object\ObjectsTree.h" />
+    <ClInclude Include="ObjLoader\ObjLoader.h" />
+    <ClInclude Include="ObjLoader\tiny_obj_loader.h" />
     <ClInclude Include="RenderNodes\CharacterRenderNode.h" />
     <ClInclude Include="RenderNodes\DecalRenderNode.h" />
     <ClInclude Include="RenderNodes\LightSourceNode.h" />
@@ -191,7 +202,7 @@
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="RenderNodes\VegetationNode.h" />
     <ClInclude Include="WorldEngine\WorldEngine.h" />
-    <ClInclude Include="WorldObject.h" />
+    <ClInclude Include="Object\WorldObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

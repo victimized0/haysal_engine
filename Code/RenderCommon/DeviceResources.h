@@ -2,6 +2,14 @@
 #define DEVICE_RESOURCES_H
 #pragma once
 
+struct ResourceDimension
+{
+	uint32 Width;
+	uint32 Height;
+	uint32 Depth;
+	uint32 Subresources;
+};
+
 struct ResourceLayout
 {
 	uint32	m_bytesCount;
@@ -9,29 +17,45 @@ struct ResourceLayout
 	uint32  m_flags;
 };
 
+//enum class BufferBindType : uint8
+//{
+//	VertexBuffer,
+//	IndexBuffer,
+//	ConstantBuffer,
+//	Total
+//};
+
+enum class BufferUsage : uint8
+{
+	Immutable,
+	Static,
+	Dynamic,
+	Total
+};
+
 enum ResourceFlags : uint32
 {
-	BIND_DEPTH_STENCIL = BIT32(0),
-	BIND_RENDER_TARGET = BIT32(1),
-	BIND_UNORDERED_ACCESS = BIT32(2),
-	BIND_VERTEX_BUFFER = BIT32(3),
-	BIND_INDEX_BUFFER = BIT32(4),
-	BIND_CONST_BUFFER = BIT32(5),
-	BIND_SHADER_RESOURCE = BIT32(6),
+	BIND_DEPTH_STENCIL		= BIT32(0),
+	BIND_RENDER_TARGET		= BIT32(1),
+	BIND_UNORDERED_ACCESS	= BIT32(2),
+	BIND_VERTEX_BUFFER		= BIT32(3),
+	BIND_INDEX_BUFFER		= BIT32(4),
+	BIND_CONST_BUFFER		= BIT32(5),
+	BIND_SHADER_RESOURCE	= BIT32(6),
 
-	USAGE_UAV_READWRITE = BIT32(7),
-	USAGE_UAV_COUNTER = BIT32(8),
-	USAGE_AUTOGENMIPS = BIT32(9),
-	USAGE_STRUCTURED = BIT32(10),
-	USAGE_INDIRECTARGS = BIT32(11),
-	USAGE_RAW = BIT32(12),
+	USAGE_UAV_READWRITE		= BIT32(7),
+	USAGE_UAV_COUNTER		= BIT32(8),
+	USAGE_AUTOGENMIPS		= BIT32(9),
+	USAGE_STRUCTURED		= BIT32(10),
+	USAGE_INDIRECTARGS		= BIT32(11),
+	USAGE_RAW				= BIT32(12),
 
 	// CPU_READ | CPU_WRITE -> D3D HEAP
 	//    no    |    no     -> DEFAULT
 	//    no    |    yes    -> DYNAMIC
 	//    yes   | yes or no -> STAGING
-	USAGE_CPU_READ = BIT32(13),
-	USAGE_CPU_WRITE = BIT32(14)
+	USAGE_CPU_READ			= BIT32(13),
+	USAGE_CPU_WRITE			= BIT32(14)
 };
 
 struct TextureLayout
@@ -59,6 +83,14 @@ struct TextureLayout
 		, Format(TextureFormat::Unknown)
 		, IsSRGB(false)
 	{}
+};
+
+struct BufferLayout
+{
+	DXGI_FORMAT	Format;
+	uint32		ElementCount;
+	uint16      ElementSize;
+	uint32      Flags;
 };
 
 class DeviceResource
@@ -153,8 +185,25 @@ private:
 class DeviceBuffer : public DeviceResource
 {
 public:
-	DeviceBuffer();
-	virtual					~DeviceBuffer();
+							DeviceBuffer() = default;
+	virtual					~DeviceBuffer() = default;
+
+	BufferLayout            GetLayout() const;
+	int32					Release();
+
+	inline GpuBaseBuffer*	GetBaseBuffer() const
+	{
+		return reinterpret_cast<GpuBaseBuffer*>(GetRawResource());
+	}
+	inline IGpuBuffer*		GetBuffer() const
+	{
+		return reinterpret_cast<IGpuBuffer*>(GetBaseBuffer());
+	}
+
+public:
+	static DeviceBuffer*	Create(const BufferLayout& pLayout, const void* pData);
+	static DeviceBuffer*	Associate(const BufferLayout& pLayout, GpuResource* pBuf);
+
 };
 
 class DeviceVertexBuffer : public DeviceResource

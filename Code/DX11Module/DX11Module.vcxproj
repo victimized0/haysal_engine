@@ -191,24 +191,33 @@
     <ClCompile Include="..\RenderCommon\InputLayout.cpp" />
     <ClCompile Include="..\RenderCommon\RenderCommon.cpp" />
     <ClCompile Include="..\RenderCommon\Renderer.cpp" />
+    <ClCompile Include="..\RenderCommon\RenderMesh.cpp" />
     <ClCompile Include="..\RenderCommon\RenderResources.cpp" />
     <ClCompile Include="..\RenderCommon\SamplerState.cpp" />
+    <ClCompile Include="..\RenderCommon\Shader.cpp" />
+    <ClCompile Include="..\RenderCommon\ShaderManager.cpp" />
     <ClCompile Include="..\RenderCommon\StdAfx.cpp" />
     <ClCompile Include="..\RenderCommon\SwapChain.cpp" />
     <ClCompile Include="..\RenderCommon\Texture.cpp" />
     <ClCompile Include="..\RenderCommon\TextureManager.cpp" />
+    <ClCompile Include="DeviceObjects_impl.cpp" />
     <ClCompile Include="DX11Renderer.cpp" />
+    <ClCompile Include="..\RenderCommon\GpuBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RenderCommon\DDSLoader.h" />
     <ClInclude Include="..\RenderCommon\DeviceFormats.h" />
     <ClInclude Include="..\RenderCommon\DeviceObjects.h" />
     <ClInclude Include="..\RenderCommon\DeviceResources.h" />
+    <ClInclude Include="..\RenderCommon\GpuBuffer.h" />
     <ClInclude Include="..\RenderCommon\InputLayout.h" />
     <ClInclude Include="..\RenderCommon\RenderCommon.h" />
     <ClInclude Include="..\RenderCommon\Renderer.h" />
+    <ClInclude Include="..\RenderCommon\RenderMesh.h" />
     <ClInclude Include="..\RenderCommon\RenderResources.h" />
     <ClInclude Include="..\RenderCommon\SamplerState.h" />
+    <ClInclude Include="..\RenderCommon\Shader.h" />
+    <ClInclude Include="..\RenderCommon\ShaderManager.h" />
     <ClInclude Include="..\RenderCommon\StdAfx.h" />
     <ClInclude Include="..\RenderCommon\SwapChain.h" />
     <ClInclude Include="..\RenderCommon\Texture.h" />

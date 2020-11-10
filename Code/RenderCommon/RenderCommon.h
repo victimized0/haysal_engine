@@ -6,6 +6,16 @@
 #include "SamplerState.h"
 #include "DeviceFormats.h"
 
+enum class PrimitiveTopology : uint8
+{
+	Undefined		= D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED,
+	PointList		= D3D11_PRIMITIVE_TOPOLOGY_POINTLIST,
+	LineList		= D3D11_PRIMITIVE_TOPOLOGY_LINELIST,
+	LineStrip		= D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP,
+	TriangleList	= D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+	TriangleStrip	= D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,
+};
+
 struct ShaderBlob
 {
 	void* m_pData;
@@ -53,7 +63,7 @@ public:
 	inline int				GetRefCount() const { return m_refCount; }
 	inline const char*		GetName() const { return m_name.c_str(); }
 	virtual int				AddRef() { return ++m_refCount; }
-	virtual void			Release();
+	virtual int				Release();
 
 	virtual bool			IsValid();
 	virtual void			Register(const std::string& name);

@@ -127,8 +127,14 @@
     <ClInclude Include="WorldModule\IWorldObj.h">
       <Filter>Interfaces\WorldModule</Filter>
     </ClInclude>
-    <ClInclude Include="WorldModule\IBaseObj.h">
+    <ClInclude Include="WorldModule\IMesh.h">
       <Filter>Interfaces\WorldModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule\IRenderMesh.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule\VertexFormats.h">
+      <Filter>Interfaces\RenderModule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

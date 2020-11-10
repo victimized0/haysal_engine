@@ -41,6 +41,19 @@
     <ClCompile Include="..\RenderCommon\DDSLoader.cpp">
       <Filter>Common\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\RenderCommon\Shader.cpp">
+      <Filter>Common\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\ShaderManager.cpp">
+      <Filter>Common\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderMesh.cpp">
+      <Filter>Common\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceObjects_impl.cpp" />
+    <ClCompile Include="..\RenderCommon\GpuBuffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX11Renderer.h" />
@@ -83,6 +96,18 @@
     <ClInclude Include="..\RenderCommon\DDSLoader.h">
       <Filter>Common\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\RenderCommon\Shader.h">
+      <Filter>Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\ShaderManager.h">
+      <Filter>Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderMesh.h">
+      <Filter>Common\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\GpuBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
@@ -93,6 +118,12 @@
     </Filter>
     <Filter Include="Common\Texture">
       <UniqueIdentifier>{eec94b41-e69f-459d-bf77-34cbc1255ac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Shader">
+      <UniqueIdentifier>{8f4a6cbe-46b1-4af5-b4e8-8d916f98a75c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Mesh">
+      <UniqueIdentifier>{b187c028-abf1-4b86-9809-fb2003e2cf5a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

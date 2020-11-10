@@ -58,7 +58,7 @@ private:
 	void								ReleaseDeviceTexture();
 
 private:
-	DeviceTexture*						m_pGpuTexture;
+	DeviceTexture*						m_pDeviceTexture;
 	TextureLayout						m_texLayout;
 	Color								m_clearCol;
 	uint32								m_flags;

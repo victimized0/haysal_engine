@@ -208,21 +208,21 @@ Texture* Texture::GetOrCreateDepthStencil(const char* name, uint16 width, uint16
 void Texture::SetDeviceTexture(DeviceTexture* pDevTex)
 {
     assert(pDevTex);
-    if (m_pGpuTexture == pDevTex || pDevTex == nullptr)
+    if (m_pDeviceTexture == pDevTex || pDevTex == nullptr)
         return;
 
-    if (m_pGpuTexture != nullptr)
-        m_pGpuTexture->Release();
+    if (m_pDeviceTexture != nullptr)
+        m_pDeviceTexture->Release();
     
-    m_pGpuTexture   = pDevTex;
+    m_pDeviceTexture   = pDevTex;
 }
 
 void Texture::ReleaseDeviceTexture()
 {
-    if (m_pGpuTexture == nullptr)
+    if (m_pDeviceTexture == nullptr)
         return;
 
-    m_pGpuTexture->Release();
+    m_pDeviceTexture->Release();
 }
 
 void Texture::CreateDeviceTexture(const TextureData& texData)

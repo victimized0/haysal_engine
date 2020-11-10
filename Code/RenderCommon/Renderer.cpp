@@ -19,6 +19,7 @@ Renderer::Renderer()
 #endif
 {
 	m_pTextureManager = std::make_unique<TextureManager>();
+	m_pShaderManager = std::make_unique<ShaderManager>();
 	//m_pRenderThread = new RenderThread;
 	//m_pRenderThread->Start();
 }
@@ -94,9 +95,8 @@ void Renderer::InitSysResources()
 {
 	if (m_isSysResInit == false)
 	{
-		//m_cEF.mfPreloadBinaryShaders();
-		//m_cEF.mfLoadBasicSystemShaders();
-		//m_cEF.mfLoadDefaultSystemShaders();
+		m_pShaderManager->PreloadBinaryShaders();
+		m_pShaderManager->LoadSystemShaders();
 
 		//CreateRenderResources();
 		//PrecacheDefaultShaders();

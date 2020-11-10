@@ -8,6 +8,7 @@
 #define DLL_IMPORT __declspec(dllimport)
 
 #define COUNTOF(arr) sizeof(arr) / sizeof(arr[0])
+#define ALIGN(val) __declspec(align(val))
 
 // Safe memory helpers
 #define SAFE_ACQUIRE(p)       { if (p) (p)->AddRef(); }

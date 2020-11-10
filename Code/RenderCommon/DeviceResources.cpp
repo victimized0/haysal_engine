@@ -16,7 +16,7 @@ ResourceLayout DeviceResource::GetLayout() const
 	case D3D11_RESOURCE_DIMENSION_BUFFER:
 	{
 		D3D11_BUFFER_DESC desc;
-		reinterpret_cast<GpuBuffer*>(GetRawResource())->GetDesc(&desc);
+		reinterpret_cast<IGpuBuffer*>(GetRawResource())->GetDesc(&desc);
 		layout.m_bytesCount		= desc.ByteWidth;
 		layout.m_elementsCount	= desc.ByteWidth / (m_rawFormat == DXGI_FORMAT_UNKNOWN ? std::max(1U, desc.StructureByteStride) : DeviceFormats::GetStride(m_rawFormat));
 		layout.m_flags			= ToIntermediateFlags(desc);
@@ -107,18 +107,17 @@ void DeviceTexture::Release()
 	delete this;
 }
 
-// TODO: Needs to be Graphics API-specific
 DeviceTexture* DeviceTexture::Create(const TextureLayout& layout, const TextureData& texData)
 {
-	DeviceTexture* pDevTex = nullptr;
-	HRESULT hr = S_OK;
+	DeviceTexture* pDevTex	= nullptr;
+	HRESULT hr				= S_OK;
 
-	uint32 width		= layout.Width;
-	uint32 height		= layout.Height;
-	uint32 depth		= layout.Depth;
-	uint8  mipsCount	= layout.MipsCount;
-	uint32 arraySize	= layout.ArraySize;
-	DXGIFormat format	= DeviceFormats::ConvertFromTexFormat(layout.Format);
+	uint32 width			= layout.Width;
+	uint32 height			= layout.Height;
+	uint32 depth			= layout.Depth;
+	uint8  mipsCount		= layout.MipsCount;
+	uint32 arraySize		= layout.ArraySize;
+	DXGIFormat format		= DeviceFormats::ConvertFromTexFormat(layout.Format);
 
 	uint32 flags = 0;
 	if (layout.Flags & TextureFlags::ShaderResource)
@@ -137,8 +136,8 @@ DeviceTexture* DeviceTexture::Create(const TextureLayout& layout, const TextureD
 	//if (layout.Flags & (TextureFlags::RenderTarget | TextureFlags::DepthStencil | TextureFlags::UnorderedAccess))
 	// TODO: Alloc render target data here
 
-	DXGIFormat formatOG = format;
-	DXGIFormat formatSRGB = format;
+	DXGIFormat formatOG		= format;
+	DXGIFormat formatSRGB	= format;
 
 	bool isSRGB = layout.IsSRGB && (layout.Flags & (TextureFlags::UseMSAA | TextureFlags::RenderTarget | TextureFlags::DepthStencil)) == 0;
 	if (isSRGB || (layout.Flags & TextureFlags::AllowSRGB))
@@ -195,4 +194,32 @@ DeviceTexture* DeviceTexture::Create(const TextureLayout& layout, const TextureD
 
 	// TODO: Fill MSAA texture data here.
 	return pDevTex;
+}
+
+DeviceBuffer::~DeviceBuffer()
+{
+}
+
+BufferLayout DeviceBuffer::GetLayout() const
+{
+	return BufferLayout();
+}
+
+int32 DeviceBuffer::Release()
+{
+	int32 refCount = DeviceResource::Clean();
+	assert(refCount >= 0);
+	if (refCount == 0)
+		delete this;
+	return refCount;
+}
+
+DeviceBuffer* DeviceBuffer::Create(const BufferLayout& pLayout, const void* pData)
+{
+	return nullptr;
+}
+
+DeviceBuffer* DeviceBuffer::Associate(const BufferLayout& pLayout, GpuResource* pBuf)
+{
+	return nullptr;
 }

@@ -2,8 +2,28 @@
 #define INTERFACE_WORLD_OBJECT_H
 #pragma once
 
-struct IIndexedMesh;
 struct IMaterial;
+struct IRenderMesh;
+struct IIndexedMesh;
+struct RenderParams;
+struct RenderPassInfo;
+
+struct IBaseObj
+{
+	virtual					~IBaseObj() {}
+
+	virtual int				AddRef() = 0;
+	virtual int				Release() = 0;
+	virtual int				GetRefCount() const = 0;
+
+	//virtual float			GetRadius() const { return GetAABB().GetRadius(); }
+	virtual AABB			GetBoundingBox() const = 0;
+	virtual IMaterial*		GetMaterial() const = 0;
+	virtual IRenderMesh*	GetRenderMesh() const = 0;
+	//virtual IPhysEntity*	GetPhysEntity() const = 0;
+
+	virtual void			Render(const RenderParams& params, const RenderPassInfo& passInfo) = 0;
+};
 
 enum class SubObjType
 {
@@ -14,7 +34,7 @@ enum class SubObjType
 	Light,
 };
 
-struct IWorldObj
+struct IWorldObj : public IBaseObj
 {
 	struct SubObj
 	{
@@ -66,7 +86,7 @@ struct IWorldObj
 
 	virtual IIndexedMesh*	GetIndexedMesh(bool createIfNone = false) = 0;
 	virtual IIndexedMesh*	CreateIndexedMesh() = 0;
-	virtual void			FreeIndexedMesh() = 0;
+	virtual void			ReleaseIndexedMesh() = 0;
 
 	virtual IWorldObj*		UpdateVertices(std::vector<Vec3>& pVertices, std::vector<Vec3>&& pNormals, int iVtx0, int nVtx) = 0;
 	virtual IWorldObj*		SkinVertices(std::vector<Vec3>& pSkelVtx, const Matrix& mtxSkelToMesh) = 0;
@@ -81,13 +101,8 @@ struct IWorldObj
 
 	virtual void			SetMaterial(IMaterial* pMaterial) = 0;
 
-	inline Vec3				GetAABBMin() const { return GetAABB().min; }
-	inline Vec3				GetAABBMax() const { return GetAABB().max; }
-	virtual void			SetAABBMin(const Vec3& min) = 0;
-	virtual void			SetBBoxMax(const Vec3& max) = 0;
-
-	virtual int				GetSubObjectCount() const = 0;
-	virtual void			SetSubObjectCount(int count) = 0;
+	virtual int				GetSubObjectsCount() const = 0;
+	virtual void			SetSubObjectsCount(int count) = 0;
 
 	virtual SubObj*			GetSubObject(int index) = 0;
 	virtual bool			IsSubObject() const = 0;
@@ -96,8 +111,9 @@ struct IWorldObj
 	virtual bool			RemoveSubObject(int index) = 0;
 	virtual SubObj&			AddSubObject(IWorldObj* pObj) = 0;
 
-
-	//virtual void			DebugDraw(const GeometryDebugDrawInfo& info) = 0;
+	virtual bool			IsUnloadable() const;
+	virtual bool			HasPhysics() const;
+	virtual void			DebugDraw() = 0;
 
 	virtual void			GetStatistics(Statistics& stats) = 0;
 };

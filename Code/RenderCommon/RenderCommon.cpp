@@ -5,7 +5,7 @@ std::map<std::string, BaseResource*>	BaseResource::s_resourcesMap;
 std::vector<BaseResource*>				BaseResource::s_resources;
 std::vector<int>						BaseResource::s_freeIndices;
 
-void BaseResource::Release()
+int BaseResource::Release()
 {
 	if (m_refCount <= 1)
 	{
@@ -15,6 +15,8 @@ void BaseResource::Release()
 	{
 		assert(false);
 	}
+
+	return m_refCount;
 }
 
 void BaseResource::Register(const std::string& name)

@@ -2,6 +2,8 @@
 #define OBJECT_MANAGER_H
 #pragma once
 
+#include "WorldObject.h"
+
 class ObjectManager
 {
 public:
@@ -9,22 +11,22 @@ public:
 				~ObjectManager();
 
 	void		LoadObject(const char* filename);
-	void		UnloadObject(CStatObj* pObj);
+	void		UnloadObject(WorldObject* pObj);
 
 	void		BeginOcclusionCulling();
 	void		FinishOcclusionCulling();
 	void		TestOcclusion(const AABB& aabb);
 
-	IStatObj*	FindStatObj(int id);
-	IStatObj*	FindStatObj(const char* filename);
+	IWorldObj*	FindStatObj(int id);
+	IWorldObj*	FindStatObj(const char* filename);
 	bool		GetStatObjAABB(int type, AABB* ppAABB);
 
 private:
-	void		DeleteObject(CStatObj* pObj);
+	void		DeleteObject(WorldObject* pObj);
 
 private:
-	std::map<std::string, CStatObj*>	m_statObjMap;
-	std::vector<CStatObj*>				m_statObjects;
+	std::map<std::string, WorldObject*>	m_objectsMap;
+	std::vector<WorldObject*>			m_objects;
 
 };
 

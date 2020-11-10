@@ -41,6 +41,18 @@
     <ClInclude Include="..\RenderCommon\DDSLoader.h">
       <Filter>Common\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\RenderCommon\Shader.h">
+      <Filter>Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\ShaderManager.h">
+      <Filter>Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderMesh.h">
+      <Filter>Common\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\GpuBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VKRenderer.cpp" />
@@ -83,6 +95,15 @@
     <ClCompile Include="..\RenderCommon\DDSLoader.cpp">
       <Filter>Common\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\RenderCommon\Shader.cpp">
+      <Filter>Common\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\ShaderManager.cpp">
+      <Filter>Common\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderMesh.cpp">
+      <Filter>Common\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
@@ -93,6 +114,12 @@
     </Filter>
     <Filter Include="Common\Texture">
       <UniqueIdentifier>{c14be291-595c-4fb9-b8fc-9f466f17ce56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Shader">
+      <UniqueIdentifier>{f4fe53ad-ed94-4e7f-afb7-c11e31f6ced5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Mesh">
+      <UniqueIdentifier>{e548f2af-5255-494e-a46e-8683df86f765}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

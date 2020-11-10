@@ -2,7 +2,8 @@
 #include "DeviceObjects.h"
 
 DeviceFactory DeviceFactory::m_sInst;
-std::map<std::string, InputLayoutPair> DeviceFactory::s_inputLayouts;
+std::vector<InputLayout> DeviceFactory::s_inputLayoutsCache;
+std::map<VertexFormat, InputLayoutPair> DeviceFactory::s_inputLayoutCompositions;
 
 DeviceFactory::DeviceFactory()
 	: m_pDevice(nullptr)
@@ -22,27 +23,83 @@ void DeviceFactory::ReleaseResources()
 
 void DeviceFactory::AllocateDefaultInputLayouts()
 {
-}
-
-void DeviceFactory::DeleteCustomInputLayouts()
-{
-	//s_inputLayouts.erase(s_inputLayouts.begin() + VertexFormat::Total, s_inputLayouts.end());
+	s_inputLayoutsCache.reserve(static_cast<size_t>(VertexFormat::Total));
+	for (size_t i = 0; i < s_inputLayoutsCache.size(); ++i)
+		CreateVertexFormat(InputLayout::InputLayoutDescs[i].ElementsCount, InputLayout::InputLayoutDescs[i].ElementsDesc);
 }
 
 void DeviceFactory::ReleaseInputLayouts()
 {
-	//s_inputLayouts.clear();
+	s_inputLayoutsCache.clear();
 }
 
-//const IVertexLayout* DeviceFactory::GetOrCreateInputLayout(const ShaderBlob* pVS, const VertexFormat format)
-//{
-//	return nullptr;
-//}
-//
-//const IVertexLayout* DeviceFactory::CreateCustomVertexFormat(size_t numDescs, const D3D11_INPUT_ELEMENT_DESC* inputLayout)
-//{
-//	return nullptr;
-//}
+void DeviceFactory::DeleteCustomInputLayouts()
+{
+	s_inputLayoutsCache.erase(s_inputLayoutsCache.begin() + static_cast<uint32>(VertexFormat::Total), s_inputLayoutsCache.end());
+}
+
+InputLayout DeviceFactory::CreateInputLayout(const ShaderBlob* pVertexShader, const VertexFormat format)
+{
+	const InputLayout* layout = &s_inputLayoutsCache[static_cast<size_t>(format)];
+	if (layout == nullptr)
+		return InputLayout({});
+
+	std::vector<D3D11_INPUT_ELEMENT_DESC> decs;
+	decs.reserve(layout->m_ElementsDesc.size());
+	for (int i = 0; i < layout->m_ElementsDesc.size(); ++i)
+		decs.push_back(layout->m_ElementsDesc[i]);
+
+	return InputLayout(std::move(decs));
+}
+
+const InputLayoutPair* DeviceFactory::GetOrCreateInputLayout(const ShaderBlob* pVertexShader, const VertexFormat format)
+{
+	assert(pVertexShader);
+	if (!pVertexShader)
+		return nullptr;
+
+	void* pShaderReflect;
+	{
+		HRESULT hr = DxReflection(pVertexShader->m_pData, pVertexShader->m_size, IID_DxShaderReflection, &pShaderReflect);
+	}
+	DxShaderReflection* pShaderReflection = static_cast<DxShaderReflection*>(pShaderReflect);
+
+	auto it = s_inputLayoutCompositions.find(format);
+	if (it == s_inputLayoutCompositions.end() || it->first != format)
+	{
+		// Create the input layout for the current permutation
+		InputLayout		inputLayout			= CreateInputLayout(pVertexShader, format);
+		IVertexLayout*	pDeviceInputLayout	= CreateInputLayout(inputLayout, pVertexShader);
+
+		auto pair = std::make_pair(inputLayout, pDeviceInputLayout);
+		auto item = s_inputLayoutCompositions.insert(it, std::make_pair(format, pair));
+		return &item->second;
+	}
+
+	SAFE_RELEASE(pShaderReflection);
+	return &it->second;
+}
+
+VertexFormat DeviceFactory::CreateVertexFormat(size_t descCount, const D3D11_INPUT_ELEMENT_DESC* descArr)
+{
+	std::vector<D3D11_INPUT_ELEMENT_DESC> decs;
+	for (int n = 0; n < descCount; ++n)
+	{
+		auto it = std::lower_bound(decs.begin(), decs.end(), descArr[n], [](const D3D11_INPUT_ELEMENT_DESC& lhs, const D3D11_INPUT_ELEMENT_DESC& rhs)
+			{
+				return strcmp(lhs.SemanticName, rhs.SemanticName) <= 0;
+			});
+		decs.insert(it, descArr[n]);
+	}
+
+	// Find existing vertex format or store a new one
+	auto it = std::find(s_inputLayoutsCache.begin(), s_inputLayoutsCache.end(), decs);
+	auto idx = it - s_inputLayoutsCache.begin();
+	if (it == s_inputLayoutsCache.end())
+		s_inputLayoutsCache.emplace_back(std::move(decs));
+
+	return static_cast<VertexFormat>(idx);
+}
 
 HRESULT DeviceFactory::CreateTexture1D()
 {

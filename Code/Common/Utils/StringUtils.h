@@ -32,10 +32,16 @@ namespace Path
 		return p.stem().string();
 	}
 
-	inline std::string GetPathWithoutExt(std::string const& filename)
+	inline std::string GetPathWithoutExt(const std::string& path)
 	{
-		typename std::string::size_type const p(filename.find_last_of('.'));
-		return p > 0 && p != std::string::npos ? filename.substr(0, p) : filename;
+		typename std::string::size_type const p(path.find_last_of('.'));
+		return p > 0 && p != std::string::npos ? path.substr(0, p) : path;
+	}
+
+	inline std::string GetExtension(const std::string& path)
+	{
+		std::filesystem::path p(path);
+		return p.extension().string();
 	}
 
 	inline std::wstring GetNameFromPath(const std::wstring& path)
@@ -50,10 +56,16 @@ namespace Path
 		return p.stem().wstring();
 	}
 
-	inline std::wstring GetPathWithoutExt(std::wstring const& filename)
+	inline std::wstring GetPathWithoutExt(const std::wstring& path)
 	{
-		typename std::wstring::size_type const p(filename.find_last_of('.'));
-		return p > 0 && p != std::wstring::npos ? filename.substr(0, p) : filename;
+		typename std::wstring::size_type const p(path.find_last_of('.'));
+		return p > 0 && p != std::wstring::npos ? path.substr(0, p) : path;
+	}
+
+	inline std::wstring GetExtension(const std::wstring& path)
+	{
+		std::filesystem::path p(path);
+		return p.extension().wstring();
 	}
 }
 
