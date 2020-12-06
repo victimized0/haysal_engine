@@ -30,7 +30,7 @@ public:
 	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override;
 	virtual bool				UpdateVertices(const void* pVertBuffer, int vertsCount, int offset, bool requiresLock = true) override;
 	virtual bool				UpdateIndices(const uint32* pIndBuffer, int indicesCount, int offset, bool requiresLock = true) override;
-	virtual void				Render(IRenderView* pRenderView) override;
+	virtual void				Render(const RenderParams& params, IRenderView* pRenderView) override;
 	// ~Inherited via IRenderMesh
 
 private:

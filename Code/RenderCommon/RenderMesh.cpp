@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "RenderMesh.h"
 
+#include <WorldModule\IWorldObj.h>
+
 RenderMesh::RenderMesh(const char* srcName)
     : m_srcName(srcName)
     , m_vertexFormat(VertexFormat::None)
@@ -69,18 +71,21 @@ bool RenderMesh::UpdateIndices(const uint32* pIndBuffer, int indicesCount, int o
     return true;
 }
 
-void RenderMesh::Render(IRenderView* pRenderView)
+void RenderMesh::Render(const RenderParams& params, IRenderView* pRenderView)
 {
     RenderItem rendItem;
     rendItem.pRenderMesh = this;
-    rendItem.WorldMatrix = m_matrix * m_pParent->GetWorld();
+    rendItem.pShaderItem = &params.pMaterial->GetShaderItem();
+    rendItem.WorldMatrix = params.Matrix;
+    rendItem.pRenderNode = params.pRenderNode;
+    //rendItem.pShaderTechnique = &params.pMaterial->GetTechnique();
 
-    if (m_flags & ObjectFlags::CastShadows)
+    if (params.Flags & ObjectFlags::CastShadows)
         pRenderView->Submit(rendItem, RenderListId::ShadowGen);
-    if (!(m_flags & ObjectFlags::NoDepth))
+    if (!(params.Flags & ObjectFlags::NoDepth))
         pRenderView->Submit(rendItem, RenderListId::ZPrePass);
-    if (m_flags & ObjectFlags::LightSource)
+    if (params.Flags & ObjectFlags::LightSource)
         pRenderView->Submit(rendItem, RenderListId::LightPass);
-    if (!(m_flags & ObjectFlags::Unlit))
+    if (!(params.Flags & ObjectFlags::Unlit))
         pRenderView->Submit(rendItem, RenderListId::Opaque);
 }

@@ -33,7 +33,7 @@ int RenderView::GetLightsCount() const
 
 void RenderView::Submit(RenderItem item, RenderListId listId)
 {
-	auto id = static_cast<uint8>(listId);
+	uint8 id = static_cast<uint8>(listId);
 	m_renderLists[id].push_back(item);
 }
 
@@ -81,6 +81,8 @@ size_t RenderView::NumAddedItems(RenderListId listId)
 
 void RenderView::Execute_ShadowPass()
 {
+	gRenderer->PushProfileMarker("SHADOW_PASS");
+
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::ShadowGen)])
 	{
 		VertexFormat		vtxFmt			= renderItem.pRenderMesh->GetVertexFormat();
@@ -123,44 +125,66 @@ void RenderView::Execute_ShadowPass()
 
 	GpuDSV* pShadowMap = RenderResources::s_pTexShadowMap->GetDeviceTexture()->LookupDSV(ResourceViewType::DepthOnly);
 	m_pDeviceContext->OMSetRenderTargets(0, nullptr, pShadowMap);
+
+	gRenderer->PopProfileMarker("SHADOW_PASS");
 }
 
 void RenderView::Execute_EarlyZPass()
 {
+	gRenderer->PushProfileMarker("DEPTH_PREPASS");
+
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::ZPrePass)])
 	{
 
 	}
+
+	gRenderer->PopProfileMarker("DEPTH_PREPASS");
 }
 
 void RenderView::Execute_LightsPass()
 {
+	gRenderer->PushProfileMarker("LIGHT_PASS");
+
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::LightPass)])
 	{
 
 	}
+
+	gRenderer->PopProfileMarker("LIGHT_PASS");
 }
 
 void RenderView::Execute_OpaquePass()
 {
+	gRenderer->PushProfileMarker("OPAQUE_PASS");
+
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::Opaque)])
 	{
 
 	}
+
+	gRenderer->PopProfileMarker("OPAQUE_PASS");
 }
 
 void RenderView::Execute_TranspPass()
 {
+	gRenderer->PushProfileMarker("TRANSPARENT_PASS");
 	//for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::Transparent)])
 	//{
 		assert(false); // TODO: Not implemented
 	//}
+	gRenderer->PopProfileMarker("TRANSPARENT_PASS");
 }
 
 void RenderView::Execute_PostEffect()
 {
+	gRenderer->PushProfileMarker("POST_EFFECTS");
+
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::PostEffects)])
 	{
-		//gRenderer->PostEffectsMng()->Exec();
+		//gRenderer->PostEffectsMng()->Exec(Bloom);
+		//gRenderer->PostEffectsMng()->Exec(ToneMapping);
+		//gRenderer->PostEffectsMng()->Exec(AntiAliasing);
 	}
+
+	gRenderer->PopProfileMarker("POST_EFFECTS");
 }

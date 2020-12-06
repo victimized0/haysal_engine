@@ -88,12 +88,16 @@ void Renderer::EndFrame()
 
 void Renderer::RenderScene(IRenderView* renderView)
 {
+	PushProfileMarker("SCENE");
+
 	renderView->ExecuteRenderPass(RenderListId::ShadowGen);
 	renderView->ExecuteRenderPass(RenderListId::ZPrePass);
 	renderView->ExecuteRenderPass(RenderListId::LightPass);
 	renderView->ExecuteRenderPass(RenderListId::Opaque);
 	renderView->ExecuteRenderPass(RenderListId::Transparent);
 	renderView->ExecuteRenderPass(RenderListId::PostEffects);
+
+	PopProfileMarker("SCENE");
 }
 
 IDXGISurface* Renderer::GetBackBuffer() const
