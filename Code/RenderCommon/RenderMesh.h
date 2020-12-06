@@ -5,39 +5,47 @@
 #include <WorldModule\IMesh.h>
 #include <RenderModule\IRenderMesh.h>
 
+struct PosNml
+{
+	Vec3 Pos;
+	Vec3 Nml;
+};
+
 class RenderMesh : public IRenderMesh
 {
 public:
-								RenderMesh();
+								RenderMesh(const char* srcName);
 	virtual						~RenderMesh();
 
 	// Inherited via IRenderMesh
-	virtual void				AddRef() override;
-	virtual int					Release() override;
-	virtual bool				CanUpdate() override;
-	virtual bool				CanRender() override;
-	virtual const char*			GetSourceName() const override;
-	virtual int					GetIndicesCount() override;
-	virtual int					GetVerticesCount() override;
-	virtual VertexFormat		GetVertexFormat() override;
-	virtual RenderMeshType		GetMeshType() override;
+	virtual void				AddRef()					final;
+	virtual int					Release()					final;
+	virtual const char*			GetSourceName()		const	final	{ return m_srcName.c_str(); }
+	virtual int					GetIndicesCount()			final	{ return m_idxCount; }
+	virtual int					GetVerticesCount()			final	{ return m_vtxCount; }
+	virtual VertexFormat		GetVertexFormat()			final	{ return m_vertexFormat; }
+	virtual RenderMeshType		GetMeshType()				final	{ return m_type; }
+
 	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset, bool requiresLock) override;
-	virtual IIndexedMesh*		GetIndexedMesh() override;
+	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override;
 	virtual bool				UpdateVertices(const void* pVertBuffer, int vertsCount, int offset, bool requiresLock = true) override;
 	virtual bool				UpdateIndices(const uint32* pIndBuffer, int indicesCount, int offset, bool requiresLock = true) override;
-	virtual void				Render(const RenderPassInfo& passInfo) override;
+	virtual void				Render(IRenderView* pRenderView) override;
 	// ~Inherited via IRenderMesh
 
 private:
+	std::vector<PosNml>			m_posNml;
+	std::string					m_srcName;
 	VertexFormat				m_vertexFormat;
 	PrimitiveTopology			m_topology;
 	RenderMeshType				m_type;
 	uint32						m_flags;
-	IBuffer						m_vtxBuffer;
-	IBuffer						m_idxBuffer;
+	GpuBuffer*					m_pVertexBuffer;
+	GpuBuffer*					m_pIndexBuffer;
 	uint32						m_vtxCount;
 	uint32						m_idxCount;
-
+	AABB						m_boundingBox;
+	int							m_refCount;
 };
 
 #endif //RENDER_MESH_H

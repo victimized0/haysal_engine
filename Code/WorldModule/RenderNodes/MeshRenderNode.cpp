@@ -39,6 +39,6 @@ void MeshRenderNode::Translate(const Vec3& delta)
 {
 }
 
-void MeshRenderNode::Render(const RenderInfo& info)
+void MeshRenderNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }

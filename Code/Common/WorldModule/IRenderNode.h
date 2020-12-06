@@ -4,21 +4,21 @@
 
 #include <RenderModule\IRenderer.h>
 
-enum RenderNodeType
+enum class RenderNodeType
 {
-	eRNT_NonRenderable,
-	eRNT_Vegetation,
-	eRNT_Light,
-	eRNT_Mesh,
-	eRNT_Decal,
-	eRNT_Character,
+	NonRenderable,
+	Vegetation,
+	Light,
+	Mesh,
+	Decal,
+	Character,
 
-	eRNT_TotalCount
+	Count
 };
 
 enum RenderNodeFlags : uint64
 {
-	eRNF_Hidden = BIT64(0)
+	Hidden = BIT64(0)
 };
 
 struct IRenderNode
@@ -36,11 +36,11 @@ struct IRenderNode
 	virtual void		Translate(const Vec3& delta) = 0;
 	virtual bool		IsVisible() const { return true; }
 
-	virtual void		Render(const RenderInfo& info) = 0;
+	virtual void		Render(const RenderParams& info, struct IRenderView* pRenderView) = 0;
 	virtual void        Release() { delete this; }
 
 	virtual void		SetMatrix(const Matrix& mat) {}
-	bool				IsHidden() const { return (GetFlags() & RenderNodeFlags::eRNF_Hidden) ? true : false; }
+	bool				IsHidden() const { return (GetFlags() & RenderNodeFlags::Hidden) ? true : false; }
 	uint32				GetFlags() const { return m_flags; }
 
 	//virtual void		SetOwnerEntity(IEntity* pEntity) { assert(!"Not supported by this object type"); }
@@ -49,13 +49,10 @@ struct IRenderNode
 protected:
 	virtual void		Hide(bool hide)
 	{
-		bool toggleHide = hide != IsHidden();
-		if (toggleHide)
-		{
-			m_flags ^= RenderNodeFlags::eRNF_Hidden;
-			//if (m_pOcNode)
-			//	m_pOcNode->ReorderObject(this, !hide);
-		}
+		if (hide)
+			m_flags |= RenderNodeFlags::Hidden;
+		else
+			m_flags &= ~RenderNodeFlags::Hidden;
 	}
 
 	virtual void		Instance(bool instance) {};
@@ -70,27 +67,27 @@ private:
 
 struct IVegetationNode : public IRenderNode
 {
-
+	virtual ~IVegetationNode();
 };
 
 struct ILightSourceNode : public IRenderNode
 {
-
+	virtual ~ILightSourceNode();
 };
 
 struct IDecalRenderNode : public IRenderNode
 {
-
+	virtual ~IDecalRenderNode();
 };
 
 struct IMeshRenderNode : public IRenderNode
 {
-
+	virtual ~IMeshRenderNode();
 };
 
 struct ICharacterRenderNode : public IRenderNode
 {
-
+	virtual ~ICharacterRenderNode();
 };
 
 #endif //INTERFACE_RENDER_NODE_H

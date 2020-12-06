@@ -12,6 +12,7 @@ Texture::Texture(uint32 flags, Color clearCol /*= Colors::Black*/, DeviceTexture
 
 Texture::~Texture()
 {
+    ReleaseDeviceTexture();
 }
 
 const uint32 Texture::GetDeviceDataSize() const
@@ -214,7 +215,7 @@ void Texture::SetDeviceTexture(DeviceTexture* pDevTex)
     if (m_pDeviceTexture != nullptr)
         m_pDeviceTexture->Release();
     
-    m_pDeviceTexture   = pDevTex;
+    m_pDeviceTexture = pDevTex;
 }
 
 void Texture::ReleaseDeviceTexture()

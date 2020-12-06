@@ -191,6 +191,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\RenderCommon\BuffersManager.h" />
     <ClInclude Include="..\RenderCommon\DDSLoader.h" />
     <ClInclude Include="..\RenderCommon\DeviceFormats.h" />
     <ClInclude Include="..\RenderCommon\DeviceObjects.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\RenderCommon\Renderer.h" />
     <ClInclude Include="..\RenderCommon\RenderMesh.h" />
     <ClInclude Include="..\RenderCommon\RenderResources.h" />
+    <ClInclude Include="..\RenderCommon\RenderView.h" />
     <ClInclude Include="..\RenderCommon\SamplerState.h" />
     <ClInclude Include="..\RenderCommon\Shader.h" />
     <ClInclude Include="..\RenderCommon\ShaderManager.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="VKRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\RenderCommon\BuffersManager.cpp" />
     <ClCompile Include="..\RenderCommon\DDSLoader.cpp" />
     <ClCompile Include="..\RenderCommon\DeviceFormats.cpp" />
     <ClCompile Include="..\RenderCommon\DeviceObjects.cpp" />
@@ -222,6 +225,7 @@
     <ClCompile Include="..\RenderCommon\Renderer.cpp" />
     <ClCompile Include="..\RenderCommon\RenderMesh.cpp" />
     <ClCompile Include="..\RenderCommon\RenderResources.cpp" />
+    <ClCompile Include="..\RenderCommon\RenderView.cpp" />
     <ClCompile Include="..\RenderCommon\SamplerState.cpp" />
     <ClCompile Include="..\RenderCommon\Shader.cpp" />
     <ClCompile Include="..\RenderCommon\ShaderManager.cpp" />
@@ -232,6 +236,7 @@
     <ClCompile Include="VKRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="VKDeviceResources_impl.inl" />
     <None Include="VK_impl.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

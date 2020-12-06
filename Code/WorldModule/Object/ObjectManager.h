@@ -4,29 +4,35 @@
 
 #include "WorldObject.h"
 
+typedef std::map<const char*, std::unique_ptr<WorldObject>> WorldObjMap;
+
 class ObjectManager
 {
 public:
-				ObjectManager();
-				~ObjectManager();
+								ObjectManager();
+								~ObjectManager();
 
-	void		LoadObject(const char* filename);
-	void		UnloadObject(WorldObject* pObj);
+	void						EndFrame();
+	void						RenderObjects(IRenderView* pIRndView);
 
-	void		BeginOcclusionCulling();
-	void		FinishOcclusionCulling();
-	void		TestOcclusion(const AABB& aabb);
+	void						LoadObject(const char* filename);
+	void						UnloadObject(WorldObject* pObj);
 
-	IWorldObj*	FindStatObj(int id);
-	IWorldObj*	FindStatObj(const char* filename);
-	bool		GetStatObjAABB(int type, AABB* ppAABB);
+	void						BeginOcclusionCulling();
+	void						FinishOcclusionCulling();
+	void						TestOcclusion(const AABB& aabb);
+
+	IWorldObj*					FindObject(int id);
+	IWorldObj*					FindObject(const char* filename);
 
 private:
-	void		DeleteObject(WorldObject* pObj);
+	void						DoFrustumCulling(const Camera* pCamera);
+	void						DeleteObject(WorldObject* pObj);
 
 private:
-	std::map<std::string, WorldObject*>	m_objectsMap;
-	std::vector<WorldObject*>			m_objects;
+	WorldObjMap					m_objectsMap;
+	std::vector<WorldObject*>	m_objects;
+	std::vector<WorldObject*>	m_frustumObjects;
 
 };
 

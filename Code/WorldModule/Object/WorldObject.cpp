@@ -27,21 +27,19 @@ void WorldObject::Init()
 
 void WorldObject::ShutDown()
 {
+    Release();
 }
 
 int WorldObject::AddRef()
 {
-    return 0;
+    return ++m_refCount;
 }
 
 int WorldObject::Release()
 {
-    return 0;
-}
-
-IIndexedMesh* WorldObject::GetIndexedMesh(bool createfNone)
-{
-    return nullptr;
+    --m_refCount;
+    assert(m_refCount == 0);
+    return m_refCount;
 }
 
 IIndexedMesh* WorldObject::CreateIndexedMesh()
@@ -92,19 +90,23 @@ void WorldObject::Invalidate(bool bPhysics)
 {
 }
 
-void WorldObject::Render(const RenderParams& params, const RenderPassInfo& passInfo)
+void WorldObject::Render(const RenderParams& params, IRenderView* pRenderView)
 {
-    RenderItem rendItem;
-    rendItem.pRenderMesh = m_pRenderMesh.get();
+    for (auto& subObj : m_subObjects)
+    {
+        if (subObj.IsHidden)
+            continue;
 
-    if (m_flags & ObjectFlags::CastShadows)
-        passInfo.Passes[PassId::Shadow].Submit(rendItem);
-    if (!(m_flags & ObjectFlags::NoDepth))
-        passInfo.Passes[PassId::Depth].Submit(rendItem);
-    if (m_flags & ObjectFlags::Glow)
-        passInfo.Passes[PassId::Light].Submit(rendItem);
-    if (!(m_flags & ObjectFlags::Unlit))
-        passInfo.Passes[PassId::Color].Submit(rendItem);
+        RenderParams subObjParams;
+        subObjParams.pMaterial  = params.pMaterial;
+        subObjParams.Matrix     = subObj.WorldMat * params.Matrix;
+        subObjParams.Flags      = params.Flags;
+
+        subObj.pWorldObj->Render(subObjParams, pRenderView);
+    }
+
+    // TODO: Set flags that define in which render list this object will submit a render item
+    m_pRenderMesh->Render(params, pRenderView);
 }
 
 IWorldObj::SubObj* WorldObject::FindSubObject(const char* nodeName)

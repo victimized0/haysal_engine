@@ -15,34 +15,30 @@ public:
 							DX11Renderer();
 	virtual					~DX11Renderer();
 
-	WIN_HWND				GetHWND() final { return m_hWnd; }
+	virtual WIN_HWND		GetHWND() final { return m_hWnd; }
 	bool					CreateMainWindow(int width, int height);
 	void					DestroyMainWindow();
 
-	WIN_HWND				Init(int width, int height, const SystemInitParams& initParams) final;
-	bool					CreateDevice() final;
-	void					CreateSwapChain() final;
+	virtual WIN_HWND		Init(int width, int height, const SystemInitParams& initParams) final;
+	virtual bool			CreateDevice() final;
+	virtual void			CreateSwapChain() final;
 
-	void					Reset() final;
-	void					Release() final;
-	void					ShutDown() final;
+	virtual void			Reset() final;
+	virtual void			Release() final;
+	virtual void			ShutDown() final;
+	virtual void			RenderScene(IRenderView* renderView) final;
 
 	//void					InitResources(int flags) final;
 	//void					FreeResources(int flags) final;
 
-	void					PushProfileMarker(const char* label) final;
-	void					PopProfileMarker(const char* label) final;
-
-	void					BeginFrame() final;
-	void					FillFrame(float clearColor) final;
-	void					EndFrame() final;
-	void					RenderScene() final;
+	virtual void			PushProfileMarker(const char* label) final;
+	virtual void			PopProfileMarker(const char* label) final;
 
 public:
-	const GpuDevice*		GetDevice() const { return m_pDevice.Get(); }
-	GpuDevice*				GetDevice() { return m_pDevice.Get(); }
-	const GpuContext*		GetDeviceContext() const { return m_pContext.Get(); }
-	GpuContext*				GetDeviceContext() { return m_pContext.Get(); }
+	const GpuDevice*		GetDevice()			const	{ return m_pDevice.Get(); }
+	GpuDevice*				GetDevice()					{ return m_pDevice.Get(); }
+	const GpuContext*		GetDeviceContext()	const	{ return m_pContext.Get(); }
+	GpuContext*				GetDeviceContext()			{ return m_pContext.Get(); }
 
 private:
 	HWND					m_hWnd;

@@ -78,7 +78,7 @@ struct IIndexedMesh : public IMesh
 
 struct ISkinnedMesh : public IMesh
 {
-	virtual				~ISkinnedMesh() {}
+	virtual ~ISkinnedMesh() {}
 };
 
 #endif //INTERFACE_MESH_H

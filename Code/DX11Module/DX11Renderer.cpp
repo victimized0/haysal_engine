@@ -31,6 +31,12 @@ void DX11Renderer::ShutDown()
 	Renderer::ShutDown();
 }
 
+void DX11Renderer::RenderScene(IRenderView* renderView)
+{
+	renderView->SetDeviceContext(GetDeviceContext());
+	Renderer::RenderScene(renderView);
+}
+
 void DX11Renderer::PushProfileMarker(const char* label)
 {
 #if _DEBUG
@@ -276,32 +282,16 @@ void DX11Renderer::CreateSwapChain()
 
 }
 
-void DX11Renderer::BeginFrame()
-{
-}
-
-void DX11Renderer::FillFrame(float clearColor)
-{
-}
-
-void DX11Renderer::EndFrame()
-{
-}
-
 void DX11Renderer::Reset()
-{
-}
-
-void DX11Renderer::RenderScene()
 {
 }
 
 class DX11RenderModule : public IEngineModule
 {
 public:
-	virtual ~DX11RenderModule() { SAFE_RELEASE(gEnv->pRenderer); }
-	const char*	GetName() const final { return "DX11RenderModule"; }
-	bool Initialize(Environment& env, const SystemInitParams& initParams) final
+	virtual		~DX11RenderModule()		{ SAFE_RELEASE(gEnv->pRenderer); }
+	const char*	GetName() const final	{ return "DX11RenderModule"; }
+	bool		Initialize(Environment& env, const SystemInitParams& initParams) final
 	{
 		ISystem* pSystem = env.pSystem;
 		env.pRenderer = g_dx11Renderer;

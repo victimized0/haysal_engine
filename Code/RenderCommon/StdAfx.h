@@ -84,7 +84,7 @@
 
 	#define IVertexBuffer
 	#define IIndexBuffer
-	#define GpuBuffer
+	#define IGpuBuffer
 	#define Texture2D
 
 	#define IVertexLayout		
@@ -103,6 +103,7 @@
 #include "RenderCommon.h"
 #include "RenderResources.h"
 #include "RenderMesh.h"
+#include "RenderView.h"
 #include "DeviceObjects.h"
 #include "DeviceResources.h"
 #include "Texture.h"

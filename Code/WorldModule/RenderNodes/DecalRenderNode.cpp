@@ -39,6 +39,6 @@ void DecalRenderNode::Translate(const Vec3& delta)
 {
 }
 
-void DecalRenderNode::Render(const RenderInfo& info)
+void DecalRenderNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }

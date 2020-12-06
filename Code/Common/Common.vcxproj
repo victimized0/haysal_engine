@@ -151,6 +151,7 @@
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />
     <ClInclude Include="RenderModule\IRenderMesh.h" />
+    <ClInclude Include="RenderModule\IRenderView.h" />
     <ClInclude Include="RenderModule\VertexFormats.h" />
     <ClInclude Include="Utils\PathUtils.h" />
     <ClInclude Include="Utils\PredefinedColors.h" />

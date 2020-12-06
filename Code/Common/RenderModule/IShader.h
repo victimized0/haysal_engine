@@ -5,6 +5,7 @@
 struct ITexture;
 struct ShaderParam;
 struct ShaderItem;
+struct ShaderBlob;
 struct ShaderTextureSlot;
 struct ShaderTextureSlots;
 class RenderElement;
@@ -121,6 +122,7 @@ struct IShader
 	//virtual InputLayoutHandle				GetVertexFormat() = 0;
 	virtual CullType						GetCullType() const = 0;
 	virtual ShaderType						GetShaderType() const = 0;
+	virtual ShaderBlob*						GetShaderBlob() const = 0;
 
 	static uint32							GetTextureSlotNum(ShaderResourceTextureSlot textureType) { return static_cast<uint32>(textureType); }
 };

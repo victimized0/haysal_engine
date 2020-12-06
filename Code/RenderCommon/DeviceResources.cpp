@@ -1,6 +1,12 @@
 #include "StdAfx.h"
 #include "DeviceResources.h"
 
+#if RENDERER_DX11
+	#include "DX11DeviceResources_impl.inl"
+#elif RENDERER_VULKAN
+	#include "VKDeviceResources_impl.inl"
+#endif
+
 ResourceLayout DeviceResource::GetLayout() const
 {
 	ResourceLayout layout = {};
@@ -48,10 +54,10 @@ void DeviceResource::InitResourceViews()
 	const UINT slicesCount		= ~0;
 	const UINT elementsCount	= layout.m_elementsCount;
 
-	ResourceView RTV = ResourceView::RenderTarget(formatT);
-	ResourceView UAV = ResourceView::UnorderedAccess(formatT, 0);
-	ResourceView SRV = ResourceView::ShaderResource(formatD, 0);
-	ResourceView DSV = ResourceView::DepthStencil(formatDS, 0);
+	ResourceView RTV = ResourceView::RenderTargetView(formatT);
+	ResourceView UAV = ResourceView::UnorderedAccessView(formatT, 0);
+	ResourceView SRV = ResourceView::ShaderResourceView(formatD, 0);
+	ResourceView DSV = ResourceView::DepthStencilView(formatDS, 0);
 
 	if (IsShaderResource() && formatD != DXGI_FORMAT_UNKNOWN)
 		GetOrCreateResourceView(SRV);
@@ -67,16 +73,58 @@ void DeviceResource::InitResourceViews()
 	else ReserveResourceView(DSV);
 }
 
-void DeviceResource::GetOrCreateResourceView(const ResourceView& desc)
+GpuView* DeviceResource::CreateResourceView(const ResourceView& desc)
 {
+	return nullptr;
 }
 
-void DeviceResource::ReserveResourceView(const ResourceView& desc)
+ResourceViewType DeviceResource::GetOrCreateResourceView(const ResourceView& desc)
 {
+	for (int i = 0; i < m_resourceViews.size(); ++i)
+	{
+		auto it = m_resourceViews[i];
+		if (it.first == desc)
+			return ResourceViewType(i);
+	}
+
+	m_resourceViews.emplace_back(std::make_pair(desc, CreateResourceView(desc)));
+	return ResourceViewType(m_resourceViews.size());
+}
+
+ResourceViewType DeviceResource::ReserveResourceView(const ResourceView& desc)
+{
+	const uint32 arrSize = m_resourceViews.size();
+
+	// Reservation is unfailable
+	assert(arrSize == uint32(ResourceViewType(arrSize)));
+	m_resourceViews.emplace_back(std::make_pair(desc, nullptr));
+	return ResourceViewType(arrSize);
+}
+
+void DeviceResource::ReserveResourceViews(int count)
+{
+	m_resourceViews.reserve(count);
 }
 
 void DeviceResource::ReleaseResourceViews()
 {
+	m_resourceViews.clear();
+}
+
+const std::pair<ResourceView, GpuResource*> DeviceResource::LookupResourceView(ResourceViewType type) const
+{
+	return nullptr;
+}
+
+std::pair<ResourceView, GpuResource*> DeviceResource::LookupResourceView(ResourceViewType type)
+{
+	for (const auto& it : m_resourceViews)
+	{
+		if (desc == it.first)
+		{
+			return it.second;
+		}
+	}
 }
 
 void DeviceResource::SetRawResource(GpuResource* pRes)
@@ -85,11 +133,6 @@ void DeviceResource::SetRawResource(GpuResource* pRes)
 }
 
 DeviceTexture::DeviceTexture()
-	: m_textureType(TextureType::Unknown)
-	, m_isFilterable(false)
-	, m_isSRGB(false)
-	, m_allowSRGB(false)
-	, m_isMSAA(false)
 {
 }
 

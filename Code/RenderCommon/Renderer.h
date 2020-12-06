@@ -5,6 +5,7 @@
 #include "platform.h"
 #include "SwapChain.h"
 #include "TextureManager.h"
+#include "BuffersManager.h"
 #include "ShaderManager.h"
 
 #include <WorldModule\IWorldEngine.h>
@@ -45,18 +46,21 @@ public:
 
 	virtual bool					CreateDevice() = 0;
 	virtual void					CreateSwapChain() = 0;
+
+	virtual ShaderManager*			GetShaderMan()	const	{ return m_pShaderManager.get(); }
+	virtual BuffersManager*			GetBufMan()		const	{ return m_pBufferManager.get(); }
+	virtual TextureManager*			GetTexMan()		const	{ return m_pTextureManager.get(); }
+
 	virtual void					Reset() = 0;
 	virtual void					Release() override;
 	virtual void					ShutDown() override;
 
 	virtual int						GetFrameID() override;
-	virtual void					BeginFrame() override = 0;
-	virtual void					FillFrame(float clearColor) override = 0;
-	virtual void					EndFrame() override = 0;
+	virtual void					BeginFrame() override;
+	virtual void					EndFrame() override;
+	virtual void					RenderScene(IRenderView* renderView);
 
-	virtual void					RenderScene() = 0;
 	virtual void					FlushRenderList() override;
-	virtual void					AddRenderItem(const RenderInfo& info) override;
 
 	inline bool						IsHDR() { return HasFeature(FEATURE_HDR); }
 
@@ -65,9 +69,12 @@ public:
 	virtual IDXGISurface*			GetBackBuffer() const override;
 
 	const MSAA&						GetMSAA() const { return m_MSAAData; }
+	int								GetDepthBpp() const { return 32; }
 
 	virtual void					InitSysResources() override;
 	virtual void					FreeSysResources(int flags) override;
+
+	virtual std::unique_ptr<IRenderView>&& AllocateRenderView() const final;
 
 protected:
 	void							SetFeature(uint64 feature) { m_features |= feature; }
@@ -80,6 +87,7 @@ protected:
 	bool							m_isInit;
 	bool							m_enableVSync;
 	bool							m_enableShadows;
+
 	RasterState						m_rasterState;
 	RenderViewport					m_viewport;
 	SwapChain						m_swapChain;
@@ -89,8 +97,10 @@ protected:
 
 	uint64							m_features;
 	uint32							m_frameID;
+
 	std::unique_ptr<IMaterial>		m_pDefaultMaterial;
 	std::unique_ptr<TextureManager>	m_pTextureManager;
+	std::unique_ptr<BuffersManager> m_pBufferManager;
 	std::unique_ptr<ShaderManager>	m_pShaderManager;
 
 #if RENDERER_DX11	// TODO: Implement Vulkan

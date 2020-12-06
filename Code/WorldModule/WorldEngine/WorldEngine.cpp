@@ -22,7 +22,8 @@ WorldEngine::~WorldEngine()
 
 void WorldEngine::Release()
 {
-	if (this) delete this;
+	if (this)
+		delete this;
 }
 
 void WorldEngine::ShutDown()
@@ -35,64 +36,52 @@ void WorldEngine::OnFrameStart()
 
 bool WorldEngine::Init()
 {
-	return false;
+	return true;
 }
 
 void WorldEngine::Update()
 {
+	UpdateCamera();
 }
 
 void WorldEngine::UpdateCamera()
 {
-
+	m_camera.CalculateMatrices();
 }
 
 void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 {
-	UpdateCamera();
-	//m_visibleNodesManager.UpdateVisibleNodes(passInfo.GetFrameID());
-	
-	//m_pPartManager->Update();
+	IRenderer* pRnd = gEnv->pRenderer;
+	if (pRnd == nullptr)
+		return;
 
-	//UpdateScene();
+	std::unique_ptr<IRenderView> pRndView = std::move(pRnd->AllocateRenderView());
+	pRnd->BeginFrame();
 
-	// Start occlusion culling
-	//GetRenderer()->EF_StartEf(passInfo);
-	
-	//if (m_pPartManager)
-	//	m_pPartManager->PrepareForRender(passInfo);
+	BeginOcclusionCulling(pRndView.get());
 
-	//UpdateLightSources(passInfo);
-	//PrepareLightSourcesForRendering_0(passInfo);
-	//PrepareLightSourcesForRendering_1(passInfo);
-
-	//BeginOcclusionCulling(passInfo);
-
-	//Prepare shadows
-
-	//m_pVisAreaManager->DrawVisibleSectors(passInfo, passCullMask);
-	//m_pObjectsTree->Render_Object_Nodes(false, OCTREENODE_RENDER_FLAG_OBJECTS, GetSkyColor(), outdoorCullMask, passInfo);
 	//if draw objects AABBs
 	//	m_pObjectsTree->RenderDebug();
 
-	//render always visible objects
-
-	//if (m_pDecalManager && passInfo.RenderDecals())
-	//{
-	//	m_pDecalManager->Render(passInfo);
-	//}
-
-	// Render shadow maps
-
-	// Render sprites (far objects)
+	m_objManager.RenderObjects(pRndView.get());
 
 	// Notify game framework OnRenderScene();
 
-	// Set fog
+	pRnd->RenderScene(pRndView.get());
+	EndOcclusionCulling();
+	pRnd->EndFrame();
 
-	//GetRenderer()->EF_EndEf3D();
+	m_objManager.EndFrame();
+}
 
-	//EndOcclusionCulling();
+void WorldEngine::BeginOcclusionCulling(IRenderView* pRenderView)
+{
+	m_objManager.BeginOcclusionCulling();
+}
+
+void WorldEngine::EndOcclusionCulling()
+{
+	m_objManager.FinishOcclusionCulling();
 }
 
 //const Camera& WorldEngine::GetRenderingCamera() const
@@ -100,23 +89,19 @@ void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 //
 //}
 
-void WorldEngine::RemoveAllStaticObjects()
-{
-}
-
 IRenderNode* WorldEngine::CreateRenderNode(RenderNodeType type)
 {
 	switch (type)
 	{
-	case RenderNodeType::eRNT_Decal:
+	case RenderNodeType::Decal:
 		return new DecalRenderNode();
-	case RenderNodeType::eRNT_Light:
+	case RenderNodeType::Light:
 		return new LightSourceNode();
-	case RenderNodeType::eRNT_Mesh:
+	case RenderNodeType::Mesh:
 		return new MeshRenderNode();
-	case RenderNodeType::eRNT_Vegetation:
+	case RenderNodeType::Vegetation:
 		return new VegetationNode();
-	case RenderNodeType::eRNT_Character:
+	case RenderNodeType::Character:
 		return new CharacterRenderNode();
 	}
 	return nullptr;

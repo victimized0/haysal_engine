@@ -4,6 +4,7 @@
 
 #include <System\SystemInitParams.h>
 #include "VertexFormats.h"
+#include "IRenderView.h"
 
 // Render features
 #define FEATURE_OCCLUSION_QUERIES	0x4
@@ -16,22 +17,39 @@
 #define FEATURE_VENDOR_NVIDIA		0x40000
 #define FEATURE_ORDER_RGBA			0x20000000
 
+struct IRenderView;
 struct IRenderNode;
 struct ShaderParam;
 struct RenderMesh;
+struct ShaderItem;
+struct ShaderTechnique;
+
+enum RenderObjFlags : uint16
+{
+	TransformScale		= BIT16(0),
+	TransformRotate		= BIT16(1),
+	TransformTranslate	= BIT16(2),
+	Selected			= BIT16(3),
+	Decal				= BIT16(4),
+	Indoors				= BIT16(5),
+	Outdoors			= BIT16(6),
+	LightVolume			= BIT16(7),
+	Skinned				= BIT16(8),
+	ZPrePass			= BIT16(9),
+};
 
 struct RenderParams
 {
 	RenderParams()
 		: Alpha(1.f)
-		, CustomFlags(0)
-		, pMatrix(nullptr)
+		, Flags(0)
+		, Matrix(Matrix::Identity)
 		, pMaterial(nullptr)
 		, pRenderNode(nullptr)
 		, pInstance(nullptr)
 	{}
 
-	Matrix*						pMatrix;
+	Matrix						Matrix;
 	IMaterial*					pMaterial;
 	IRenderNode*				pRenderNode;
 	void*						pInstance;
@@ -39,25 +57,22 @@ struct RenderParams
 	Color						AmbientColor;
 	float						Alpha;
 	float						Distance;
-	//RenderObjFlags			  Flags;
-	uint16						CustomFlags;
+	uint32						Flags;
 };
 
 struct RenderItem
 {
-	Matrix			WorldMatrix;
-	Matrix			LocalMatrix;
-	IRenderMesh*	pRenderMesh;
+	Matrix				WorldMatrix;
+	IRenderMesh*		pRenderMesh;
+	IRenderNode*		pRenderNode;
+	ShaderTechnique*	pShaderTechnique;
+	ShaderItem*			pShaderItem;
+	//ShaderResources?
 };
 
 struct RenderPass
 {
 	std::vector<RenderItem>	RenderItems;
-};
-
-struct RenderPassInfo
-{
-
 };
 
 enum class RasterState : uint8
@@ -106,43 +121,43 @@ struct RenderViewport
 
 struct IRenderer
 {
-	virtual				~IRenderer() {}
+	virtual					~IRenderer() {}
 
-	virtual WIN_HWND	Init(int width, int height, const SystemInitParams& initParams) = 0;
-	virtual void		PostInit() = 0;
-	virtual void		Release() = 0;
-	virtual void		ShutDown() = 0;
+	virtual WIN_HWND		Init(int width, int height, const SystemInitParams& initParams) = 0;
+	virtual void			PostInit() = 0;
+	virtual void			Release() = 0;
+	virtual void			ShutDown() = 0;
 
-	virtual void		BeginFrame() = 0;
-	virtual void		FillFrame(float clearColor) = 0;
-	virtual void		EndFrame() = 0;
+	virtual void			BeginFrame() = 0;
+	virtual void			EndFrame() = 0;
+	virtual void			RenderScene(IRenderView* renderView);
 
-	//virtual void		InitResources(int flags) = 0;
-	//virtual void		FreeResources(int flags) = 0;
-	virtual void		InitSysResources() = 0;
-	virtual void		FreeSysResources(int flags) = 0;
+	//virtual void			InitResources(int flags) = 0;
+	//virtual void			FreeResources(int flags) = 0;
+	virtual void			InitSysResources() = 0;
+	virtual void			FreeSysResources(int flags) = 0;
 
 	virtual IDXGISurface*	GetBackBuffer() const = 0;
 
-	virtual int			GetHeight() const = 0;
-	virtual int			GetWidth() const = 0;
+	virtual int				GetHeight() const = 0;
+	virtual int				GetWidth() const = 0;
 
-	//virtual IShader*	LoadShader(const char* name, int flags = 0, uint64 nMaskGen = 0) = 0;
-	//virtual ITexture*	GetTextureByID(int Id) = 0;
-	//virtual ITexture*	GetTextureByName(const char* name, uint32 flags = 0) = 0;
-	//virtual ITexture*	LoadTexture(const char* nameTex, const uint32 flags = 0) = 0;
+	//virtual IShader*		LoadShader(const char* name, int flags = 0, uint64 nMaskGen = 0) = 0;
+	//virtual ITexture*		GetTextureByID(int Id) = 0;
+	//virtual ITexture*		GetTextureByName(const char* name, uint32 flags = 0) = 0;
+	//virtual ITexture*		LoadTexture(const char* nameTex, const uint32 flags = 0) = 0;
 
-	//virtual ITexture* CreateTexture(const char* name, int width, int height, int numMips, unsigned char* pData, ETEX_Format eTF, int flags) = 0;
-	//virtual ITexture* CreateTextureArray(const char* name, ETEX_Type eType, uint32 nWidth, uint32 nHeight, uint32 nArraySize, int nMips, uint32 nFlags, ETEX_Format eTF, int nCustomID) = 0;
+	//virtual ITexture*		CreateTexture(const char* name, int width, int height, int numMips, unsigned char* pData, ETEX_Format eTF, int flags) = 0;
+	//virtual ITexture*		CreateTextureArray(const char* name, ETEX_Type eType, uint32 nWidth, uint32 nHeight, uint32 nArraySize, int nMips, uint32 nFlags, ETEX_Format eTF, int nCustomID) = 0;
 
-	virtual void		FlushRenderList() = 0;
-	virtual void		AddRenderItem(const RenderParams& params) = 0;
+	virtual void			FlushRenderList() = 0;
+	virtual void			PushProfileMarker(const char* label) = 0;
+	virtual void			PopProfileMarker(const char* label) = 0;
 
-	virtual void		PushProfileMarker(const char* label) = 0;
-	virtual void		PopProfileMarker(const char* label) = 0;
+	virtual int				GetFrameID() = 0;
+	virtual WIN_HWND		GetHWND() = 0;
 
-	virtual int			GetFrameID() = 0;
-	virtual WIN_HWND	GetHWND() = 0;
+	virtual std::unique_ptr<IRenderView>&& AllocateRenderView() const = 0;
 };
 
 #endif //INTERFACE_RENDERER_H

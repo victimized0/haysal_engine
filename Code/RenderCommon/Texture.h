@@ -11,7 +11,13 @@ public:
 										Texture(uint32 flags, Color clearCol = Colors::Black, DeviceTexture* pDevTex = nullptr);
 	virtual								~Texture();
 
+	// BaseResource
+	virtual int							AddRef() final { return BaseResource::AddRef(); }
+	virtual int							Release() final { return BaseResource::Release(); }
+	// ~BaseResource
+
 	// Static methods to create a Texture instance
+	static Texture*						GetOrCreateTexture(const char* name, uint16 width, uint16 height, uint16 depth, uint32 flags, TextureType type, TextureFormat format);
 	static Texture*						GetOrCreateRenderTarget(const char* name, uint16 width, uint16 height, uint16 depth, uint32 flags, TextureType type, TextureFormat format);
 	static Texture*						GetOrCreateDepthStencil(const char* name, uint16 width, uint16 height, uint16 depth, uint32 flags, TextureType type, TextureFormat format);
 
@@ -46,14 +52,15 @@ public:
 	void								Reload();
 	void								Refresh();
 
+	DeviceTexture*						GetDeviceTexture() const { return m_pDeviceTexture; }
+	void								SetDeviceTexture(DeviceTexture* pDevTex);
+
 private:
 	void								CreateRenderTarget(TextureFormat format, const Color& clearCol);
 	void								CreateDepthStencil(TextureFormat format, const Color& clearCol);
 	void								CreateShaderResource(const TextureData& texData);
 
 	static std::tuple<bool, Texture*>	FindOrCreateTexture(const char* name, uint32 flags);
-	static Texture*						GetOrCreateTexture(const char* name, uint16 width, uint16 height, uint16 depth, uint32 flags, TextureType type, TextureFormat format);
-	void								SetDeviceTexture(DeviceTexture* pDevTex);
 	void								CreateDeviceTexture(const TextureData& texData);
 	void								ReleaseDeviceTexture();
 

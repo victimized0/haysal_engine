@@ -22,7 +22,7 @@ struct IBaseObj
 	virtual IRenderMesh*	GetRenderMesh() const = 0;
 	//virtual IPhysEntity*	GetPhysEntity() const = 0;
 
-	virtual void			Render(const RenderParams& params, const RenderPassInfo& passInfo) = 0;
+	virtual void			Render(const RenderParams& params, IRenderView* pRenderView) = 0; // TODO: replace RenderParams with RenderObject (OR NAH?)
 };
 
 enum class SubObjType
@@ -32,6 +32,15 @@ enum class SubObjType
 	Dummy,
 	Camera,
 	Light,
+};
+
+enum ObjectFlags : uint8
+{
+	CastShadows	= BIT8(0),
+	NoDepth		= BIT8(1),
+	LightSource	= BIT8(2),
+	Unlit		= BIT8(3),
+	DontRender	= BIT8(4),
 };
 
 struct IWorldObj : public IBaseObj
@@ -44,10 +53,9 @@ struct IWorldObj : public IBaseObj
 		std::string				Name;
 		IWorldObj*				pParent;
 		Matrix					WorldMat;
-		Matrix					LocalMat;
 		IWorldObj*				pWorldObj;
-		unsigned int			IsIdentity	: 1;
-		unsigned int			IsHidden	: 1;
+		uint16					IsIdentity	: 1;
+		uint16					IsHidden	: 1;
 	};
 	struct Statistics
 	{
@@ -106,7 +114,7 @@ struct IWorldObj : public IBaseObj
 
 	virtual SubObj*			GetSubObject(int index) = 0;
 	virtual bool			IsSubObject() const = 0;
-	virtual IWorldObj*		GetParentObject() const = 0;
+	virtual IWorldObj*		GetParent() const = 0;
 	virtual SubObj*			FindSubObject(const char* name) = 0;
 	virtual bool			RemoveSubObject(int index) = 0;
 	virtual SubObj&			AddSubObject(IWorldObj* pObj) = 0;
@@ -116,6 +124,8 @@ struct IWorldObj : public IBaseObj
 	virtual void			DebugDraw() = 0;
 
 	virtual void			GetStatistics(Statistics& stats) = 0;
+	virtual void			SetMatrix(const Matrix& m) = 0;
+	virtual Matrix			GetWorldMatrix() const = 0;
 };
 
 #endif //INTERFACE_WORLD_OBJECT_H

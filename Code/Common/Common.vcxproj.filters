@@ -136,6 +136,9 @@
     <ClInclude Include="RenderModule\VertexFormats.h">
       <Filter>Interfaces\RenderModule</Filter>
     </ClInclude>
+    <ClInclude Include="RenderModule\IRenderView.h">
+      <Filter>Interfaces\RenderModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\SimpleMath.cpp">

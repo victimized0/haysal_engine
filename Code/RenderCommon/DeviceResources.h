@@ -100,6 +100,11 @@ public:
 		: m_pRawResource(nullptr)
 		, m_rawFormat(DXGI_FORMAT_UNKNOWN)
 		, m_flags(0)
+		, m_textureType(TextureType::Unknown)
+		, m_isFilterable(false)
+		, m_isSRGB(false)
+		, m_allowSRGB(false)
+		, m_isMSAA(false)
 	{}
 
 	virtual				~DeviceResource() {}
@@ -144,19 +149,40 @@ public:
 		return m_flags & ResourceFlags::BIND_DEPTH_STENCIL;
 	}
 
-	void				InitResourceViews();
-	void				GetOrCreateResourceView(const ResourceView& desc);
-	void				ReserveResourceView(const ResourceView& desc);
-	void				ReleaseResourceViews();
+	void											InitResourceViews();
+	GpuView*										CreateResourceView(const ResourceView& desc);
+	ResourceViewType								GetOrCreateResourceView(const ResourceView& desc);
+	ResourceViewType								ReserveResourceView(const ResourceView& desc);
+	void											ReserveResourceViews(int count);
+	void											ReleaseResourceViews();
 
-	void				SetRawResource(GpuResource* pRes);
+	const std::pair<ResourceView, GpuResource*>		LookupResourceView(const ResourceViewType desc) const;
+	std::pair<ResourceView, GpuResource*>			LookupResourceView(const ResourceViewType desc);
+
+	void											SetRawResource(GpuResource* pRes);
+
+	inline GpuSRV*									GetOrCreateSRV(const ResourceView desc)	{ return reinterpret_cast<GpuSRV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
+	inline GpuRTV*									GetOrCreateRTV(const ResourceView desc)	{ return reinterpret_cast<GpuRTV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
+	inline GpuUAV*									GetOrCreateUAV(const ResourceView desc)	{ return reinterpret_cast<GpuUAV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
+	inline GpuDSV*									GetOrCreateDSV(const ResourceView desc)	{ return reinterpret_cast<GpuDSV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
+
+	inline GpuSRV*									LookupSRV(const ResourceViewType desc) const { return reinterpret_cast<GpuSRV*>(LookupResourceView(desc).second); }
+	inline GpuRTV*									LookupRTV(const ResourceViewType desc) const { return reinterpret_cast<GpuRTV*>(LookupResourceView(desc).second); }
+	inline GpuUAV*									LookupUAV(const ResourceViewType desc) const { return reinterpret_cast<GpuUAV*>(LookupResourceView(desc).second); }
+	inline GpuDSV*									LookupDSV(const ResourceViewType desc) const { return reinterpret_cast<GpuDSV*>(LookupResourceView(desc).second); }
 
 protected:
-	std::array<ResourceView, ResourceView::Type::Total> m_resourceViews;
+	std::vector<std::pair<ResourceView, GpuView*>>	m_resourceViews;
+	TextureType										m_textureType;
 
-	uint32				m_flags;
-	ComPtr<GpuResource>	m_pRawResource;
-	DXGIFormat			m_rawFormat;
+	uint32											m_flags;
+	ComPtr<GpuResource>								m_pRawResource;
+	DXGIFormat										m_rawFormat;
+
+	bool											m_isFilterable	: 1;
+	bool											m_isSRGB		: 1;
+	bool											m_allowSRGB		: 1;
+	bool											m_isMSAA		: 1;
 
 };
 
@@ -173,12 +199,6 @@ public:
 	static DeviceTexture*	Create(const TextureLayout& layout, const TextureData& texData);
 
 private:
-	TextureType				m_textureType;
-
-	bool					m_isFilterable : 1;
-	bool					m_isSRGB : 1;
-	bool					m_allowSRGB : 1;
-	bool					m_isMSAA : 1;
 
 };
 
@@ -203,21 +223,6 @@ public:
 public:
 	static DeviceBuffer*	Create(const BufferLayout& pLayout, const void* pData);
 	static DeviceBuffer*	Associate(const BufferLayout& pLayout, GpuResource* pBuf);
-
-};
-
-class DeviceVertexBuffer : public DeviceResource
-{
-public:
-	DeviceVertexBuffer();
-	virtual					~DeviceVertexBuffer();
-};
-
-class DeviceIndexBuffer : public DeviceResource
-{
-public:
-	DeviceIndexBuffer();
-	virtual					~DeviceIndexBuffer();
 };
 
 #endif //DEVICE_RESOURCES_H

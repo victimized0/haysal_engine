@@ -1089,6 +1089,8 @@ typedef DirectX::SimpleMath::Matrix		Matrix;
 typedef DirectX::SimpleMath::Color		Color;
 typedef DirectX::BoundingBox			AABB;
 typedef DirectX::BoundingOrientedBox	OBB;
+typedef DirectX::BoundingFrustum	    Frustum;
+typedef DirectX::ContainmentType	    FrustumContainmentType;
 
 #ifdef __clang__
 #pragma clang diagnostic pop

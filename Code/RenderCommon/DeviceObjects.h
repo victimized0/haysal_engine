@@ -13,8 +13,9 @@ private:
 													~DeviceFactory();
 
 public:
-	static DeviceFactory&							Get() { return m_sInst; }
-	inline void										SetDevice(GpuDevice* pDevice) { m_pDevice = pDevice; }
+	static DeviceFactory&							Get()							{ return m_sInst; }
+	inline void										SetDevice(GpuDevice* pDevice)	{ m_pDevice = pDevice; }
+	inline GpuDevice*								GetDevice() const				{ return m_pDevice; }
 	void											ReleaseResources();
 	// Sampler states
 	//static void AllocatePredefinedSamplerStates();

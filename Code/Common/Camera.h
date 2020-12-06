@@ -18,7 +18,7 @@ public:
 		, m_nearZ(0.1f)
 		, m_farZ(1000.0f)
 		, m_projRatio(0.0f)
-	{ }
+	{}
 
 	inline void		Move(float d)
 	{
@@ -40,18 +40,24 @@ public:
 	inline void		CalculateMatrices();
 	inline void		SetFrustum(int w, int h, float fov, float nearZ, float farZ);
 
-	inline Matrix	GetView() const { return m_viewMtx; }
-	inline Matrix	GetProj(int width, int height) const { return m_projMtx; }
-	inline Vec3		GetPosition() const;
+	inline Vec3		GetPosition()					const;
+	inline Matrix	GetProj(int width, int height)	const	{ return m_projMtx; }
+	inline Matrix	GetView()						const	{ return m_viewMtx; }
 
-	inline int      GetWidth() const { return m_width; }
-	inline int      GetHeight() const { return m_height; }
-	inline float    GetFov() const { return m_fov; }
-	inline float	GetNearPlane() const { return m_nearZ; }
-	inline float	GetFarPlane() const { return m_farZ; }
-	inline float	GetProjRatio() const { return m_projRatio; }
+	inline int      GetWidth()						const	{ return m_width; }
+	inline int      GetHeight()						const	{ return m_height; }
+	inline float    GetFov()						const	{ return m_fov; }
+	inline float	GetNearPlane()					const	{ return m_nearZ; }
+	inline float	GetFarPlane()					const	{ return m_farZ; }
+	inline float	GetProjRatio()					const	{ return m_projRatio; }
+
+	inline bool		IsInsideFrustum(AABB aabb)		const {
+		FrustumContainmentType containmentType = m_frustum.Contains(aabb);
+		return containmentType == FrustumContainmentType::CONTAINS;
+	}
 
 private:
+	Matrix			m_worldMtx;
 	Matrix			m_viewMtx;
 	Matrix			m_projMtx;
 
@@ -63,6 +69,7 @@ private:
 	float			m_farZ;
 	float			m_theta;
 	float			m_phi;
+	Frustum			m_frustum;
 
 public:
 	float			Radius;
@@ -84,12 +91,19 @@ inline Vec3 Camera::GetPosition() const
 
 inline void Camera::CalculateMatrices()
 {
-	m_viewMtx = Matrix::CreateLookAt(GetPosition(), Target, Vec3(0,1,0));
+	m_viewMtx = Matrix::CreateLookAt(GetPosition(), Target, Vec3::Up);
 	m_projMtx = Matrix::CreatePerspectiveFieldOfView(m_fov, m_projRatio, m_nearZ, m_farZ);
 }
 
 inline void Camera::SetFrustum(int w, int h, float fov, float nearZ, float farZ)
 {
+	assert(w > 0);
+	assert(h > 0);
+	assert(fov >= 0.0000001f && fov < g_PI);
+	assert(nearZ > 0.001f);
+	assert(farZ > 0.1f);
+	assert(farZ > nearZ);
+
 	m_width		= w;
 	m_height	= h;
 	m_fov		= fov;
@@ -97,7 +111,7 @@ inline void Camera::SetFrustum(int w, int h, float fov, float nearZ, float farZ)
 	m_farZ		= farZ;
 	m_projRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
 
-	// TODO: Update Frustum when it comes to frustum culling implementation.
+	Frustum::CreateFromMatrix(m_frustum, GetProj(w, h));
 }
 
 #endif //CAMERA_H

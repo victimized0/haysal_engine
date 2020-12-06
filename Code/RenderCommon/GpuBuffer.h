@@ -2,6 +2,24 @@
 #define GPU_BUFFER_H
 #pragma once
 
+enum class BufferUsage : uint8
+{
+	Immutable = 0,
+	Static,
+	Dynamic,
+
+	Count
+};
+
+enum class BufferType : uint8
+{
+	Vertex = 0,
+	Index,
+	Constant,
+
+	Count
+};
+
 class GpuBuffer : NoCopy
 {
 public:

@@ -39,6 +39,6 @@ void CharacterRenderNode::Translate(const Vec3& delta)
 {
 }
 
-void CharacterRenderNode::Render(const RenderInfo& info)
+void CharacterRenderNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }

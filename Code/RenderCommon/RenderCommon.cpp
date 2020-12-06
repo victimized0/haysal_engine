@@ -104,132 +104,95 @@ BaseResource* BaseResource::Get(const std::string& name, bool addRef)
 	return nullptr;
 }
 
-ResourceView ResourceView::ShaderResource(DXGIFormat format, int flags)
+ResourceView ResourceView::ShaderResourceView(DXGIFormat format, int firstElementNum, int elementsCount, int mostDetailedMipNum, int mipsCount, bool isSrgbRead, bool isMultisampled, uint32 flags)
 {
-	ResourceView result;
+	ResourceView result(0);
 
-	result.Type				= ResourceView::Type::ShaderResourceView;
-	result.Format			= format;
-	result.Flags			= flags;
-	//result.FirstSlice		= firstSlice;
-	//result.SliceCount		= slicesCount;
-	//result.MostDetailedMip	= mostDetailedMipNum;
-	//result.MipCount			= mipsCount;
-	//result.SrgbRead			= isSrgbRead ? 1 : 0;
-	//result.Multisample		= isMSAA ? 1 : 0;
+	result.Desc.ViewType			= ResourceView::Type::ShaderResourceView;
+	result.Desc.Format				= format;
+	result.Desc.Flags				= flags;
+	result.Desc.FirstSliceNum		= firstElementNum;
+	result.Desc.SlicesCount			= elementsCount;
+	result.Desc.MostDetailedMipNum	= mostDetailedMipNum;
+	result.Desc.MipsCount			= mipsCount;
+	result.Desc.IsSrgbRead			= isSrgbRead		? 1 : 0;
+	result.Desc.IsMultisampled		= isMultisampled	? 1 : 0;
 
 	return result;
 }
 
-ResourceView ResourceView::RenderTarget(DXGIFormat format)
+ResourceView ResourceView::RenderTargetView(DXGIFormat format, int firstElementNum, int elementsCount, int mipLevel, bool isMultisampled)
 {
-	ResourceView result;
+	ResourceView result(0);
 
-	result.Type					= ResourceView::Type::RenderTargetView;
-	result.Format				= format;
-	//result.nFirstSlice		= nFirstSlice;
-	//result.nSliceCount		= nSliceCount;
-	//result.nMostDetailedMip	= nMipLevel;
-	//result.nMipCount			= 1;
-	//result.bMultisample		= bMultisample ? 1 : 0;
+	result.Desc.ViewType			= ResourceView::Type::RenderTargetView;
+	result.Desc.Format				= format;
+	result.Desc.FirstSliceNum		= firstElementNum;
+	result.Desc.SlicesCount			= elementsCount;
+	result.Desc.MostDetailedMipNum	= mipLevel;
+	result.Desc.MipsCount			= 1;
+	result.Desc.IsMultisampled		= isMultisampled ? 1 : 0;
 
 	return result;
 }
 
-ResourceView ResourceView::DepthStencil(DXGIFormat format, int flags)
+ResourceView ResourceView::DepthStencilView(DXGIFormat format, int firstElementNum, int elementsCount, int mipLevel, bool isMultisampled, uint32 flags)
 {
-	ResourceView result;
+	ResourceView result(0);
 
-	result.Type					= ResourceView::Type::DepthStencilView;
-	result.Format				= format;
-	result.Flags				= flags;
-	//result.nFirstSlice		= nFirstSlice;
-	//result.nSliceCount		= nSliceCount;
-	//result.nMostDetailedMip	= nMipLevel;
-	//result.nMipCount			= 1;
-	//result.bMultisample		= bMultisample ? 1 : 0;
+	result.Desc.ViewType			= ResourceView::Type::DepthStencilView;
+	result.Desc.Format				= format;
+	result.Desc.Flags				= flags;
+	result.Desc.FirstSliceNum		= firstElementNum;
+	result.Desc.SlicesCount			= elementsCount;
+	result.Desc.MostDetailedMipNum	= mipLevel;
+	result.Desc.MipsCount			= 1;
+	result.Desc.IsMultisampled		= isMultisampled ? 1 : 0;
 
 	return result;
 }
 
-ResourceView ResourceView::UnorderedAccess(DXGIFormat format, int flags)
+ResourceView ResourceView::UnorderedAccessView(DXGIFormat format, int firstElementNum, int elementsCount, int mipLevel, uint32 flags)
 {
-	ResourceView result;
+	ResourceView result(0);
 
-	result.Type					= ResourceView::Type::UnorderedAccessView;
-	result.Format				= format;
-	result.Flags				= flags;
-	//result.FirstSlice			= nFirstSlice;
-	//result.SliceCount			= nSliceCount;
-	//result.MostDetailedMip	= nMipLevel;
-	//result.MipCount			= 1;
+	result.Desc.ViewType			= ResourceView::Type::UnorderedAccessView;
+	result.Desc.Format				= format;
+	result.Desc.Flags				= flags;
+	result.Desc.FirstSliceNum		= firstElementNum;
+	result.Desc.SlicesCount			= elementsCount;
+	result.Desc.MostDetailedMipNum	= mipLevel;
+	result.Desc.MipsCount			= 1;
 
 	return result;
 }
 
-//ResourceView ResourceView::ShaderResourceRawView(DXGIFormat format, int flags)
+//ResourceView ResourceView::ShaderResourceRawView(DXGIFormat format, int firstElementNum, int elementsCount, uint32 flags)
 //{
-//	ResourceView result;
+//	ResourceView result(0);
 //
-//	result.Type				= ResourceView::Type::ShaderResourceView;
-//	result.Format			= format;
-//	result.Flags			= flags;
-//	//result.OffsetBits		= IntegerLog2_RoundUp(uint32(nFirstElement + 1));
-//	//result.OffsetAndSize	= uint64(nFirstElement) << (46 - result.m_Desc.nOffsetBits);
-//	//result.OffsetAndSize	|= uint64(nElementCount) & MASK64(46 - result.m_Desc.nOffsetBits);
-//
-//	//assert(nFirstElement == UINT(result.m_Desc.nOffsetAndSize >> (46 - result.m_Desc.nOffsetBits)));
-//	//assert(nElementCount == UINT(result.m_Desc.nOffsetAndSize & MASK64(46 - result.m_Desc.nOffsetBits)));
+//	result.Desc.ViewType		= ResourceView::Type::ShaderResourceView;
+//	result.Desc.Format			= format;
+//	result.Desc.OffsetBitsCount = IntegerLog2_RoundUp(uint32(firstElementNum + 1));
+//	result.Desc.OffsetAndSize	= uint64(firstElementNum) << (46 - result.Desc.OffsetBitsCount);
+//	result.Desc.OffsetAndSize	|= uint64(elementsCount) & MASK64(46 - result.Desc.OffsetBitsCount);
+//	result.Desc.Flags			= flags;
 //
 //	return result;
 //}
 //
-//ResourceView ResourceView::RenderTargetRawView(DXGIFormat format)
+//ResourceView ResourceView::RenderTargetRawView(DXGIFormat format, int firstElementNum, int elementsCount)
 //{
-//	ResourceView result;
-//
-//	result.Type				= ResourceView::Type::RenderTargetView;
-//	result.Format			= format;
-//	//result.OffsetBits		= IntegerLog2_RoundUp(uint32(nFirstElement + 1));
-//	//result.OffsetAndSize	= uint64(nFirstElement) << (46 - result.m_Desc.nOffsetBits);
-//	//result.OffsetAndSize	|= uint64(nElementCount) & MASK64(46 - result.m_Desc.nOffsetBits);
-//
-//	//assert(nFirstElement == UINT(result.m_Desc.nOffsetAndSize >> (46 - result.m_Desc.nOffsetBits)));
-//	//assert(nElementCount == UINT(result.m_Desc.nOffsetAndSize & MASK64(46 - result.m_Desc.nOffsetBits)));
-//
-//	return result;
+//	return ResourceView();
 //}
 //
-//ResourceView ResourceView::DepthStencilRawView(DXGIFormat format, int flags)
+//ResourceView ResourceView::DepthStencilRawView(DXGIFormat format, int firstElementNum, int elementsCount, uint32 flags)
 //{
-//	ResourceView result;
-//
-//	result.Type				= ResourceView::Type::DepthStencilView;
-//	result.Format			= format;
-//	result.Flags			= flags;
-//	//result.OffsetBits		= IntegerLog2_RoundUp(uint32(nFirstElement + 1));
-//	//result.OffsetAndSize	= uint64(nFirstElement) << (46 - result.m_Desc.nOffsetBits);
-//	//result.OffsetAndSize	|= uint64(nElementCount) & MASK64(46 - result.m_Desc.nOffsetBits);
-//
-//	//assert(nFirstElement == UINT(result.m_Desc.nOffsetAndSize >> (46 - result.m_Desc.nOffsetBits)));
-//	//assert(nElementCount == UINT(result.m_Desc.nOffsetAndSize & MASK64(46 - result.m_Desc.nOffsetBits)));
-//
-//	return result;
+//	return ResourceView();
 //}
 //
-//ResourceView ResourceView::UnorderedAccessRawView(DXGIFormat format, int flags)
+//ResourceView ResourceView::UnorderedAccessRawView(DXGIFormat format, int firstElementNum, int elementsCount, uint32 flags)
 //{
-//	ResourceView result;
-//
-//	result.Type				= ResourceView::Type::UnorderedAccessView;
-//	result.Format			= format;
-//	result.Flags			= flags;
-//	//result.OffsetBits		= IntegerLog2_RoundUp(uint32(nFirstElement + 1));
-//	//result.OffsetAndSize	= uint64(nFirstElement) << (46 - result.m_Desc.nOffsetBits);
-//	//result.OffsetAndSize	|= uint64(nElementCount) & MASK64(46 - result.m_Desc.nOffsetBits);
-//
-//	//assert(nFirstElement == UINT(result.m_Desc.nOffsetAndSize >> (46 - result.m_Desc.nOffsetBits)));
-//	//assert(nElementCount == UINT(result.m_Desc.nOffsetAndSize & MASK64(46 - result.m_Desc.nOffsetBits)));
-//
-//	return result;
+//	return ResourceView();
 //}
+

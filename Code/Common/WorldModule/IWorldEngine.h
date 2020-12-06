@@ -28,7 +28,6 @@ struct IWorldEngine
 	//virtual IStatObj*				FindStatObjectByFilename(const char* filename) = 0;
 	virtual int						GetLoadedObjectCount() { return 0; }
 	//virtual void					GetLoadedStatObjArray(IStatObj** pObjectsArray, int& nCount) = 0;
-	virtual void					RemoveAllStaticObjects() = 0;
 
 	//virtual void					AddObjToDebugDrawList(SObjectInfoToAddToDebugDrawList& objInfo) = 0;
 	virtual IRenderNode* CreateRenderNode(RenderNodeType type) = 0;

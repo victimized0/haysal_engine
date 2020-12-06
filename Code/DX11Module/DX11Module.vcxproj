@@ -193,6 +193,7 @@
     <ClCompile Include="..\RenderCommon\Renderer.cpp" />
     <ClCompile Include="..\RenderCommon\RenderMesh.cpp" />
     <ClCompile Include="..\RenderCommon\RenderResources.cpp" />
+    <ClCompile Include="..\RenderCommon\RenderView.cpp" />
     <ClCompile Include="..\RenderCommon\SamplerState.cpp" />
     <ClCompile Include="..\RenderCommon\Shader.cpp" />
     <ClCompile Include="..\RenderCommon\ShaderManager.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="..\RenderCommon\SwapChain.cpp" />
     <ClCompile Include="..\RenderCommon\Texture.cpp" />
     <ClCompile Include="..\RenderCommon\TextureManager.cpp" />
+    <ClCompile Include="..\RenderCommon\BuffersManager.cpp" />
     <ClCompile Include="DeviceObjects_impl.cpp" />
     <ClCompile Include="DX11Renderer.cpp" />
     <ClCompile Include="..\RenderCommon\GpuBuffer.cpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="..\RenderCommon\Renderer.h" />
     <ClInclude Include="..\RenderCommon\RenderMesh.h" />
     <ClInclude Include="..\RenderCommon\RenderResources.h" />
+    <ClInclude Include="..\RenderCommon\RenderView.h" />
     <ClInclude Include="..\RenderCommon\SamplerState.h" />
     <ClInclude Include="..\RenderCommon\Shader.h" />
     <ClInclude Include="..\RenderCommon\ShaderManager.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="..\RenderCommon\SwapChain.h" />
     <ClInclude Include="..\RenderCommon\Texture.h" />
     <ClInclude Include="..\RenderCommon\TextureManager.h" />
+    <ClInclude Include="..\RenderCommon\BuffersManager.h" />
     <ClInclude Include="DX11Renderer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +234,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DX11DeviceResources_impl.inl" />
     <None Include="DX11_impl.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

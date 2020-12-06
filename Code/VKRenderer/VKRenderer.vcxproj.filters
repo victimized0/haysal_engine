@@ -53,6 +53,12 @@
     <ClInclude Include="..\RenderCommon\GpuBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\RenderCommon\RenderView.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderCommon\BuffersManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VKRenderer.cpp" />
@@ -104,6 +110,12 @@
     <ClCompile Include="..\RenderCommon\RenderMesh.cpp">
       <Filter>Common\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="..\RenderCommon\RenderView.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderCommon\BuffersManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
@@ -124,5 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="VK_impl.inl" />
+    <None Include="VKDeviceResources_impl.inl" />
   </ItemGroup>
 </Project>

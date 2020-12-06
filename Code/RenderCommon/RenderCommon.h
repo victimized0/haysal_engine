@@ -6,6 +6,21 @@
 #include "SamplerState.h"
 #include "DeviceFormats.h"
 
+enum class ResourceViewType : uint8
+{
+	Default			= 0,
+	Alternative		= 1,
+	RasterTarget	= 2,
+
+	Linear			= Default,
+	sRGB			= Alternative,
+
+	DepthOnly		= Default,
+	StencilOnly		= Alternative,
+	RenderTarget	= RasterTarget,
+	DepthStencil	= RasterTarget,
+};
+
 enum class PrimitiveTopology : uint8
 {
 	Undefined		= D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED,
@@ -26,27 +41,77 @@ struct ResourceView
 {
 	enum Type
 	{
-		ShaderResourceView	= 0,
-		RenderTargetView	= 1,
-		DepthStencilView	= 2,
-		UnorderedAccessView	= 3,
+		SRV	= 0,
+		RTV	= 1,
+		DSV	= 2,
+		UAV	= 3,
 
 		Total
 	};
 
-	static ResourceView RenderTarget(DXGIFormat format);
-	static ResourceView ShaderResource(DXGIFormat format, int flags = 0);
-	static ResourceView DepthStencil(DXGIFormat format, int flags = 0);
-	static ResourceView UnorderedAccess(DXGIFormat format, int flags = 0);
+	enum Flags
+	{
+		SRV_DepthOnly	= 0,
+		SRV_StencilOnly	= 1,
 
-	inline bool			IsShaderResourceView()	{ return Type == Type::ShaderResourceView; }
-	inline bool			IsRenderTargetView()	{ return Type == Type::RenderTargetView; }
-	inline bool			IsDepthStencilView()	{ return Type == Type::DepthStencilView; }
-	inline bool			IsUnorderedAccessView()	{ return Type == Type::UnorderedAccessView; }
+		DSV_ReadWrite	= 0,
+		DSV_ReadOnly	= 1,
 
-	uint64				Type;
-	uint64				Flags;
-	uint64				Format;
+		UAV_WriteOnly	= 0,
+		UAV_ReadWrite	= 1,
+	};
+
+	union RVDesc
+	{
+		// Texture View configuration
+		struct
+		{
+			uint64 ViewType				: 3;
+			uint64 Format				: 7;
+			uint64 Flags				: 2;
+			uint64 IsSrgbRead			: 1;
+			uint64 IsMultisampled		: 1;
+			uint64 FirstSliceNum		: 11;
+			uint64 SlicesCount			: 11;
+			uint64 MostDetailedMipNum	: 4;
+			uint64 MipsCount			: 4;
+			uint64 Unused				: 20;
+		};
+
+		//// Buffer View configuration
+		//struct
+		//{
+		//	uint64 CommonHeader			: 12;
+		//	uint64 IsRaw				: 1;
+		//	uint64 OffsetBitsCount		: 5;
+		//	uint64 OffsetAndSize		: 46;
+		//};
+
+		uint64 Key;
+	};
+
+	ResourceView(uint64 key = 0) { Desc.Key = key; }
+
+	static ResourceView		ShaderResourceView		(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, int mostDetailedMipNum = 0, int mipsCount = -1, bool isSrgbRead = false, bool isMultisampled = false, uint32 flags = 0);
+	static ResourceView		RenderTargetView		(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, int mipLevel = 0, bool isMultisampled = false);
+	static ResourceView		DepthStencilView		(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, int mipLevel = 0, bool isMultisampled = false, uint32 flags = 0);
+	static ResourceView		UnorderedAccessView		(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, int mipLevel = 0, uint32 flags = 0);
+
+	//static ResourceView		RenderTargetRawView		(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1);
+	//static ResourceView		ShaderResourceRawView	(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, uint32 flags = 0);
+	//static ResourceView		DepthStencilRawView		(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, uint32 flags = 0);
+	//static ResourceView		UnorderedAccessRawView	(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, uint32 flags = 0);
+
+	static bool				IsMultisampled			(uint64 key)			{ return ResourceView(key).Desc.IsMultisampled; }
+	inline bool				IsShaderResourceView	(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::ShaderResourceView;	}
+	inline bool				IsRenderTargetView		(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::RenderTargetView;		}
+	inline bool				IsDepthStencilView		(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::DepthStencilView;		}
+	inline bool				IsUnorderedAccessView	(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::UnorderedAccessView;	}
+
+	bool					operator ==(const ResourceView& other)	const	{ return Desc.Key == other.Desc.Key; }
+	bool					operator !=(const ResourceView& other)	const	{ return Desc.Key != other.Desc.Key; }
+
+	RVDesc					Desc;
 };
 
 class BaseResource : NoCopy

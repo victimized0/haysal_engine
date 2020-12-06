@@ -39,6 +39,6 @@ void LightSourceNode::Translate(const Vec3& delta)
 {
 }
 
-void LightSourceNode::Render(const RenderInfo& info)
+void LightSourceNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }

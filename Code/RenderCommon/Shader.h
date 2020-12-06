@@ -289,6 +289,7 @@ public:
 	virtual void							ClearFlags(uint32 flags) override	{ m_flags &= ~flags; }
 	virtual CullType						GetCullType() const override		{ return m_cullType; }
 	virtual ShaderType						GetShaderType() const override		{ return m_shaderType; }
+	virtual ShaderBlob*						GetShaderBlob() const override		{ return &m_shaderBlob; }
 
 	virtual int								ForceRelease() override;
 	virtual bool							Reload() override;
@@ -307,6 +308,7 @@ private:
 	std::string								m_fileName;
 	std::string								m_shaderName;
 	ShaderType								m_shaderType;
+	ShaderBlob								m_shaderBlob;
 	CullType								m_cullType;
 	uint32									m_flags;
 	int										m_refreshFrameId;

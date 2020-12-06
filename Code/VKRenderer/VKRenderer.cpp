@@ -39,18 +39,6 @@ WIN_HWND VKRenderer::Init(int width, int height, const SystemInitParams& initPar
 	return nullptr;
 }
 
-void VKRenderer::BeginFrame()
-{
-}
-
-void VKRenderer::FillFrame(float clearColor)
-{
-}
-
-void VKRenderer::EndFrame()
-{
-}
-
 bool VKRenderer::CreateDevice()
 {
 	return false;
@@ -61,14 +49,6 @@ void VKRenderer::CreateSwapChain()
 }
 
 void VKRenderer::Reset()
-{
-}
-
-void VKRenderer::RenderScene()
-{
-}
-
-void VKRenderer::CreateOutput()
 {
 }
 

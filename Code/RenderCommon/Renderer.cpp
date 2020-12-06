@@ -18,8 +18,9 @@ Renderer::Renderer()
 	, m_pAdapter(nullptr)
 #endif
 {
-	m_pTextureManager = std::make_unique<TextureManager>();
-	m_pShaderManager = std::make_unique<ShaderManager>();
+	m_pTextureManager	= std::make_unique<TextureManager>();
+	m_pShaderManager	= std::make_unique<ShaderManager>();
+	m_pBufferManager	= std::make_unique<BuffersManager>();
 	//m_pRenderThread = new RenderThread;
 	//m_pRenderThread->Start();
 }
@@ -42,6 +43,8 @@ void Renderer::PostInit()
 		m_pTextureManager->PreloadDefaultTextures();
 
 	InitSysResources();
+
+	m_pBufferManager->Init();
 }
 
 void Renderer::Release()
@@ -63,11 +66,6 @@ void Renderer::FlushRenderList()
 
 }
 
-void Renderer::AddRenderItem(const RenderInfo& info)
-{
-
-}
-
 void Renderer::OnResolutionChanged(int w, int h)
 {
 	RenderResources::s_Width = w;
@@ -80,13 +78,31 @@ int Renderer::GetFrameID()
 	return m_frameID;
 }
 
+void Renderer::BeginFrame()
+{
+}
+
+void Renderer::EndFrame()
+{
+}
+
+void Renderer::RenderScene(IRenderView* renderView)
+{
+	renderView->ExecuteRenderPass(RenderListId::ShadowGen);
+	renderView->ExecuteRenderPass(RenderListId::ZPrePass);
+	renderView->ExecuteRenderPass(RenderListId::LightPass);
+	renderView->ExecuteRenderPass(RenderListId::Opaque);
+	renderView->ExecuteRenderPass(RenderListId::Transparent);
+	renderView->ExecuteRenderPass(RenderListId::PostEffects);
+}
+
 IDXGISurface* Renderer::GetBackBuffer() const
 {
 	IDXGISurface* pBackBuffer = nullptr;
 #if RENDERER_DX11
 	m_swapChain.Get()->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
 #elif RENDERER_VK
-	// TODO: 
+	assert(false); // TODO: Not implemented
 #endif
 	return pBackBuffer;
 }
@@ -107,4 +123,9 @@ void Renderer::InitSysResources()
 
 void Renderer::FreeSysResources(int flags)
 {
+}
+
+std::unique_ptr<IRenderView>&& Renderer::AllocateRenderView() const
+{
+	return std::move(std::make_unique<RenderView>());
 }
