@@ -5,12 +5,6 @@
 #include <WorldModule\IMesh.h>
 #include <RenderModule\IRenderMesh.h>
 
-struct PosNml
-{
-	Vec3 Pos;
-	Vec3 Nml;
-};
-
 class RenderMesh : public IRenderMesh
 {
 public:
@@ -39,7 +33,7 @@ public:
 	// ~Inherited via IRenderMesh
 
 private:
-	std::vector<PosNml>			m_posNml;
+	std::vector<VF_PosNmlTex>	m_posNmlTex;
 	std::string					m_srcName;
 	VertexFormat				m_vertexFormat;
 	PrimitiveTopology			m_topology;

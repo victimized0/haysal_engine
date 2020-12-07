@@ -69,7 +69,7 @@ void* GpuBuffer::Lock()
 	assert(!m_isLocked);
 
 	m_isLocked = true;
-	return DeviceFactory::Map(m_pDeviceBuffer->GetBuffer(), 0, 0, 0, D3D11_MAP(m_mapMode));
+	return DeviceFactory::Map(m_pDeviceBuffer->GetBuffer(), 0, 0, D3D11_MAP(m_mapMode));
 }
 
 void GpuBuffer::Unlock(uint32 size)

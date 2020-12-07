@@ -55,9 +55,9 @@ HRESULT DeviceFactory::CreateBuffer(size_t size, size_t elemSize, uint32 usageFl
 	return hr;
 }
 
-uint8* DeviceFactory::Map(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode)
+uint8* DeviceFactory::Map(IGpuBuffer* pBuffer, uint32 subresource, size_t size, D3D11_MAP mode)
 {
-	D3D11_MAPPED_SUBRESOURCE resource = { 0 };
+	D3D11_MAPPED_SUBRESOURCE resource = {};
 	Get().GetContext()->Map(pBuffer, subresource, mode, 0, &resource);
 	return reinterpret_cast<uint8*>(resource.pData);
 }
@@ -70,7 +70,7 @@ void DeviceFactory::Unmap(IGpuBuffer* pBuffer, uint32 subresource)
 void DeviceFactory::UploadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, const void* pInDataCPU, void* pOutDataGPU /*= nullptr*/, UINT numDataBlocks /*= 1*/)
 {
 	const uint8* pInData = reinterpret_cast<const uint8*>(pInDataCPU);
-	uint8* pOutData = Map(pBuffer, subresource, offset, size, mode) + offset;
+	uint8* pOutData = Map(pBuffer, subresource, size, mode) + offset;
 	memcpy(pOutData, pInData, size);
 	Unmap(pBuffer, subresource);
 }
@@ -78,7 +78,7 @@ void DeviceFactory::UploadContents(IGpuBuffer* pBuffer, uint32 subresource, size
 void DeviceFactory::DownloadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, void* pOutDataCPU, const void* pInDataGPU /*= nullptr*/, UINT numDataBlocks /*= 1*/)
 {
 	uint8* pOutData = reinterpret_cast<uint8*>(pOutDataCPU);
-	const uint8* pInData = Map(pBuffer, subresource, offset, size, mode) + offset;
+	const uint8* pInData = Map(pBuffer, subresource, size, mode) + offset;
 	memcpy(pOutData, pInData, size);
 	Unmap(pBuffer, subresource);
 }
