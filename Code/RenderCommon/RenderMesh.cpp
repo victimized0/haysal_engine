@@ -42,33 +42,51 @@ int RenderMesh::Release()
     return count;
 }
 
-size_t RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset, bool requiresLock)
+size_t RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
 {
     m_boundingBox   = mesh.GetBoundingBox();
     m_vtxCount      = mesh.GetVerticesCount();
     m_idxCount      = mesh.GetIndicesCount();
-    int numSubmesh  = 1;// TODO: mesh.GetSubmeshCount();
 
-    for (int i = 0; i < numSubmesh; ++i)
+    int subMeshCount = 1; // mesh.GetSubMeshCount();
+    int vtxOffset = 0,
+        idxOffset = 0;
+
+    for (int i = 0; i < subMeshCount; ++i)
     {
+        int subVtxCnt = m_vtxCount; // subMesh->GetVtxCount();
+        int subIdxCnt = m_idxCount; // subMesh->GetIndCount();
 
+        UpdateVertices(, subVtxCnt, vtxOffset);
+        UpdateIndices(, subIdxCnt, idxOffset);
+
+        vtxOffset += subVtxCnt;
+        idxOffset += subIdxCnt;
     }
 }
 
-IIndexedMesh* RenderMesh::GetIndexedMesh(IIndexedMesh* outMesh)
+void RenderMesh::UpdateVertices(void* pData, int vertsCount, int offset)
 {
-    return nullptr;
+    if (m_pVertexBuffer->IsNullBuffer() || !m_pVertexBuffer->IsAvailable())
+    {
+        uint32 flags = ResourceFlags::BIND_VERTEX_BUFFER | /*ResourceFlags::USAGE_CPU_READ |*/ ResourceFlags::USAGE_CPU_WRITE;
+        m_pVertexBuffer->Create(vertsCount, VertexFormatsHelper::GetStride(m_vertexFormat), DXGI_FORMAT_UNKNOWN, flags, pData);
+        return;
+    }
+
+    gRenderer->GetBufMan()->Write(m_pVertexBuffer, pData, vertsCount, offset);
 }
 
-bool RenderMesh::UpdateVertices(const void* pVertBuffer, int vertsCount, int offset, bool requiresLock = true)
+void RenderMesh::UpdateIndices(uint32* pData, int indicesCount, int offset)
 {
-    //m_pVertexBuffer->UpdateContent();
-    return true;
-}
+    if (m_pIndexBuffer->IsNullBuffer() || !m_pIndexBuffer->IsAvailable())
+    {
+        uint32 flags = ResourceFlags::BIND_INDEX_BUFFER | /*ResourceFlags::USAGE_CPU_READ |*/ ResourceFlags::USAGE_CPU_WRITE;
+        m_pIndexBuffer->Create(indicesCount, sizeof(uint32), DXGI_FORMAT_UNKNOWN, flags, pData);
+        return;
+    }
 
-bool RenderMesh::UpdateIndices(const uint32* pIndBuffer, int indicesCount, int offset, bool requiresLock = true)
-{
-    return true;
+    gRenderer->GetBufMan()->Write(m_pIndexBuffer, pData, indicesCount, offset);
 }
 
 void RenderMesh::Render(const RenderParams& params, IRenderView* pRenderView)

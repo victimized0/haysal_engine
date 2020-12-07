@@ -23,7 +23,7 @@ inline D3D11_CPU_ACCESS_FLAG ConvertCPUAccessFlags(uint32 flags)
 		((flags & ResourceFlags::USAGE_CPU_READ ) ? D3D11_CPU_ACCESS_READ  : 0) );
 }
 
-inline D3D11_USAGE ConvertUsage(uint32 flags)
+inline D3D11_USAGE ConvertUsageFlags(uint32 flags)
 {
 	assert((flags & (ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE)) != (ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE));
 

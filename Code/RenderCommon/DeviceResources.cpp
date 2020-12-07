@@ -259,7 +259,48 @@ int32 DeviceBuffer::Release()
 
 DeviceBuffer* DeviceBuffer::Create(const BufferLayout& pLayout, const void* pData)
 {
-	return nullptr;
+	DeviceBuffer*	pDevBuffer	= nullptr;
+	IGpuBuffer*		pBuffer		= nullptr;
+
+	size_t elementSize	= pLayout.ElementSize;
+	size_t elementCount	= pLayout.ElementCount;
+	uint32 flags		= pLayout.Flags; // No FT_ flags used here, no mapping of flags required
+	size_t size			= elementSize * elementCount;
+
+	assert(elementSize > 0);
+	assert(size > 0);
+
+	static const uint32 bindFlagMask =
+		ResourceFlags::BIND_DEPTH_STENCIL    |
+		ResourceFlags::BIND_RENDER_TARGET    |
+		ResourceFlags::BIND_UNORDERED_ACCESS |
+		ResourceFlags::BIND_VERTEX_BUFFER    |
+		ResourceFlags::BIND_INDEX_BUFFER     |
+		ResourceFlags::BIND_CONST_BUFFER     |
+		ResourceFlags::BIND_SHADER_RESOURCE;
+
+	const HRESULT hr = DeviceFactory::CreateBuffer(elementCount, elementSize, flags & ~bindFlagMask, flags & bindFlagMask, &pBuffer, pData);
+	if (FAILED(hr))
+	{
+		assert(false);
+		return nullptr;
+	}
+
+	pDevBuffer						= new DeviceBuffer();
+	pDevBuffer->m_pRawResource		= pBuffer;
+	pDevBuffer->m_rawFormat			= pLayout.Format;
+	pDevBuffer->m_flags				= pLayout.Flags;
+	pDevBuffer->m_resourceElements	= elementCount * elementSize;
+	//pDevBuffer->m_subResources[eSubResource_Mips] = 0;
+	//pDevBuffer->m_subResources[eSubResource_Slices] = 0; 
+	pDevBuffer->m_textureType		= TextureType::Unknown;
+	pDevBuffer->m_isFilterable		= false;
+	pDevBuffer->m_isSRGB			= false;
+	pDevBuffer->m_allowSRGB			= false;
+	pDevBuffer->m_isMSAA			= false;
+	pDevBuffer->InitResourceViews();
+
+	return pDevBuffer;
 }
 
 DeviceBuffer* DeviceBuffer::Associate(const BufferLayout& pLayout, GpuResource* pBuf)

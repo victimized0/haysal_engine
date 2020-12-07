@@ -187,7 +187,8 @@ WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initP
 	// System shaders are static members of ShaderMan class
 	// TODO: Load system shaders
 
-	DeviceFactory::Get().SetDevice(GetDevice());
+	DeviceFactory::Get().SetDevice(m_pDevice.Get());
+	DeviceFactory::Get().SetContext(m_pContext.Get());
 
 	m_isInit = true;
 	return m_hWnd;

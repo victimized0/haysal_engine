@@ -53,7 +53,7 @@ void GpuBuffer::UpdateContent(const void* pData, uint32 size)
 		if (m_flags & ResourceFlags::USAGE_CPU_WRITE)
 		{
 			// Transfer sub-set of GPU resource to CPU, also allows graphics debugger and multi-gpu broadcaster to do the right thing
-			DeviceFactory::Get().UploadContents<false>(m_pDeviceBuffer->GetBuffer(), 0, 0, size, D3D11_MAP(m_mapMode), pData);
+			DeviceFactory::UploadContents(m_pDeviceBuffer->GetBuffer(), 0, 0, size, D3D11_MAP(m_mapMode), pData);
 		}
 		else
 		{
@@ -69,7 +69,7 @@ void* GpuBuffer::Lock()
 	assert(!m_isLocked);
 
 	m_isLocked = true;
-	return DeviceFactory::Get().Map(m_pDeviceBuffer->GetBuffer(), 0, 0, 0, D3D11_MAP(m_mapMode));
+	return DeviceFactory::Map(m_pDeviceBuffer->GetBuffer(), 0, 0, 0, D3D11_MAP(m_mapMode));
 }
 
 void GpuBuffer::Unlock(uint32 size)
@@ -78,14 +78,12 @@ void GpuBuffer::Unlock(uint32 size)
 	assert(m_isLocked);
 
 	m_isLocked = false;
-	return DeviceFactory::Get().Unmap(m_pDeviceBuffer->GetBuffer(), 0, 0, size, D3D11_MAP(m_mapMode));
+	return DeviceFactory::Unmap(m_pDeviceBuffer->GetBuffer(), 0);
 }
 
 DeviceBuffer* GpuBuffer::AllocateDeviceBuffer(const void* pInitialData) const
 {
-	const BufferLayout layout = GetLayout();
-	DeviceBuffer* pDevBuf = DeviceBuffer::Create(layout, pInitialData);
-    return pDevBuf;
+    return DeviceBuffer::Create(GetLayout(), pInitialData);
 }
 
 void GpuBuffer::ReleaseDeviceBuffer(DeviceBuffer*& pDeviceBuffer) const

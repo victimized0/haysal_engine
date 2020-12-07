@@ -7,6 +7,9 @@ std::map<VertexFormat, InputLayoutPair> DeviceFactory::s_inputLayoutCompositions
 
 DeviceFactory::DeviceFactory()
 	: m_pDevice(nullptr)
+#if RENDERER_DX11
+	, m_pDevCon(nullptr)
+#endif
 {
 
 }
@@ -160,7 +163,7 @@ HRESULT DeviceFactory::CreateTexture2D(uint16 width, uint16 height, uint16 mipsC
 	desc.ArraySize				= arraySize;
 	desc.BindFlags				= ConvertBindFlags(flags);
 	desc.CPUAccessFlags			= ConvertCPUAccessFlags(flags);
-	desc.Usage					= ConvertUsage(flags);
+	desc.Usage					= ConvertUsageFlags(flags);
 	desc.MiscFlags				= ConvertMiscFlags(flags);
 
 	// TODO: Incapsulate this to API-independent call

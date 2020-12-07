@@ -13,9 +13,13 @@ private:
 													~DeviceFactory();
 
 public:
-	static DeviceFactory&							Get()							{ return m_sInst; }
-	inline void										SetDevice(GpuDevice* pDevice)	{ m_pDevice = pDevice; }
-	inline GpuDevice*								GetDevice() const				{ return m_pDevice; }
+	static DeviceFactory&							Get()								{ return m_sInst; }
+	inline void										SetDevice(GpuDevice* pDevice)		{ m_pDevice = pDevice; }
+	inline GpuDevice*								GetDevice() const					{ return m_pDevice; }
+#if RENDERER_DX11
+	inline void										SetContext(GpuContext* pContext)	{ m_pDevCon = pContext; }
+	inline GpuContext*								GetContext() const					{ return m_pDevCon; }
+#endif
 	void											ReleaseResources();
 	// Sampler states
 	//static void AllocatePredefinedSamplerStates();
@@ -54,8 +58,21 @@ public:
 
 	void											ReleaseResource(GpuResource* pResource);
 
+	// Buffer resources
+	static HRESULT									CreateBuffer(size_t size, size_t elemSize, uint32 usageFlags, uint32 bindFlags, IGpuBuffer** ppBuff, const void* pData = nullptr);
+
+	static uint8*									Map(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode);
+	static void										Unmap(IGpuBuffer* pBuffer, uint32 subresource);
+
+	static void										UploadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, const void* pInDataCPU, void* pOutDataGPU = nullptr, UINT numDataBlocks = 1);
+	static void										DownloadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, void* pOutDataCPU, const void* pInDataGPU = nullptr, UINT numDataBlocks = 1);
+	// ~Buffer resources
+
 private:
 	GpuDevice*										m_pDevice;
+#if RENDERER_DX11
+	GpuContext*										m_pDevCon;
+#endif
 
 	static DeviceFactory							m_sInst;
 	static std::vector<InputLayout>					s_inputLayoutsCache;

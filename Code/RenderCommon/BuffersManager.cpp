@@ -1,28 +1,28 @@
 #include "StdAfx.h"
 #include "BuffersManager.h"
 
-BuffersManager::BuffersManager()
+BufferManager::BufferManager()
 {
 }
 
-BuffersManager::~BuffersManager()
+BufferManager::~BufferManager()
 {
 	ShutDown();
 }
 
-bool BuffersManager::Init()
+bool BufferManager::Init()
 {
 	return true;
 }
 
-void BuffersManager::ShutDown()
+void BufferManager::ShutDown()
 {
 	for (GpuBuffer* buf : m_buffersPool)
 		SAFE_RELEASE(buf);
 	m_buffersPool.clear();
 }
 
-GpuBuffer* BuffersManager::Create(BufferType type, BufferUsage usage, uint32 bindFlags, uint32 usageFlags, size_t size)
+GpuBuffer* BufferManager::Create(BufferType type, BufferUsage usage, uint32 bindFlags, uint32 usageFlags, size_t size)
 {
 	const BufferLayout layout =
 	{
@@ -38,7 +38,7 @@ GpuBuffer* BuffersManager::Create(BufferType type, BufferUsage usage, uint32 bin
 	return pBuffer;
 }
 
-void BuffersManager::Destroy(GpuBuffer* pBuffer)
+void BufferManager::Destroy(GpuBuffer* pBuffer)
 {
 	for (size_t i = 0; i < m_buffersPool.size(); ++i)
 	{
@@ -47,4 +47,26 @@ void BuffersManager::Destroy(GpuBuffer* pBuffer)
 			m_buffersPool.erase(m_buffersPool.begin() + i);
 		}
 	}
+}
+
+void BufferManager::Read(GpuBuffer* pBuffer, void* pOutData, size_t size, size_t offset)
+{
+	assert(pBuffer);
+	assert(pOutData);
+
+	if (!pBuffer->IsAvailable())
+		return;
+
+	DeviceFactory::DownloadContents(pBuffer->GetDevBuffer()->GetBuffer(), 0, offset, size, D3D11_MAP::D3D11_MAP_READ, pOutData);
+}
+
+void BufferManager::Write(GpuBuffer* pBuffer, void* pInData, size_t size, size_t offset)
+{
+	assert(pBuffer);
+	assert(pInData);
+
+	if (!pBuffer->IsAvailable())
+		return;
+
+	DeviceFactory::UploadContents(pBuffer->GetDevBuffer()->GetBuffer(), 0, offset, size, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, pInData);
 }

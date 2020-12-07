@@ -13,7 +13,7 @@ inline D3D11_CPU_ACCESS_FLAG ConvertCPUAccessFlags(uint32 flags)
 	return 0;
 }
 
-inline D3D11_USAGE ConvertUsage(uint32 flags)
+inline D3D11_USAGE ConvertUsageFlags(uint32 flags)
 {
 	return 0;
 }

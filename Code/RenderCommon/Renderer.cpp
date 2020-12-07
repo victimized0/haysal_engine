@@ -20,7 +20,7 @@ Renderer::Renderer()
 {
 	m_pTextureManager	= std::make_unique<TextureManager>();
 	m_pShaderManager	= std::make_unique<ShaderManager>();
-	m_pBufferManager	= std::make_unique<BuffersManager>();
+	m_pBufferManager	= std::make_unique<BufferManager>();
 	//m_pRenderThread = new RenderThread;
 	//m_pRenderThread->Start();
 }

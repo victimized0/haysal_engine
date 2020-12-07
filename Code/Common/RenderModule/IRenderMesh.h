@@ -25,11 +25,14 @@ struct IRenderMesh
 	virtual VertexFormat		GetVertexFormat() = 0;
 	virtual RenderMeshType		GetMeshType() = 0;
 
-	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset, bool requiresLock) = 0;
+	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) = 0;
 	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) = 0;
 
-	virtual bool				UpdateVertices(const void* pVertBuffer, int vertsCount, int offset, bool requiresLock = true) = 0;
-	virtual bool				UpdateIndices(const uint32* pIndBuffer, int indicesCount, int offset, bool requiresLock = true) = 0;
+	virtual void				UpdateVertices(void* pVertBuffer, int vertsCount, int offset) = 0;
+	virtual void				UpdateIndices(uint32* pIndBuffer, int indicesCount, int offset) = 0;
+
+	virtual GpuBuffer*			GetVertexBuffer() = 0;
+	virtual GpuBuffer*			GetIndexBuffer() = 0;
 
 	virtual void                Render(const struct RenderParams& params, IRenderView* pRenderView) = 0;
 	//virtual void				DebugRender() = 0;

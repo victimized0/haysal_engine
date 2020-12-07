@@ -26,10 +26,15 @@ public:
 	virtual VertexFormat		GetVertexFormat()			final	{ return m_vertexFormat; }
 	virtual RenderMeshType		GetMeshType()				final	{ return m_type; }
 
-	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset, bool requiresLock) override;
-	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override;
-	virtual bool				UpdateVertices(const void* pVertBuffer, int vertsCount, int offset, bool requiresLock = true) override;
-	virtual bool				UpdateIndices(const uint32* pIndBuffer, int indicesCount, int offset, bool requiresLock = true) override;
+	virtual GpuBuffer*			GetVertexBuffer()			final	{ return m_pVertexBuffer; }
+	virtual GpuBuffer*			GetIndexBuffer()			final	{ return m_pIndexBuffer; }
+
+	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) override;
+	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override { return nullptr; }
+
+	virtual void				UpdateVertices(void* pData, int vertsCount, int offset) override;
+	virtual void				UpdateIndices(uint32* pData, int indicesCount, int offset) override;
+
 	virtual void				Render(const RenderParams& params, IRenderView* pRenderView) override;
 	// ~Inherited via IRenderMesh
 

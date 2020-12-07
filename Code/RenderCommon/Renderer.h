@@ -48,7 +48,7 @@ public:
 	virtual void					CreateSwapChain() = 0;
 
 	virtual ShaderManager*			GetShaderMan()	const	{ return m_pShaderManager.get(); }
-	virtual BuffersManager*			GetBufMan()		const	{ return m_pBufferManager.get(); }
+	virtual BufferManager*			GetBufMan()		const	{ return m_pBufferManager.get(); }
 	virtual TextureManager*			GetTexMan()		const	{ return m_pTextureManager.get(); }
 
 	virtual void					Reset() = 0;
@@ -100,7 +100,7 @@ protected:
 
 	std::unique_ptr<IMaterial>		m_pDefaultMaterial;
 	std::unique_ptr<TextureManager>	m_pTextureManager;
-	std::unique_ptr<BuffersManager> m_pBufferManager;
+	std::unique_ptr<BufferManager> m_pBufferManager;
 	std::unique_ptr<ShaderManager>	m_pShaderManager;
 
 #if RENDERER_DX11	// TODO: Implement Vulkan

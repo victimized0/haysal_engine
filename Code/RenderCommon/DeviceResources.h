@@ -178,6 +178,7 @@ protected:
 	uint32											m_flags;
 	ComPtr<GpuResource>								m_pRawResource;
 	DXGIFormat										m_rawFormat;
+	int												m_resourceElements;
 
 	bool											m_isFilterable	: 1;
 	bool											m_isSRGB		: 1;

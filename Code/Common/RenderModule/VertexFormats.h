@@ -14,37 +14,54 @@ enum class VertexFormat : uint8
 	Total
 };
 
-struct VertexFormat_Pos
+struct VF_Pos
 {
 	Vec3	Pos;
 };
 
-struct VertexFormat_PosTex
+struct VF_PosTex
 {
 	Vec3	Pos;
 	Vec2	Tex;
 };
 
-struct VertexFormat_PosColTex
+struct VF_PosColTex
 {
 	Vec3	Pos;
 	Color	Col;
 	Vec2	Tex;
 };
 
-struct VertexFormat_PosNmlTex
+struct VF_PosNmlTex
 {
 	Vec3	Pos;
 	Vec3	Nml;
 	Vec2	Tex;
 };
 
-struct VertexFormat_PosNmlColTex
+struct VF_PosNmlColTex
 {
 	Vec3	Pos;
 	Vec3	Nml;
 	Color	Col;
 	Vec2	Tex;
+};
+
+class VertexFormatsHelper
+{
+public:
+	static inline size_t GetStride(VertexFormat vf)
+	{
+		switch (vf)
+		{
+		case VertexFormat::Pos:				return sizeof(VF_Pos);
+		case VertexFormat::PosTex:			return sizeof(VF_PosTex);
+		case VertexFormat::PosColTex:		return sizeof(VF_PosColTex);
+		case VertexFormat::PosNmlTex:		return sizeof(VF_PosNmlTex);
+		case VertexFormat::PosNmlColTex:	return sizeof(VF_PosNmlColTex);
+		default:							return 0;
+		}
+	}
 };
 
 #endif //VERTEX_FORMATS_H
