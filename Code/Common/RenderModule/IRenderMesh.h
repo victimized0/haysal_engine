@@ -4,6 +4,7 @@
 
 struct IMesh;
 struct IIndexedMesh;
+enum PrimitiveTopology;
 
 enum class RenderMeshType : uint8
 {
@@ -20,10 +21,11 @@ struct IRenderMesh
 	virtual int					Release() = 0;
 
 	virtual const char*			GetSourceName() const = 0;
-	virtual int					GetIndicesCount() = 0;
-	virtual int					GetVerticesCount() = 0;
-	virtual VertexFormat		GetVertexFormat() = 0;
-	virtual RenderMeshType		GetMeshType() = 0;
+	virtual int					GetIndicesCount() const = 0;
+	virtual int					GetVerticesCount() const = 0;
+	virtual VertexFormat		GetVertexFormat() const = 0;
+	virtual RenderMeshType		GetMeshType() const = 0;
+	virtual PrimitiveTopology	GetPrimitiveTopology() const = 0;
 
 	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) = 0;
 	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) = 0;

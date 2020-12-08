@@ -34,9 +34,8 @@ struct IMaterial
 
 	virtual bool				SetGetMaterialParamFloat(const char* sParamName, float& v, bool bGet) = 0;
 	virtual bool				SetGetMaterialParamVec3(const char* sParamName, Vec3& v, bool bGet) = 0;
-	virtual void				SetTexture(int textureId, int textureSlot = ShaderResourceTextureSlot::Diffuse) = 0;
-	virtual void				SetSubTexture(int textureId, int subMaterialSlot, int textureSlot = ShaderResourceTextureSlot::Diffuse) = 0;
-
+	virtual void				SetTexture(int textureId, int textureSlot = static_cast<int>(ShaderResourceTextureSlot::Diffuse)) = 0;
+	virtual void				SetSubTexture(int textureId, int subMaterialSlot, int textureSlot = static_cast<int>(ShaderResourceTextureSlot::Diffuse)) = 0;
 };
 
 struct IMaterialManager

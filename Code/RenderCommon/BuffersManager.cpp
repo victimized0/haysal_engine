@@ -22,6 +22,14 @@ void BufferManager::ShutDown()
 	m_buffersPool.clear();
 }
 
+ConstantBuffer* BufferManager::CreateConstBuffer(size_t size)
+{
+	//BufferType::Constant, BufferUsage::Dynamic, ResourceFlags::BIND_CONST_BUFFER, ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE
+	ConstantBuffer* pCB = new ConstantBuffer;
+	pCB->SetSize(size);
+	return pCB;
+}
+
 GpuBuffer* BufferManager::Create(BufferType type, BufferUsage usage, uint32 bindFlags, uint32 usageFlags, size_t size)
 {
 	const BufferLayout layout =

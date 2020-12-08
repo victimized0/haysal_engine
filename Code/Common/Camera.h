@@ -41,7 +41,7 @@ public:
 	inline void		SetFrustum(int w, int h, float fov, float nearZ, float farZ);
 
 	inline Vec3		GetPosition()					const;
-	inline Matrix	GetProj(int width, int height)	const	{ return m_projMtx; }
+	inline Matrix	GetProj()						const	{ return m_projMtx; }
 	inline Matrix	GetView()						const	{ return m_viewMtx; }
 
 	inline int      GetWidth()						const	{ return m_width; }

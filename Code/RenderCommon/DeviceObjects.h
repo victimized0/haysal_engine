@@ -61,11 +61,11 @@ public:
 	// Buffer resources
 	static HRESULT									CreateBuffer(size_t size, size_t elemSize, uint32 usageFlags, uint32 bindFlags, IGpuBuffer** ppBuff, const void* pData = nullptr);
 
-	static uint8*									Map(IGpuBuffer* pBuffer, uint32 subresource, size_t size, D3D11_MAP mode);
+	static uint8*									Map(IGpuBuffer* pBuffer, uint32 subresource, D3D11_MAP mode);
 	static void										Unmap(IGpuBuffer* pBuffer, uint32 subresource);
 
-	static void										UploadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, const void* pInDataCPU, void* pOutDataGPU = nullptr, UINT numDataBlocks = 1);
-	static void										DownloadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, void* pOutDataCPU, const void* pInDataGPU = nullptr, UINT numDataBlocks = 1);
+	static void										UploadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, const void* pInDataCPU, void* pOutDataGPU = nullptr);
+	static void										DownloadContents(IGpuBuffer* pBuffer, uint32 subresource, size_t offset, size_t size, D3D11_MAP mode, void* pOutDataCPU, const void* pInDataGPU = nullptr);
 	// ~Buffer resources
 
 private:

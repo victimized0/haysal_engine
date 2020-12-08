@@ -3,6 +3,7 @@
 #pragma once
 
 class GpuBuffer;
+class ConstantBuffer;
 
 class BufferManager
 {
@@ -13,6 +14,7 @@ public:
 	bool					Init();
 	void					ShutDown();
 
+	ConstantBuffer*         CreateConstBuffer(size_t size);
 	GpuBuffer*				Create(BufferType type, BufferUsage usage, uint32 bindFlags, uint32 usageFlags, size_t size);
 	void					Destroy(GpuBuffer* pBuffer);
 

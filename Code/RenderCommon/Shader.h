@@ -289,7 +289,7 @@ public:
 	virtual void							ClearFlags(uint32 flags) override	{ m_flags &= ~flags; }
 	virtual CullType						GetCullType() const override		{ return m_cullType; }
 	virtual ShaderType						GetShaderType() const override		{ return m_shaderType; }
-	virtual ShaderBlob*						GetShaderBlob() const override		{ return &m_shaderBlob; }
+	virtual ShaderBlob*						GetShaderBlob() override			{ return &m_shaderBlob; }
 
 	virtual int								ForceRelease() override;
 	virtual bool							Reload() override;
@@ -299,7 +299,7 @@ public:
 	virtual uint32							GetUsedTextureTypes() override;
 	virtual ShaderTextureSlots*				GetUsedTextureSlots(int techniqueId) override;
 	virtual int								GetTechniqueId(int techniqueIndex) override;
-	//virtual InputLayoutHandle				GetVertexFormat() override;
+	virtual VertexFormat					GetVertexFormat() override { return m_vertexFormat; }
 	// ~IShader Interface
 
 	void									Free();
@@ -312,7 +312,7 @@ private:
 	CullType								m_cullType;
 	uint32									m_flags;
 	int										m_refreshFrameId;
-	//InputLayoutHandle						m_vertexFormat;
+	VertexFormat							m_vertexFormat;
 	std::vector<ShaderTechnique*>			m_techniques;
 	ShaderTextureSlots*						m_textureSlots[static_cast<int>(TechniqueId::Total)];
 

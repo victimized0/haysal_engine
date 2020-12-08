@@ -119,10 +119,10 @@ struct IShader
 	virtual ShaderTextureSlots*				GetUsedTextureSlots(int techniqueId) = 0;
 
 	virtual int								GetTechniqueId(int techniqueIndex) = 0;
-	//virtual InputLayoutHandle				GetVertexFormat() = 0;
+	virtual VertexFormat					GetVertexFormat() = 0;
 	virtual CullType						GetCullType() const = 0;
 	virtual ShaderType						GetShaderType() const = 0;
-	virtual ShaderBlob*						GetShaderBlob() const = 0;
+	virtual ShaderBlob*						GetShaderBlob() = 0;
 
 	static uint32							GetTextureSlotNum(ShaderResourceTextureSlot textureType) { return static_cast<uint32>(textureType); }
 };

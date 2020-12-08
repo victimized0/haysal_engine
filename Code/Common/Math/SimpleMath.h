@@ -343,6 +343,7 @@ namespace DirectX
         struct Vector4 : public XMFLOAT4
         {
             Vector4() noexcept : XMFLOAT4(0.f, 0.f, 0.f, 0.f) {}
+            constexpr explicit Vector4(Vector3 vec3, float f = 0.0f) noexcept : XMFLOAT4(vec3.x, vec3.y, vec3.z, f) {}
             constexpr explicit Vector4(float ix) noexcept : XMFLOAT4(ix, ix, ix, ix) {}
             constexpr Vector4(float ix, float iy, float iz, float iw) noexcept : XMFLOAT4(ix, iy, iz, iw) {}
             explicit Vector4(_In_reads_(4) const float *pArray) noexcept : XMFLOAT4(pArray) {}

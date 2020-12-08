@@ -60,7 +60,7 @@ size_t RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
         m_posNmlTex[i].Tex = pTex[i];
     }
 
-    void* pVtxData = m_posNmlTex.data();
+    void*   pVtxData = m_posNmlTex.data();
     uint32* pIdxData = mesh.GetIndicesData();
 
     int vtxOffset = 0,
@@ -69,11 +69,14 @@ size_t RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
     UpdateVertices(pVtxData, m_vtxCount, vtxOffset);
     UpdateIndices(pIdxData, m_idxCount, idxOffset);
 
-    int subMeshCount = 0; // mesh.GetSubMeshCount();
+    int subMeshCount = 0;  // mesh.GetSubMeshCount();
     for (int i = 0; i < subMeshCount; ++i)
     {
         int subVtxCnt = 0; // subMesh->GetVtxCount();
         int subIdxCnt = 0; // subMesh->GetIndCount();
+
+        if (subVtxCnt == 0)
+            continue;
 
         pVtxData = nullptr; // subMesh->GetVtxData();
         pIdxData = nullptr; // subMesh->GetIdxData();
@@ -88,9 +91,10 @@ size_t RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
 
 void RenderMesh::UpdateVertices(void* pData, int vertsCount, int offset)
 {
+    assert(false); // Currently engine isn't supposed to update static meshes
     if (m_pVertexBuffer->IsNullBuffer() || !m_pVertexBuffer->IsAvailable())
     {
-        uint32 flags = ResourceFlags::BIND_VERTEX_BUFFER | /*ResourceFlags::USAGE_CPU_READ |*/ ResourceFlags::USAGE_CPU_WRITE;
+        uint32 flags = ResourceFlags::BIND_VERTEX_BUFFER /*| ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE*/;
         m_pVertexBuffer->Create(vertsCount, VertexFormatsHelper::GetStride(m_vertexFormat), DXGI_FORMAT_UNKNOWN, flags, pData);
         return;
     }
@@ -100,9 +104,10 @@ void RenderMesh::UpdateVertices(void* pData, int vertsCount, int offset)
 
 void RenderMesh::UpdateIndices(uint32* pData, int indicesCount, int offset)
 {
+    assert(false); // Currently engine isn't supposed to update static meshes
     if (m_pIndexBuffer->IsNullBuffer() || !m_pIndexBuffer->IsAvailable())
     {
-        uint32 flags = ResourceFlags::BIND_INDEX_BUFFER | /*ResourceFlags::USAGE_CPU_READ |*/ ResourceFlags::USAGE_CPU_WRITE;
+        uint32 flags = ResourceFlags::BIND_INDEX_BUFFER /*| ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE*/;
         m_pIndexBuffer->Create(indicesCount, sizeof(uint32), DXGI_FORMAT_UNKNOWN, flags, pData);
         return;
     }

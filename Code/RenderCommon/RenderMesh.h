@@ -15,10 +15,11 @@ public:
 	virtual void				AddRef()					final;
 	virtual int					Release()					final;
 	virtual const char*			GetSourceName()		const	final	{ return m_srcName.c_str(); }
-	virtual int					GetIndicesCount()			final	{ return m_idxCount; }
-	virtual int					GetVerticesCount()			final	{ return m_vtxCount; }
-	virtual VertexFormat		GetVertexFormat()			final	{ return m_vertexFormat; }
-	virtual RenderMeshType		GetMeshType()				final	{ return m_type; }
+	virtual int					GetIndicesCount()	const	final	{ return m_idxCount; }
+	virtual int					GetVerticesCount()	const	final	{ return m_vtxCount; }
+	virtual VertexFormat		GetVertexFormat()	const	final	{ return m_vertexFormat; }
+	virtual RenderMeshType		GetMeshType()		const	final	{ return m_type; }
+	virtual PrimitiveTopology	GetPrimitiveTopology() const final	{ return m_topology; }
 
 	virtual GpuBuffer*			GetVertexBuffer()			final	{ return m_pVertexBuffer; }
 	virtual GpuBuffer*			GetIndexBuffer()			final	{ return m_pIndexBuffer; }

@@ -13,7 +13,6 @@ public:
 	virtual void			SetFrameId(int frameId) override;
 	virtual int				GetFrameId() const override;
 
-	virtual void			SetDeviceContext(GpuContext* pContext) override					{ m_pDeviceContext = pContext; }
 	virtual void			SetViewport(const RenderViewport& viewport) override			{ m_viewport = viewport; }
 	virtual const			RenderViewport& GetViewport() const override					{ return m_viewport;}
 
@@ -30,6 +29,8 @@ public:
 	virtual bool			HasAddedItems(RenderListId listId) override;
 	virtual size_t			NumAddedItems(RenderListId listId) override;
 
+	virtual void			SetFrameData(void* pData, size_t size) final;
+
 private:
 	void					Execute_ShadowPass();
 	void					Execute_EarlyZPass();
@@ -40,10 +41,15 @@ private:
 
 private:
 	std::array<RenderList, static_cast<size_t>(RenderListId::Count)> m_renderLists;
+	// TODO: Refactor to move code to PipelineStages array
 
 	RenderViewport			m_viewport;
-	GpuContext*				m_pDeviceContext;
 
+	ConstantBuffer*			m_pcbPerDraw;
+	ConstantBuffer*			m_pcbPerMaterial;
+	ConstantBuffer*			m_pcbPerPass;
+	ConstantBuffer*			m_pcbPerShadowPass;
+	ConstantBuffer*			m_pcbPerFrame;
 };
 
 #endif //RENDER_VIEW_H

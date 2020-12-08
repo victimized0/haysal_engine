@@ -69,7 +69,7 @@ void* GpuBuffer::Lock()
 	assert(!m_isLocked);
 
 	m_isLocked = true;
-	return DeviceFactory::Map(m_pDeviceBuffer->GetBuffer(), 0, 0, D3D11_MAP(m_mapMode));
+	return DeviceFactory::Map(m_pDeviceBuffer->GetBuffer(), 0, D3D11_MAP(m_mapMode));
 }
 
 void GpuBuffer::Unlock(uint32 size)
@@ -89,4 +89,30 @@ DeviceBuffer* GpuBuffer::AllocateDeviceBuffer(const void* pInitialData) const
 void GpuBuffer::ReleaseDeviceBuffer(DeviceBuffer*& pDeviceBuffer) const
 {
 	SAFE_RELEASE(pDeviceBuffer);
+}
+
+bool ConstantBuffer::Update(const void* pData, size_t size, size_t offset)
+{
+	if (m_pBuffer == nullptr)
+	{
+		const BufferLayout layout =
+		{
+			DXGI_FORMAT_UNKNOWN,
+			m_size,
+			1,
+			(ResourceFlags::USAGE_CPU_WRITE | ResourceFlags::BIND_CONST_BUFFER)
+		};
+
+		if (!(m_pBuffer = DeviceBuffer::Create(layout, nullptr)))
+		{
+			assert(false);
+			return false;
+		}
+	}
+	else
+	{
+		DeviceFactory::UploadContents(m_pBuffer->GetBuffer(), 0, offset, size, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, pData);
+	}
+
+	return true;
 }

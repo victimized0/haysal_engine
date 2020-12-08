@@ -31,6 +31,36 @@ enum class PrimitiveTopology : uint8
 	TriangleStrip	= D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,
 };
 
+enum class ConstBufferSlot : uint8
+{
+	PerDraw		= 0,
+	PerMaterial	= 1,
+	PerPass		= 2,
+	PerFrame	= 3,
+
+	Count
+};
+
+enum class ShaderClass : uint8
+{
+	Vertex		= 0,
+	Pixel		= 1,
+	Geometry	= 2,
+	Compute		= 3,
+
+	Count
+};
+
+enum class ShaderStage : uint8
+{
+	Vertex		= BIT8(static_cast<uint8>(ShaderClass::Vertex)),
+	Pixel		= BIT8(static_cast<uint8>(ShaderClass::Pixel)),
+	Geometry	= BIT8(static_cast<uint8>(ShaderClass::Geometry)),
+	Compute		= BIT8(static_cast<uint8>(ShaderClass::Compute)),
+
+	Count		= static_cast<uint8>(ShaderClass::Count)
+};
+
 struct ShaderBlob
 {
 	void* m_pData;
