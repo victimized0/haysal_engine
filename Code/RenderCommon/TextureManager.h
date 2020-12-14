@@ -2,6 +2,8 @@
 #define TEXTURE_MANAGER_H
 #pragma once
 
+class Texture;
+
 class TextureManager
 {
 public:

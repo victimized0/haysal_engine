@@ -139,6 +139,12 @@
     <ClInclude Include="RenderModule\IRenderView.h">
       <Filter>Interfaces\RenderModule</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\CRC.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FileHelper.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\SimpleMath.cpp">

@@ -2,22 +2,24 @@
 #define INTERFACE_SHADER_H
 #pragma once
 
+struct IShader;
 struct ITexture;
 struct ShaderParam;
 struct ShaderItem;
 struct ShaderBlob;
+struct ShaderInfo;
 struct ShaderTextureSlot;
 struct ShaderTextureSlots;
-class RenderElement;
+//class RenderElement;
 
 enum ShaderFlags : uint16
 {
-	Default		= BIT16(0),
-	NoDraw		= BIT16(1),
-	NoShadows	= BIT16(2),
-	UseLights	= BIT16(3),
-	PostProcess	= BIT16(4),
-	System		= BIT16(5),
+	Default			= BIT16(0),
+	NoDraw			= BIT16(1),
+	NoShadows		= BIT16(2),
+	UseLights		= BIT16(3),
+	PostProcess		= BIT16(4),
+	SystemShader	= BIT16(5),
 };
 
 enum class ShaderType : uint8
@@ -77,7 +79,7 @@ struct IShaderResources
 
 	virtual int							GetFlags() = 0;
 	virtual void						SetMaterialName(const char* name) = 0;
-	virtual Texture*					GetTexture(int slot) const = 0;
+	virtual class Texture*				GetTexture(int slot) const = 0;
 	virtual std::vector<ShaderParam>&	GetParameters() = 0;
 
 	virtual void						Release() const = 0;
@@ -111,7 +113,10 @@ struct IShader
 
 	virtual bool							Reload() = 0;
 
-	virtual std::vector<RenderElement*>*	GetRenderElements(int techniqueId) = 0;
+	//virtual std::vector<RenderElement*>*	GetRenderElements(int techniqueId) = 0;
+
+	virtual ShaderInfo						GetInfo() const = 0;
+	virtual void							SetInfo(ShaderInfo& info) = 0;
 
 	virtual int								GetTexId() = 0;
 	virtual ITexture*						GetBaseTexture(int* passNum, int* nTU) = 0;

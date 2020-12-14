@@ -33,7 +33,6 @@ void DX11Renderer::ShutDown()
 
 void DX11Renderer::RenderScene(IRenderView* renderView)
 {
-	renderView->SetDeviceContext(GetDeviceContext());
 	Renderer::RenderScene(renderView);
 }
 

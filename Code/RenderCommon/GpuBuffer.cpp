@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "GpuBuffer.h"
 
-GpuBuffer::GpuBuffer(DeviceBuffer* pDevBuf = nullptr)
+GpuBuffer::GpuBuffer(DeviceBuffer* pDevBuf)
 	: m_pDeviceBuffer(pDevBuf)
 	, m_elementCount(0)
 	, m_elementSize(0)

@@ -42,7 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{54FB8A
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pugixml_vs2019", "..\SDKs\pugixml\pugixml_vs2019.vcxproj", "{07CF01C0-B887-499D-AD9C-799CB6A9FE64}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shaders", "..\Shaders\Shaders.vcxproj", "{6BD2694D-C76C-425F-BBF7-EC18FE01200F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shaders", "..\..\Engine\Shaders\Shaders.vcxproj", "{6BD2694D-C76C-425F-BBF7-EC18FE01200F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

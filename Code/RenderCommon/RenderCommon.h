@@ -133,10 +133,10 @@ struct ResourceView
 	//static ResourceView		UnorderedAccessRawView	(DXGIFormat format, int firstElementNum = 0, int elementsCount = -1, uint32 flags = 0);
 
 	static bool				IsMultisampled			(uint64 key)			{ return ResourceView(key).Desc.IsMultisampled; }
-	inline bool				IsShaderResourceView	(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::ShaderResourceView;	}
-	inline bool				IsRenderTargetView		(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::RenderTargetView;		}
-	inline bool				IsDepthStencilView		(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::DepthStencilView;		}
-	inline bool				IsUnorderedAccessView	(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::UnorderedAccessView;	}
+	inline bool				IsShaderResourceView	(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::SRV; }
+	inline bool				IsRenderTargetView		(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::RTV; }
+	inline bool				IsDepthStencilView		(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::DSV; }
+	inline bool				IsUnorderedAccessView	(uint64 key)	const	{ return ResourceView(key).Desc.ViewType == Type::UAV; }
 
 	bool					operator ==(const ResourceView& other)	const	{ return Desc.Key == other.Desc.Key; }
 	bool					operator !=(const ResourceView& other)	const	{ return Desc.Key != other.Desc.Key; }

@@ -50,14 +50,14 @@ void RenderResources::Release()
 Texture* RenderResources::CreateDepthTarget(int width, int height, const Color& clear, TextureFormat format)
 {
     char name[64];
-    sprintf(name, "$DepthTarget", m_dsvsCount++);
+    sprintf_s(name, "$DepthTarget%d", m_dsvsCount++);
     return Texture::GetOrCreateDepthStencil(name, width, height, 1, TextureFlags::NoMips, TextureType::Tex2D, format == TextureFormat::Unknown ? GetDepthFormat() : format);
 }
 
 Texture* RenderResources::CreateRenderTarget(int width, int height, const Color& clear, TextureFormat format)
 {
     char name[64];
-    sprintf(name, "$RenderTarget", m_rtvsCount++);
+    sprintf_s(name, "$RenderTarget%d", m_rtvsCount++);
     return Texture::GetOrCreateRenderTarget(name, width, height, 1, TextureFlags::NoMips, TextureType::Tex2D, format);
 }
 

@@ -4,7 +4,7 @@
 #include <WorldModule\IWorldObj.h>
 
 RenderMesh::RenderMesh(const char* srcName)
-    : m_srcName(srcName)
+    : m_srcFileName(srcName)
     , m_vertexFormat(VertexFormat::None)
     , m_topology(PrimitiveTopology::Undefined)
     , m_type(RenderMeshType::Immmutable)
@@ -42,7 +42,7 @@ int RenderMesh::Release()
     return count;
 }
 
-size_t RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
+void RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
 {
     m_boundingBox   = mesh.GetBoundingBox();
     m_vtxCount      = mesh.GetVerticesCount();
@@ -124,12 +124,12 @@ void RenderMesh::Render(const RenderParams& params, IRenderView* pRenderView)
     rendItem.pRenderNode = params.pRenderNode;
     //rendItem.pShaderTechnique = &params.pMaterial->GetTechnique();
 
-    if (params.Flags & ObjectFlags::CastShadows)
+    if (params.Flags & MaterialFlags::CastShadows)
         pRenderView->Submit(rendItem, RenderListId::ShadowGen);
-    if (!(params.Flags & ObjectFlags::NoDepth))
+    if (!(params.Flags & MaterialFlags::NoDepth))
         pRenderView->Submit(rendItem, RenderListId::ZPrePass);
-    if (params.Flags & ObjectFlags::LightSource)
+    if (params.Flags & MaterialFlags::LightSource)
         pRenderView->Submit(rendItem, RenderListId::LightPass);
-    if (!(params.Flags & ObjectFlags::Unlit))
+    if (!(params.Flags & MaterialFlags::Unlit))
         pRenderView->Submit(rendItem, RenderListId::Opaque);
 }

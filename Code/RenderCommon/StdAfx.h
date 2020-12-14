@@ -5,18 +5,22 @@
 #include <platform.h>
 
 #if PLATFORM_WINDOWS
-	#include <d3d11_3.h>
+	#if RENDERER_DX11
+		#include <d3d11_3.h>
 
-	#include <d3d11sdklayers.h>
-	#include <d3d11shader.h>
+		#include <d3d11sdklayers.h>
+		#include <d3d11shader.h>
+
+		#pragma comment(lib, "d3d11.lib")
+		#pragma comment(lib, "dxgi.lib")
+		#pragma comment(lib, "dxguid.lib")
+	#endif // RENDERER_DX11
+
 	#include <d3dcompiler.h>
-
-	#pragma comment(lib, "d3d11.lib")
-	#pragma comment(lib, "dxgi.lib")
-	#pragma comment(lib, "d3dcompiler.lib")
-
 	#include <wrl/client.h>
 	using Microsoft::WRL::ComPtr;
+
+	#pragma comment(lib, "d3dcompiler.lib")
 
 #elif PLATFORM_DURANGO
 	#include <d3d11_x.h>

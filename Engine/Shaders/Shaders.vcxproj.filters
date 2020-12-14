@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="hlsl">
+      <UniqueIdentifier>{f2bca857-b1b8-4f7a-82cb-e4a648fcc952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hlsl\Headers">
+      <UniqueIdentifier>{6b7a1541-6bd6-4bda-bfa8-45b7b0ee34f2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="hlsl\default.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="hlsl\common.hlsli">
+      <Filter>hlsl\Headers</Filter>
+    </None>
+  </ItemGroup>
+</Project>

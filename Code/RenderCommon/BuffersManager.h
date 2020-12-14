@@ -2,6 +2,8 @@
 #define BUFFERS_MANAGER_H
 #pragma once
 
+enum class BufferType : uint8;
+enum class BufferUsage : uint8;
 class GpuBuffer;
 class ConstantBuffer;
 

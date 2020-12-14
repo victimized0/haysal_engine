@@ -35,8 +35,8 @@ public:
 	virtual void					ResetFlags(uint32 flags)					final	{ m_flags &= ~flags; }
 	virtual uint32					GetFlags()							const	final	{ return m_flags; }
 
-	virtual const char*				GetFilePath()								final	{ return m_fileName.c_str(); }
-	virtual void					SetFilePath(const char* szFileName)			final	{ m_fileName = szFileName; }
+	virtual const char*				GetFilePath()								final	{ return m_srcFileName.c_str(); }
+	virtual void					SetFilePath(const char* szFileName)			final	{ m_srcFileName = szFileName; }
 	virtual const char*				GetGeometryName()							final	{ return m_geometryName.c_str(); }
 	virtual void					SetGeometryName(const char* szGeoName)		final	{ m_geometryName = szGeoName; }
 
@@ -85,7 +85,7 @@ private:
 	std::unique_ptr<IndexedMesh>	m_pIndexedMesh;
 	WorldObject*					m_pParent;
 
-	std::string						m_fileName;
+	std::string						m_srcFileName;
 	std::string						m_geometryName;
 
 	Matrix							m_worldMat;

@@ -91,7 +91,7 @@ inline Vec3 Camera::GetPosition() const
 
 inline void Camera::CalculateMatrices()
 {
-	m_viewMtx = Matrix::CreateLookAt(GetPosition(), Target, Vec3::Up);
+	m_viewMtx = Matrix::CreateLookAt(GetPosition(), Target, { 0.f, 1.f, 0.f });
 	m_projMtx = Matrix::CreatePerspectiveFieldOfView(m_fov, m_projRatio, m_nearZ, m_farZ);
 }
 
@@ -111,7 +111,7 @@ inline void Camera::SetFrustum(int w, int h, float fov, float nearZ, float farZ)
 	m_farZ		= farZ;
 	m_projRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
 
-	Frustum::CreateFromMatrix(m_frustum, GetProj(w, h));
+	Frustum::CreateFromMatrix(m_frustum, GetProj());
 }
 
 #endif //CAMERA_H

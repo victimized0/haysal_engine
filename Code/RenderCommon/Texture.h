@@ -70,7 +70,7 @@ private:
 	Color								m_clearCol;
 	uint32								m_flags;
 	std::string							m_name;
-	std::string							m_srcName;
+	std::string							m_srcFileName;
 	bool								m_wasUnloaded;
 
 };

@@ -17,7 +17,7 @@ enum class TextureType : uint8
 	Total
 };
 
-enum class TextureFormat : uint8
+enum class TextureFormat : uint16
 {
 	Unknown = 0,
 

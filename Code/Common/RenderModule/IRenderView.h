@@ -27,7 +27,6 @@ struct IRenderView
 
 	virtual void					SetFrameId(int frameId) = 0;
 	virtual int						GetFrameId() const = 0;
-	virtual void					SetDeviceContext(GpuContext* pContext) = 0;
 
 	virtual void					SetViewport(const RenderViewport& viewport) = 0;
 	virtual const RenderViewport&	GetViewport() const = 0;

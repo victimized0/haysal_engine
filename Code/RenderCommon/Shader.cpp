@@ -16,7 +16,7 @@ Shader::~Shader()
 
 int Shader::Release()
 {
-	if (m_flags & ShaderFlags::System)	// System shaders shouldn't be freed
+	if (m_flags & ShaderFlags::SystemShader)	// System shaders shouldn't be freed
 		return -1;
 	return BaseResource::Release();
 }
@@ -24,7 +24,7 @@ int Shader::Release()
 int Shader::ForceRelease()
 {
 	int refCount = 0;
-	m_flags &= ~ShaderFlags::System;
+	m_flags &= ~ShaderFlags::SystemShader;
 	refCount = Release();
 	assert(refCount == 0);
 	return refCount;
@@ -32,13 +32,14 @@ int Shader::ForceRelease()
 
 bool Shader::Reload()
 {
-	return gRenderer->ShaderManager()->LoadShader(m_fileName, m_flags, nullptr);
+	//gRenderer->GetShaderMan()->LoadShader(m_fileName, m_flags, nullptr);
+	return true;
 }
 
-std::vector<RenderElement*>* Shader::GetRenderElements(int techniqueId)
-{
-	return nullptr;
-}
+//std::vector<RenderElement*>* Shader::GetRenderElements(int techniqueId)
+//{
+//	return nullptr;
+//}
 
 int Shader::GetTexId()
 {
@@ -52,7 +53,7 @@ ITexture* Shader::GetBaseTexture(int* passNum, int* nTU)
 
 uint32 Shader::GetUsedTextureTypes()
 {
-	return uint32();
+	return 0;
 }
 
 ShaderTextureSlots* Shader::GetUsedTextureSlots(int techniqueId)
@@ -67,4 +68,14 @@ int Shader::GetTechniqueId(int techniqueIndex)
 
 void Shader::Free()
 {
+}
+
+uint32 ShaderItem::PostLoad()
+{
+	return 0;
+}
+
+bool ShaderItem::Update()
+{
+	return false;
 }

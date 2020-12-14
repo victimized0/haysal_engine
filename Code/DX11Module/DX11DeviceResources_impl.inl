@@ -2,8 +2,6 @@
 #define DX11_DEVICE_RESOURCES_IMPL_INL
 #pragma once
 
-#include "DX11Renderer.h"
-
 GpuView* DeviceResource::CreateResourceView(const ResourceView& view)
 {
 	HRESULT hr				= E_FAIL;
@@ -66,7 +64,7 @@ GpuView* DeviceResource::CreateResourceView(const ResourceView& view)
 		}
 		
 		GpuSRV* pSRV = nullptr;
-		hr = dynamic_cast<DX11Renderer*>(gRenderer)->GetDevice()->CreateShaderResourceView(pResource, &srvDesc, &pSRV);
+		hr = DeviceFactory::Get().GetDevice()->CreateShaderResourceView(pResource, &srvDesc, &pSRV);
 		pResult = pSRV;
 	}
 	else // RTV / DSV / UAV
@@ -112,7 +110,7 @@ GpuView* DeviceResource::CreateResourceView(const ResourceView& view)
 		case ResourceView::Type::RTV:
 		{
 			GpuRTV* pRTV = nullptr;
-			hr = dynamic_cast<DX11Renderer*>(gRenderer)->GetDevice()->CreateRenderTargetView(pResource, &rtvDesc, &pRTV);
+			hr = DeviceFactory::Get().GetDevice()->CreateRenderTargetView(pResource, &rtvDesc, &pRTV);
 			pResult = pRTV;
 		}
 		break;
@@ -136,7 +134,7 @@ GpuView* DeviceResource::CreateResourceView(const ResourceView& view)
 				dsvDesc.ViewDimension = (D3D11_DSV_DIMENSION)(rtvDesc.ViewDimension - 1);
 
 			GpuDSV* pDSV = nullptr;
-			hr = dynamic_cast<DX11Renderer*>(gRenderer)->GetDevice()->CreateDepthStencilView(pResource, &dsvDesc, &pDSV);
+			hr = DeviceFactory::Get().GetDevice()->CreateDepthStencilView(pResource, &dsvDesc, &pDSV);
 			pResult = pDSV;
 		}
 		break;
@@ -155,7 +153,7 @@ GpuView* DeviceResource::CreateResourceView(const ResourceView& view)
 				uavDesc.ViewDimension = D3D11_UAV_DIMENSION_UNKNOWN;
 
 			GpuUAV* pUAV = nullptr;
-			hr = dynamic_cast<DX11Renderer*>(gRenderer)->GetDevice()->CreateUnorderedAccessView(pResource, &uavDesc, &pUAV);
+			hr = DeviceFactory::Get().GetDevice()->CreateUnorderedAccessView(pResource, &uavDesc, &pUAV);
 			pResult = pUAV;
 		}
 		break;

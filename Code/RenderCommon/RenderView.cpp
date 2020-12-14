@@ -143,6 +143,9 @@ void RenderView::Execute_ShadowPass()
 		pContext->VSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
 		//pContext->PSSetConstantBuffers( CB_PerDraw::Slot, 1, 1, &ppCBPerDraw );
 
+		GpuDSV* pShadowMap = RenderResources::s_pTexShadowMap->GetDeviceTexture()->LookupDSV(ResourceViewType::DepthOnly);
+		pContext->OMSetRenderTargets(0, nullptr, pShadowMap);
+
 		for (auto& pass : pTech->m_Passes)
 		{
 			Shader* pVS = pass.m_pVertexShader;
@@ -155,16 +158,15 @@ void RenderView::Execute_ShadowPass()
 				pContext->IASetInputLayout(pCurLayout);
 			}
 
-			pContext->VSSetShader(pVS., nullptr, 0);
+			//pContext->VSSetShader(pVS., nullptr, 0);
 			//pContext->PSSetShader(pPS, nullptr, 0);
 
 			// Set samplers from pass
 			// Set shader resources
+
+			pContext->DrawIndexed(renderItem.pRenderMesh->GetIndicesCount(), 0, 0);
 		}
 	}
-
-	GpuDSV* pShadowMap = RenderResources::s_pTexShadowMap->GetDeviceTexture()->LookupDSV(ResourceViewType::DepthOnly);
-	pContext->OMSetRenderTargets(0, nullptr, pShadowMap);
 
 	gRenderer->PopProfileMarker("SHADOW_PASS");
 }

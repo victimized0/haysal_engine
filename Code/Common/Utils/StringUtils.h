@@ -69,4 +69,22 @@ namespace Path
 	}
 }
 
+namespace String {
+	inline void split(std::vector<std::string> &outVec, const std::string& srcStr, const std::string& delim)
+	{
+		assert(delim.size() > 0);
+
+		size_t start = 0, end = 0;
+		while (end != std::string::npos)
+		{
+			end = srcStr.find(delim, start);
+
+			size_t pos = end == std::string::npos ? std::string::npos : end - start;
+			outVec.push_back(srcStr.substr(start, pos));
+
+			start = end > (std::string::npos - delim.size()) ? std::string::npos : end + delim.size();
+		}
+	}
+}
+
 #endif //STRING_UTILS_H

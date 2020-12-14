@@ -31,6 +31,14 @@
 #define NOSERVICE
 #define NOHELP
 
+#ifdef NDEBUG
+	#define RELEASE
+#endif
+
+#ifdef _DEBUG
+	#define DEBUG
+#endif
+
 #include <windows.h>
 
 typedef unsigned long int	uint64;
@@ -88,6 +96,7 @@ typedef char				int8;
 
 #include "Utils\PathUtils.h"
 #include "Utils\StringUtils.h"
+#include "Utils\FileHelper.h"
 #include "Utils\pugixml.hpp"
 
 struct NoCopy

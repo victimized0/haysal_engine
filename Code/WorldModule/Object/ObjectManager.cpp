@@ -13,7 +13,7 @@ void ObjectManager::RenderObjects(IRenderView* pIRndView)
 {
 	for (IWorldObj* pObj : m_objects)
 	{
-		if (pObj->GetFlags() & ObjectFlags::DontRender)
+		if (pObj->GetMaterial()->GetFlags() & MaterialFlags::DontRender)
 			continue;	// Do not render objects flagged with do not render :)
 
 		Matrix worldMat = pObj->GetWorldMatrix();
@@ -62,7 +62,7 @@ void ObjectManager::DoFrustumCulling(const Camera* pCamera)
 	for (WorldObject* pObj : m_objects)
 	{
 		if (!pCamera->IsInsideFrustum(pObj->GetBoundingBox()))
-			pObj->SetFlags(ObjectFlags::DontRender);
+			pObj->GetMaterial()->SetFlags(MaterialFlags::DontRender);
 			//m_frustumObjects.push_back(pObj);
 	}
 }
@@ -71,7 +71,7 @@ void ObjectManager::EndFrame()
 {
 	for (WorldObject* pObj : m_objects)
 	{
-		pObj->ResetFlags(ObjectFlags::DontRender);
+		pObj->GetMaterial()->ResetFlags(MaterialFlags::DontRender);
 	}
 }
 

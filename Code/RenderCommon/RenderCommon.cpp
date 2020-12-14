@@ -108,7 +108,7 @@ ResourceView ResourceView::ShaderResourceView(DXGIFormat format, int firstElemen
 {
 	ResourceView result(0);
 
-	result.Desc.ViewType			= ResourceView::Type::ShaderResourceView;
+	result.Desc.ViewType			= ResourceView::Type::SRV;
 	result.Desc.Format				= format;
 	result.Desc.Flags				= flags;
 	result.Desc.FirstSliceNum		= firstElementNum;
@@ -125,7 +125,7 @@ ResourceView ResourceView::RenderTargetView(DXGIFormat format, int firstElementN
 {
 	ResourceView result(0);
 
-	result.Desc.ViewType			= ResourceView::Type::RenderTargetView;
+	result.Desc.ViewType			= ResourceView::Type::RTV;
 	result.Desc.Format				= format;
 	result.Desc.FirstSliceNum		= firstElementNum;
 	result.Desc.SlicesCount			= elementsCount;
@@ -140,7 +140,7 @@ ResourceView ResourceView::DepthStencilView(DXGIFormat format, int firstElementN
 {
 	ResourceView result(0);
 
-	result.Desc.ViewType			= ResourceView::Type::DepthStencilView;
+	result.Desc.ViewType			= ResourceView::Type::DSV;
 	result.Desc.Format				= format;
 	result.Desc.Flags				= flags;
 	result.Desc.FirstSliceNum		= firstElementNum;
@@ -156,7 +156,7 @@ ResourceView ResourceView::UnorderedAccessView(DXGIFormat format, int firstEleme
 {
 	ResourceView result(0);
 
-	result.Desc.ViewType			= ResourceView::Type::UnorderedAccessView;
+	result.Desc.ViewType			= ResourceView::Type::UAV;
 	result.Desc.Format				= format;
 	result.Desc.Flags				= flags;
 	result.Desc.FirstSliceNum		= firstElementNum;

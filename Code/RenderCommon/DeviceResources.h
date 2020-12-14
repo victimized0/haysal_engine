@@ -17,22 +17,6 @@ struct ResourceLayout
 	uint32  m_flags;
 };
 
-//enum class BufferBindType : uint8
-//{
-//	VertexBuffer,
-//	IndexBuffer,
-//	ConstantBuffer,
-//	Total
-//};
-
-enum class BufferUsage : uint8
-{
-	Immutable,
-	Static,
-	Dynamic,
-	Total
-};
-
 enum ResourceFlags : uint32
 {
 	BIND_DEPTH_STENCIL		= BIT32(0),

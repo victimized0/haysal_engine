@@ -14,7 +14,7 @@ public:
 	// Inherited via IRenderMesh
 	virtual void				AddRef()					final;
 	virtual int					Release()					final;
-	virtual const char*			GetSourceName()		const	final	{ return m_srcName.c_str(); }
+	virtual const char*			GetSourceName()		const	final	{ return m_srcFileName.c_str(); }
 	virtual int					GetIndicesCount()	const	final	{ return m_idxCount; }
 	virtual int					GetVerticesCount()	const	final	{ return m_vtxCount; }
 	virtual VertexFormat		GetVertexFormat()	const	final	{ return m_vertexFormat; }
@@ -24,7 +24,7 @@ public:
 	virtual GpuBuffer*			GetVertexBuffer()			final	{ return m_pVertexBuffer; }
 	virtual GpuBuffer*			GetIndexBuffer()			final	{ return m_pIndexBuffer; }
 
-	virtual size_t				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) override;
+	virtual void				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) override;
 	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override { return nullptr; }
 
 	virtual void				UpdateVertices(void* pData, int vertsCount, int offset) override;
@@ -35,7 +35,7 @@ public:
 
 private:
 	std::vector<VF_PosNmlTex>	m_posNmlTex;
-	std::string					m_srcName;
+	std::string					m_srcFileName;
 	VertexFormat				m_vertexFormat;
 	PrimitiveTopology			m_topology;
 	RenderMeshType				m_type;

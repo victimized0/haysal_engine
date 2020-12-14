@@ -73,11 +73,6 @@ void DeviceResource::InitResourceViews()
 	else ReserveResourceView(DSV);
 }
 
-GpuView* DeviceResource::CreateResourceView(const ResourceView& desc)
-{
-	return nullptr;
-}
-
 ResourceViewType DeviceResource::GetOrCreateResourceView(const ResourceView& desc)
 {
 	for (int i = 0; i < m_resourceViews.size(); ++i)
@@ -113,18 +108,19 @@ void DeviceResource::ReleaseResourceViews()
 
 const std::pair<ResourceView, GpuResource*> DeviceResource::LookupResourceView(ResourceViewType type) const
 {
-	return nullptr;
+	return std::pair<ResourceView, GpuResource*>({}, nullptr);
 }
 
 std::pair<ResourceView, GpuResource*> DeviceResource::LookupResourceView(ResourceViewType type)
 {
-	for (const auto& it : m_resourceViews)
-	{
-		if (desc == it.first)
-		{
-			return it.second;
-		}
-	}
+	return std::pair<ResourceView, GpuResource*>({}, nullptr);
+	//for (const auto& it : m_resourceViews)
+	//{
+	//	if (it.first.Desc.ViewType == type)
+	//	{
+	//		return std::pair(it.first, nullptr);
+	//	}
+	//}
 }
 
 void DeviceResource::SetRawResource(GpuResource* pRes)
@@ -239,10 +235,6 @@ DeviceTexture* DeviceTexture::Create(const TextureLayout& layout, const TextureD
 	return pDevTex;
 }
 
-DeviceBuffer::~DeviceBuffer()
-{
-}
-
 BufferLayout DeviceBuffer::GetLayout() const
 {
 	return BufferLayout();
@@ -250,7 +242,7 @@ BufferLayout DeviceBuffer::GetLayout() const
 
 int32 DeviceBuffer::Release()
 {
-	int32 refCount = DeviceResource::Clean();
+	int32 refCount = 0;// DeviceResource::Clean();
 	assert(refCount >= 0);
 	if (refCount == 0)
 		delete this;

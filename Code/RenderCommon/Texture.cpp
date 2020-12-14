@@ -81,7 +81,7 @@ Texture* Texture::ForName(const char* name, uint32 flags, TextureFormat format)
         return pTex;
     }
 
-    pTex->m_srcName = name;
+    pTex->m_srcFileName = name;
 
     bool isNormal = pTex->m_name.find("_normal") > 0;
     if (isNormal)

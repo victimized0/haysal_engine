@@ -34,15 +34,6 @@ enum class SubObjType
 	Light,
 };
 
-enum ObjectFlags : uint8
-{
-	CastShadows	= BIT8(0),
-	NoDepth		= BIT8(1),
-	LightSource	= BIT8(2),
-	Unlit		= BIT8(3),
-	DontRender	= BIT8(4),
-};
-
 struct IWorldObj : public IBaseObj
 {
 	struct SubObj

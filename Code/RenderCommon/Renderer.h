@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 #include "BuffersManager.h"
 #include "ShaderManager.h"
+#include "RenderResources.h"
 
 #include <WorldModule\IWorldEngine.h>
 #include <RenderModule\IRenderer.h>
@@ -58,7 +59,7 @@ public:
 	virtual int						GetFrameID() override;
 	virtual void					BeginFrame() override;
 	virtual void					EndFrame() override;
-	virtual void					RenderScene(IRenderView* renderView);
+	virtual void					RenderScene(IRenderView* renderView) override;
 
 	virtual void					FlushRenderList() override;
 
@@ -100,7 +101,7 @@ protected:
 
 	std::unique_ptr<IMaterial>		m_pDefaultMaterial;
 	std::unique_ptr<TextureManager>	m_pTextureManager;
-	std::unique_ptr<BufferManager> m_pBufferManager;
+	std::unique_ptr<BufferManager>	m_pBufferManager;
 	std::unique_ptr<ShaderManager>	m_pShaderManager;
 
 #if RENDERER_DX11	// TODO: Implement Vulkan

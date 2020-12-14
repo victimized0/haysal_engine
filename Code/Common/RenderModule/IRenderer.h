@@ -17,12 +17,15 @@
 #define FEATURE_VENDOR_NVIDIA		0x40000
 #define FEATURE_ORDER_RGBA			0x20000000
 
+struct IShader;
+struct IMaterial;
 struct IRenderView;
 struct IRenderNode;
+struct IRenderMesh;
 struct ShaderParam;
-struct RenderMesh;
 struct ShaderItem;
 struct ShaderTechnique;
+class  RenderMesh;
 
 enum RenderObjFlags : uint16
 {
@@ -130,7 +133,7 @@ struct IRenderer
 
 	virtual void			BeginFrame() = 0;
 	virtual void			EndFrame() = 0;
-	virtual void			RenderScene(IRenderView* renderView);
+	virtual void			RenderScene(IRenderView* renderView) = 0;
 
 	//virtual void			InitResources(int flags) = 0;
 	//virtual void			FreeResources(int flags) = 0;

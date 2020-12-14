@@ -8,6 +8,7 @@ WorldObject::WorldObject()
     : m_pParent(nullptr)
     , m_pMaterial(nullptr)
     , m_pRenderMesh(nullptr)
+    , m_pIndexedMesh(nullptr)
     , m_isSubObj(false)
     , m_canUnload(false)
     , m_loadedTrisCount(0)
@@ -78,6 +79,8 @@ bool WorldObject::Load(const char* filepath)
         assert(false);
         // Not implemented
     }
+
+    m_pRenderMesh->SetMesh(*m_pIndexedMesh.get(), 0, 0);
 
     return result;
 }

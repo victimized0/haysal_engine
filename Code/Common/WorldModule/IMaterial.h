@@ -4,13 +4,17 @@
 
 #include "..\RenderModule\IShader.h"
 
-enum MaterialFlags : uint16
+struct ShaderItem;
+
+enum MaterialFlags : uint8
 {
-	IsWireFrame	= BIT16(0),
-	IsTwoSided	= BIT16(1),
-	ApplyLight	= BIT16(2),
-	CastShadows = BIT16(3),
-	DontRender	= BIT16(4),
+	IsWireFrame	= BIT8(0),
+	IsTwoSided	= BIT8(1),
+	DontRender	= BIT8(2),
+	CastShadows = BIT8(3),
+	Unlit		= BIT8(4),
+	LightSource	= BIT8(5),
+	NoDepth		= BIT8(6),
 };
 
 struct IMaterial
@@ -21,7 +25,8 @@ struct IMaterial
 	virtual const char*			GetName() const = 0;
 
 	virtual void				SetFlags(uint32 flags) = 0;
-	virtual int					GetFlags() const = 0;
+	virtual uint32				GetFlags() const = 0;
+	virtual void				ResetFlags(uint32 flags) = 0;
 
 	virtual bool				IsDefault() const = 0;
 
@@ -40,17 +45,17 @@ struct IMaterial
 
 struct IMaterialManager
 {
-	virtual				~IMaterialManager() {}
+	virtual						~IMaterialManager() {}
 
-	virtual IMaterial*	FindMaterial(const char* name) const = 0;
-	virtual IMaterial*	CreateMaterial(const char* name, uint32 flags = 0) = 0;
-	virtual void		RenameMaterial(IMaterial* pMtl, const char* newName) = 0;
-	virtual IMaterial*	LoadMaterial(const char* name, bool makeIfNotFound = true, uint32 loadFlags = 0) = 0;
-	//virtual IMaterial*	LoadMaterialFromXml(const char* sMtlName) = 0;
-	virtual IMaterial*	GetDefaultMaterial() = 0;
+	virtual IMaterial*			FindMaterial(const char* name) const = 0;
+	virtual IMaterial*			CreateMaterial(const char* name, uint32 flags = 0) = 0;
+	virtual void				RenameMaterial(IMaterial* pMtl, const char* newName) = 0;
+	virtual IMaterial*			LoadMaterial(const char* name, bool makeIfNotFound = true, uint32 loadFlags = 0) = 0;
+	//virtual IMaterial*			LoadMaterialFromXml(const char* sMtlName) = 0;
+	virtual IMaterial*			GetDefaultMaterial() = 0;
 
-	virtual void		GetLoadedMaterials(IMaterial** pData, uint32& nObjCount) const = 0;
-	virtual void		RefreshMaterials() = 0;
+	virtual void				GetLoadedMaterials(IMaterial** pData, uint32& nObjCount) const = 0;
+	virtual void				RefreshMaterials() = 0;
 };
 
 #endif //INTERFACE_MATERIAL_H

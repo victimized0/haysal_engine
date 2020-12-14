@@ -48,6 +48,7 @@ struct ISystem
 	virtual Environment*			GetEnv() = 0;
 	virtual const char*				GetRootDir() const = 0;
 	virtual std::string				GetEngineDir() const = 0;
+	virtual std::string				GetDataDir() const = 0;
 	virtual std::string				GetAbsPath(const char* path) const = 0;
 	virtual bool					IsDevMode() const = 0;
 

@@ -148,11 +148,13 @@
     <ClInclude Include="AIModule\IAIModule.h" />
     <ClInclude Include="AnimModule\IAnimModule.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Utils\FileHelper.h" />
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />
     <ClInclude Include="RenderModule\IRenderMesh.h" />
     <ClInclude Include="RenderModule\IRenderView.h" />
     <ClInclude Include="RenderModule\VertexFormats.h" />
+    <ClInclude Include="Utils\CRC.h" />
     <ClInclude Include="Utils\PathUtils.h" />
     <ClInclude Include="Utils\PredefinedColors.h" />
     <ClInclude Include="Utils\pugixml.hpp" />

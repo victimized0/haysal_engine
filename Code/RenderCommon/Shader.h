@@ -116,8 +116,8 @@ struct ShaderParam
 		if (i == params->size()) return false;
 		return true;
 	}
-	static bool GetValue(const char* name, std::vector<ShaderParam>* params, float* v, int id);
-	static bool GetValue(uint8 eSemantic, std::vector<ShaderParam>* params, float* v, int id);
+	static bool GetValue(const char* name, std::vector<ShaderParam>* params, float* v, int id) { assert(false); return false; }
+	static bool GetValue(uint8 eSemantic, std::vector<ShaderParam>* params, float* v, int id) { assert(false); return false; }
 
 	inline void CopyValue(const ShaderParam& src)
 	{
@@ -148,7 +148,7 @@ struct ShaderItem
 
 	inline bool IsAlphaTested() const { return (m_pShaderResources && m_pShaderResources->IsAlphaTested()); }
 
-	inline ShaderTechnique* GetTechnique() const;
+	inline ShaderTechnique* GetTechnique() const { assert(false); /*Not implemented*/ return nullptr; }
 
 private:
 	IShader*				m_pShader;
@@ -199,6 +199,39 @@ struct ShaderTextureSlots
 	}
 };
 
+struct ShaderPass /*: NoCopyNoMove*/
+{
+	uint8       m_AlphaRef;
+	uint16      m_Flags;
+
+	Shader*		m_pVertexShader;
+	Shader*		m_pPixelShader;
+	Shader*		m_pGeometryShader;
+	Shader*		m_pComputeShader;
+
+	ShaderPass() {}
+
+	void Free()
+	{
+		//SAFE_RELEASE(m_pVertexShader);
+		//SAFE_RELEASE(m_pPixelShader);
+		//SAFE_RELEASE(m_pGeometryShader);
+		//SAFE_RELEASE(m_pComputeShader);
+	}
+
+	void AddRefsToShaders()
+	{
+		//if (m_pVertexShader)
+		//	m_pVertexShader->AddRef();
+		//if (m_pPixelShader)
+		//	m_pPixelShader->AddRef();
+		//if (m_pGeometryShader)
+		//	m_pGeometryShader->AddRef();
+		//if (m_pComputeShader)
+		//	m_pComputeShader->AddRef();
+	}
+};
+
 struct ShaderTechnique
 {
 	//Shader*						m_pShader;
@@ -207,7 +240,7 @@ struct ShaderTechnique
 	uint32                      m_Flags;
 	uint32						m_PreprocessFlags;
 	int8						m_TechniqueId[static_cast<int>(TechniqueId::Total)];
-	std::vector<RenderElement*>	m_RenderElements;
+	//std::vector<RenderElement*>	m_RenderElements;
 	//std::vector<RenderTarget*>	m_RenderTargets;
 
 	ShaderTechnique(/*Shader* pShader*/)
@@ -225,48 +258,23 @@ struct ShaderTechnique
 			pPass->Free();
 		}
 
-		for (size_t i = 0; i < m_RenderElements.size(); ++i)
+		//for (size_t i = 0; i < m_RenderElements.size(); ++i)
 		{
-			RenderElement* pElement = m_RenderElements[i];
-			pElement->Release(false);
+			//RenderElement* pElement = m_RenderElements[i];
+			//pElement->Release(false);
 		}
 
-		m_RenderElements.clear();
+		//m_RenderElements.clear();
 		m_Passes.clear();
 	}
 };
 
-struct ShaderPass : NoCopyNoMove
-{
-	uint8       m_AlphaRef;
-	uint16      m_Flags;
-
-	Shader*		m_pVertexShader;
-	Shader*		m_pPixelShader;
-	Shader*		m_pGeometryShader;
-	Shader*		m_pComputeShader;
-
-	ShaderPass();
-
-	void Free()
-	{
-		SAFE_RELEASE(m_pVertexShader);
-		SAFE_RELEASE(m_pPixelShader);
-		SAFE_RELEASE(m_pGeometryShader);
-		SAFE_RELEASE(m_pComputeShader);
-	}
-
-	void AddRefsToShaders()
-	{
-		if (m_pVertexShader)
-			m_pVertexShader->AddRef();
-		if (m_pPixelShader)
-			m_pPixelShader->AddRef();
-		if (m_pGeometryShader)
-			m_pGeometryShader->AddRef();
-		if (m_pComputeShader)
-			m_pComputeShader->AddRef();
-	}
+struct ShaderInfo {
+	std::vector<D3D_SHADER_MACRO> Macros;
+	std::string	ShaderName;
+	std::string	EntryPoint;
+	std::string Target;
+	uint32		CRC32;
 };
 
 class Shader : public IShader, public BaseResource
@@ -282,8 +290,11 @@ public:
 	// ~BaseResource Interface
 
 	// IShader Interface
-	virtual const char*						GetName() override					{ return m_shaderName.c_str(); }
-	virtual const char*						GetName() const override			{ return m_shaderName.c_str(); }
+	virtual ShaderInfo						GetInfo() const override			{ return m_shaderInfo; }
+	virtual void							SetInfo(ShaderInfo& info) override  { m_shaderInfo = info; }
+
+	virtual const char*						GetName() override					{ return m_entryPoint.c_str(); }
+	virtual const char*						GetName() const override			{ return m_entryPoint.c_str(); }
 	virtual uint32							GetFlags() const override			{ return m_flags; }
 	virtual void							SetFlags(uint32 flags) override		{ m_flags |= flags; }
 	virtual void							ClearFlags(uint32 flags) override	{ m_flags &= ~flags; }
@@ -293,7 +304,7 @@ public:
 
 	virtual int								ForceRelease() override;
 	virtual bool							Reload() override;
-	virtual std::vector<RenderElement*>*	GetRenderElements(int techniqueId) override;
+	//virtual std::vector<RenderElement*>*	GetRenderElements(int techniqueId) override;
 	virtual int								GetTexId() override;
 	virtual ITexture*						GetBaseTexture(int* passNum, int* nTU) override;
 	virtual uint32							GetUsedTextureTypes() override;
@@ -305,10 +316,11 @@ public:
 	void									Free();
 
 private:
-	std::string								m_fileName;
-	std::string								m_shaderName;
+	std::string								m_srcFileName;
+	std::string								m_entryPoint;
 	ShaderType								m_shaderType;
 	ShaderBlob								m_shaderBlob;
+	ShaderInfo								m_shaderInfo;
 	CullType								m_cullType;
 	uint32									m_flags;
 	int										m_refreshFrameId;
