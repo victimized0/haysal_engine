@@ -13,6 +13,8 @@ void ObjectManager::RenderObjects(IRenderView* pIRndView)
 {
 	for (IWorldObj* pObj : m_objects)
 	{
+		if (pObj == nullptr)
+			continue;
 		if (pObj->GetMaterial()->GetFlags() & MaterialFlags::DontRender)
 			continue;	// Do not render objects flagged with do not render :)
 
@@ -31,6 +33,11 @@ void ObjectManager::RenderObjects(IRenderView* pIRndView)
 
 void ObjectManager::LoadObject(const char* filename)
 {
+	if (IWorldObj* pObj = FindObject(filename))
+	{
+		return;
+	}
+
 	auto pObj = std::make_unique<WorldObject>();
 	pObj->Load(filename);
 
@@ -38,7 +45,7 @@ void ObjectManager::LoadObject(const char* filename)
 	pObj->SetGeometryName(name.c_str());
 
 	m_objectsMap.try_emplace(name.c_str(), std::move(pObj));
-	m_objects.push_back(pObj.get());
+	m_objects.push_back(m_objectsMap[name.c_str()].get());
 }
 
 void ObjectManager::UnloadObject(WorldObject* pObj)

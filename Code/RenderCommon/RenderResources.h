@@ -30,7 +30,7 @@ public:
 	static Texture*			s_pTexHdrTarget;
 	static Texture*			s_pTexHdrTargetDiv2;
 	static Texture*			s_pTexHdrTargetDiv4	;
-	//static Texture*			s_pTexBackBuffer;
+	static Texture*			s_pTexBackBuffer;
 
 	static int				s_Width;
 	static int				s_Height;

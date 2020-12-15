@@ -7,7 +7,7 @@ int RenderResources::s_SizeShadowMap    = 2048;
 int RenderResources::m_rtvsCount        = 0;
 int RenderResources::m_dsvsCount        = 0;
 
-//Texture* RenderResources::s_pTexBackBuffer      = nullptr;
+Texture* RenderResources::s_pTexBackBuffer      = nullptr;
 Texture* RenderResources::s_pTexShadowMap       = nullptr;
 Texture* RenderResources::s_pTexDiffuseAcc      = nullptr;
 Texture* RenderResources::s_pTexSpecularAcc     = nullptr;

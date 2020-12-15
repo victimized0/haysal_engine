@@ -36,6 +36,7 @@ void WorldEngine::OnFrameStart()
 
 bool WorldEngine::Init()
 {
+	LoadTestLevel();
 	return true;
 }
 
@@ -211,6 +212,22 @@ void WorldEngine::SetRenderNodeMaterialAtPosition(RenderNodeType eNodeType, cons
 
 void WorldEngine::ApplyForceToEnvironment(Vec3 vPos, float fRadius, float fAmountOfForce)
 {
+}
+
+void WorldEngine::LoadTestLevel()
+{
+	// TODO: Delete this method, it's used only for test purposes.
+	using namespace pugi;
+
+	xml_document doc = gEnv->pSystem->LoadXmlFromFile("Data/Levels/Test/test.xml");
+	auto firstObject = doc.root().find_node([&](xml_node& node) { return strcmp(node.name(), "object") == 0; });
+
+	for (xml_node& object = firstObject; object; object = object.next_sibling())
+	{
+		const char* fileName = object.attribute("filename").as_string();
+		m_objManager.LoadObject(fileName);
+	}
+
 }
 
 class WorldModule final : public IWorldModule

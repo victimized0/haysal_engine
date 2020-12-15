@@ -84,6 +84,7 @@ void Renderer::BeginFrame()
 
 void Renderer::EndFrame()
 {
+	m_swapChain.Get()->Present(0, 0);
 }
 
 void Renderer::RenderScene(IRenderView* renderView)

@@ -62,6 +62,9 @@ public:
 	virtual void					ApplyForceToEnvironment(Vec3 vPos, float fRadius, float fAmountOfForce) override;
 
 private:
+	void LoadTestLevel();
+
+private:
 	Camera							m_camera;
 	std::vector<ILightSourceNode*>	m_staticLights;
 	ObjectManager					m_objManager;

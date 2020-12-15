@@ -61,7 +61,7 @@ System::System(const SystemInitParams& startupParams)
 	m_env.pSystem = this;
 	m_env.pTimer = &m_timer;
 
-	m_rootDir = Path::AppendSlash(GetRootFolder());
+	m_rootDir = GetRootFolder();
 
 	RegisterWindowMessageHandler(this);
 }
@@ -639,7 +639,7 @@ bool System::InitWorldEngine(const SystemInitParams& startupParams)
 	if (!m_env.pWorld)
 		return false;
 
-	return true;
+	return m_env.pWorld->Init();
 }
 
 bool System::CloseRenderModule()

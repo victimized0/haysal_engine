@@ -14,7 +14,8 @@ bool ObjLoader::Load(const char* filename, IIndexedMesh* pMesh)
 
 	const char* mtl_dir = "";	// TODO: get the dir from file's dir or system's rootdir
 
-	bool result = LoadObj(&attr, &shapes, &materials, nullptr, nullptr, filename, mtl_dir);
+	std::string fullpath = Path::AppendPath(gEnv->pSystem->GetDataDir(), filename);
+	bool result = LoadObj(&attr, &shapes, &materials, nullptr, nullptr, fullpath.c_str(), mtl_dir);
 
 	// TODO: Process parsed data to Mesh/Indexed Mesh data
 	//pMesh->SetShapes(shapes);

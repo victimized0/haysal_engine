@@ -213,6 +213,9 @@
     <ClInclude Include="Object\WorldObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SDKs\pugixml\pugixml_vs2019.vcxproj">
+      <Project>{07cf01c0-b887-499d-ad9c-799cb6a9fe64}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\SDKs\SimpleMath\SimpleMath.vcxproj">
       <Project>{b4449f4f-c035-4014-a7ad-a11394b796e7}</Project>
     </ProjectReference>

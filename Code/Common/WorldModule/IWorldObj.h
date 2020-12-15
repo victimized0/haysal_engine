@@ -83,9 +83,9 @@ struct IWorldObj : public IBaseObj
 	virtual void			SetFlags(uint32 flags) = 0;
 	virtual uint32			GetFlags() const = 0;
 
-	//virtual IIndexedMesh*	GetIndexedMesh(bool createIfNone = false) = 0;
-	//virtual IIndexedMesh*	CreateIndexedMesh() = 0;
-	//virtual void			ReleaseIndexedMesh() = 0;
+	virtual IIndexedMesh*	GetIndexedMesh(bool createIfNone = false) = 0;
+	virtual IIndexedMesh*	CreateIndexedMesh() = 0;
+	virtual void			ReleaseIndexedMesh() = 0;
 
 	virtual IWorldObj*		UpdateVertices(std::vector<Vec3>& pVertices, std::vector<Vec3>&& pNormals, int iVtx0, int nVtx) = 0;
 	virtual IWorldObj*		SkinVertices(std::vector<Vec3>& pSkelVtx, const Matrix& mtxSkelToMesh) = 0;

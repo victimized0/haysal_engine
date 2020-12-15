@@ -4,8 +4,6 @@
 
 #include <WorldModule\IMesh.h>
 
-struct IMesh;
-//struct IIndexedMesh;
 enum class PrimitiveTopology : uint8;
 class GpuBuffer;
 
@@ -31,7 +29,7 @@ struct IRenderMesh
 	virtual PrimitiveTopology	GetPrimitiveTopology() const = 0;
 
 	virtual void				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) = 0;
-	//virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) = 0;
+	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) = 0;
 
 	virtual void				UpdateVertices(void* pVertBuffer, int vertsCount, int offset) = 0;
 	virtual void				UpdateIndices(uint32* pIndBuffer, int indicesCount, int offset) = 0;
