@@ -75,7 +75,7 @@ public:
 	virtual void					InitSysResources() override;
 	virtual void					FreeSysResources(int flags) override;
 
-	virtual std::unique_ptr<IRenderView>&& AllocateRenderView() const final;
+	virtual IRenderView*			AllocateRenderView() const final;
 
 protected:
 	void							SetFeature(uint64 feature) { m_features |= feature; }

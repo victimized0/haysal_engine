@@ -71,7 +71,7 @@ void RenderView::ExecuteRenderPass(RenderListId listId)
 		Execute_OpaquePass();
 		break;
 	case RenderListId::Transparent:
-		Execute_TranspPass();
+		//Execute_TranspPass();
 		break;
 	case RenderListId::PostEffects:
 		Execute_PostEffect();

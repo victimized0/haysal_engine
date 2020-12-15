@@ -55,7 +55,8 @@ void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 	if (pRnd == nullptr)
 		return;
 
-	std::unique_ptr<IRenderView> pRndView = std::move(pRnd->AllocateRenderView());
+	std::unique_ptr<IRenderView> pRndView;
+	pRndView.reset(pRnd->AllocateRenderView());
 	pRnd->BeginFrame();
 
 	BeginOcclusionCulling(pRndView.get());

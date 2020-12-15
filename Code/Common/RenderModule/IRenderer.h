@@ -162,7 +162,7 @@ struct IRenderer
 	virtual int				GetFrameID() = 0;
 	virtual WIN_HWND		GetHWND() = 0;
 
-	virtual std::unique_ptr<IRenderView>&& AllocateRenderView() const = 0;
+	virtual IRenderView*	AllocateRenderView() const = 0;
 };
 
 #endif //INTERFACE_RENDERER_H

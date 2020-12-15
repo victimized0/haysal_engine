@@ -139,7 +139,7 @@ void Renderer::FreeSysResources(int flags)
 {
 }
 
-std::unique_ptr<IRenderView>&& Renderer::AllocateRenderView() const
+IRenderView* Renderer::AllocateRenderView() const
 {
-	return std::move(std::make_unique<RenderView>());
+	return new RenderView();
 }
