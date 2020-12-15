@@ -67,27 +67,27 @@ private:
 
 struct IVegetationNode : public IRenderNode
 {
-	virtual ~IVegetationNode();
+	virtual ~IVegetationNode() {}
 };
 
 struct ILightSourceNode : public IRenderNode
 {
-	virtual ~ILightSourceNode();
+	virtual ~ILightSourceNode() {}
 };
 
 struct IDecalRenderNode : public IRenderNode
 {
-	virtual ~IDecalRenderNode();
+	virtual ~IDecalRenderNode() {}
 };
 
 struct IMeshRenderNode : public IRenderNode
 {
-	virtual ~IMeshRenderNode();
+	virtual ~IMeshRenderNode() {}
 };
 
 struct ICharacterRenderNode : public IRenderNode
 {
-	virtual ~ICharacterRenderNode();
+	virtual ~ICharacterRenderNode() {}
 };
 
 #endif //INTERFACE_RENDER_NODE_H

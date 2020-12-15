@@ -25,7 +25,7 @@ public:
 	virtual GpuBuffer*			GetIndexBuffer()			final	{ return m_pIndexBuffer; }
 
 	virtual void				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) override;
-	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override { return nullptr; }
+	//virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) override { return nullptr; }
 
 	virtual void				UpdateVertices(void* pData, int vertsCount, int offset) override;
 	virtual void				UpdateIndices(uint32* pData, int indicesCount, int offset) override;

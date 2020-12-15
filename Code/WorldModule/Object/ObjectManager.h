@@ -4,6 +4,10 @@
 
 #include "WorldObject.h"
 
+//struct WorldObjDeleter {
+//	void operator()(WorldObject* pObj) { SAFE_DELETE(pObj); }
+//};
+
 typedef std::map<const char*, std::unique_ptr<WorldObject>> WorldObjMap;
 
 class ObjectManager

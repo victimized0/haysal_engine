@@ -83,9 +83,9 @@ struct IWorldObj : public IBaseObj
 	virtual void			SetFlags(uint32 flags) = 0;
 	virtual uint32			GetFlags() const = 0;
 
-	virtual IIndexedMesh*	GetIndexedMesh(bool createIfNone = false) = 0;
-	virtual IIndexedMesh*	CreateIndexedMesh() = 0;
-	virtual void			ReleaseIndexedMesh() = 0;
+	//virtual IIndexedMesh*	GetIndexedMesh(bool createIfNone = false) = 0;
+	//virtual IIndexedMesh*	CreateIndexedMesh() = 0;
+	//virtual void			ReleaseIndexedMesh() = 0;
 
 	virtual IWorldObj*		UpdateVertices(std::vector<Vec3>& pVertices, std::vector<Vec3>&& pNormals, int iVtx0, int nVtx) = 0;
 	virtual IWorldObj*		SkinVertices(std::vector<Vec3>& pSkelVtx, const Matrix& mtxSkelToMesh) = 0;
@@ -93,7 +93,7 @@ struct IWorldObj : public IBaseObj
 	// TODO: Add physics
 	//virtual void			SetPhysGeom(phys_geometry* pPhysGeom, int type = 0) = 0;
 	//virtual int				Physicalize(IPhysicalEntity* pent, pe_geomparams* pgp, int id = -1, const char* szPropsOverride = 0) = 0;
-	virtual bool			GetPhysProps(float& mass, float& density) = 0;
+	//virtual bool			GetPhysProps(float& mass, float& density) = 0;
 
 	//virtual bool			RayIntersection(SRayHitInfo& hitInfo, IMaterial* pCustomMtl = 0) = 0;
 	// ~TODO: Add physics
@@ -110,8 +110,8 @@ struct IWorldObj : public IBaseObj
 	virtual bool			RemoveSubObject(int index) = 0;
 	virtual SubObj&			AddSubObject(IWorldObj* pObj) = 0;
 
-	virtual bool			IsUnloadable() const;
-	virtual bool			HasPhysics() const;
+	virtual bool			IsUnloadable() const = 0;
+	//virtual bool			HasPhysics() const = 0;
 	virtual void			DebugDraw() = 0;
 
 	virtual void			GetStatistics(Statistics& stats) = 0;

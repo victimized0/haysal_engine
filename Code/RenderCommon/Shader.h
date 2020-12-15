@@ -133,31 +133,6 @@ struct ShaderParam
 	}
 };
 
-struct ShaderItem
-{
-	ShaderItem(IShader* pShader = nullptr, IShaderResources* pShaderResources = nullptr, int techId = -1)
-		: m_pShader(pShader)
-		, m_pShaderResources(pShaderResources)
-		, m_techniqueId(techId)
-		, m_preprocessFlags(1)
-	{}
-
-	uint32 PostLoad();
-	bool   Update();
-	//bool   RefreshResourceConstants();
-
-	inline bool IsAlphaTested() const { return (m_pShaderResources && m_pShaderResources->IsAlphaTested()); }
-
-	inline ShaderTechnique* GetTechnique() const { assert(false); /*Not implemented*/ return nullptr; }
-
-private:
-	IShader*				m_pShader;
-	IShaderResources*		m_pShaderResources;
-	int32                   m_techniqueId;
-	uint32                  m_preprocessFlags;
-
-};
-
 struct ShaderTextureSlot
 {
 	std::string	Name;

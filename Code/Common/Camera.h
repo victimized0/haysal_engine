@@ -2,7 +2,7 @@
 #define CAMERA_H
 #pragma once
 
-#include "Math\SimpleMath.h"
+#include "Utils\SimpleMath.h"
 
 class Camera
 {

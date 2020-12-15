@@ -1,0 +1,2 @@
+C:\Users\Hayali\source\repos\haysal_engine\Code\SDKs\SimpleMath\Bin\Win64\Debug\SimpleMath.pdb
+C:\Users\Hayali\source\repos\haysal_engine\Code\SDKs\SimpleMath\Temp\Win64\Debug\SimpleMath.pdb

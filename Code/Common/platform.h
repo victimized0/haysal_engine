@@ -58,7 +58,7 @@ typedef char				int8;
 //#include <WindowsSpecific.h>
 //#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
 
-#include "Math\SimpleMath.h"
+#include "Utils\SimpleMath.h"
 #include "Utils\PredefinedColors.h"
 #endif
 

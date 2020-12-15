@@ -5,8 +5,6 @@
 #include <WorldModule\IWorldObj.h>
 #include <RenderModule\IRenderMesh.h>
 
-class IndexedMesh;
-
 class WorldObject final : public IWorldObj
 {
 public:
@@ -29,7 +27,7 @@ public:
 	virtual SubObj&					AddSubObject(IWorldObj* pObj)				final;
 	virtual bool					RemoveSubObject(int index)					final;
 	virtual bool					IsSubObject()						const	final	{ return m_isSubObj; }
-	virtual
+
 	virtual bool					IsUnloadable()						const	final	{ return m_canUnload; }
 	virtual void					SetFlags(uint32 flags)						final	{ m_flags |= flags; }
 	virtual void					ResetFlags(uint32 flags)					final	{ m_flags &= ~flags; }
@@ -40,9 +38,9 @@ public:
 	virtual const char*				GetGeometryName()							final	{ return m_geometryName.c_str(); }
 	virtual void					SetGeometryName(const char* szGeoName)		final	{ m_geometryName = szGeoName; }
 
-	virtual IIndexedMesh*			GetIndexedMesh(bool createfNone = false)	final	{ return m_pIndexedMesh.get(); }
-	virtual IIndexedMesh*			CreateIndexedMesh()							final;
-	virtual void					ReleaseIndexedMesh()						final	{ SAFE_RELEASE(m_pIndexedMesh); }
+	//virtual IIndexedMesh*			GetIndexedMesh(bool createfNone = false)	final	{ return m_pIndexedMesh.get(); }
+	//virtual IIndexedMesh*			CreateIndexedMesh()							final;
+	//virtual void					ReleaseIndexedMesh()						final	{ SAFE_RELEASE(m_pIndexedMesh); }
 	virtual IRenderMesh*			GetRenderMesh()						const	final	{ return m_pRenderMesh.get(); }
 	void							SetRenderMesh(std::unique_ptr<IRenderMesh>&& pRenderMesh);
 
@@ -73,6 +71,7 @@ public:
 	// PhysGeo*						GetPhysGeom()
 	// void							SetPhysGeom()
 	//IPhysEntity*					GetPhysEntity() const final { return nullptr; }
+	//virtual bool					GetPhysProps(float& mass, float& density) override;
 	//bool							HasPhysics() const final;
 	//int							Physicalize(IPhysEntity* pent, pe_geomparams* pgp, int id = -1, const char* szPropsOverride = 0) final;
 	// ~Physics
@@ -82,7 +81,7 @@ private:
 
 	std::shared_ptr<IMaterial>		m_pMaterial;
 	std::unique_ptr<IRenderMesh>	m_pRenderMesh;
-	std::unique_ptr<IndexedMesh>	m_pIndexedMesh;
+	//std::unique_ptr<IndexedMesh>	m_pIndexedMesh;
 	WorldObject*					m_pParent;
 
 	std::string						m_srcFileName;

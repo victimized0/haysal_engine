@@ -8,7 +8,7 @@ WorldObject::WorldObject()
     : m_pParent(nullptr)
     , m_pMaterial(nullptr)
     , m_pRenderMesh(nullptr)
-    , m_pIndexedMesh(nullptr)
+    //, m_pIndexedMesh(nullptr)
     , m_isSubObj(false)
     , m_canUnload(false)
     , m_loadedTrisCount(0)
@@ -43,10 +43,10 @@ int WorldObject::Release()
     return m_refCount;
 }
 
-IIndexedMesh* WorldObject::CreateIndexedMesh()
-{
-    return nullptr;
-}
+//IIndexedMesh* WorldObject::CreateIndexedMesh()
+//{
+//    return nullptr;
+//}
 
 void WorldObject::SetRenderMesh(std::unique_ptr<IRenderMesh>&& pRenderMesh)
 {
@@ -72,7 +72,7 @@ bool WorldObject::Load(const char* filepath)
     std::string ext = Path::GetExtension(filepath);
     if (ext == "obj")
     {
-        result = ObjLoader::Load(filepath, m_pIndexedMesh.get());
+        //result = ObjLoader::Load(filepath, m_pIndexedMesh.get());
     }
     else
     {
@@ -80,8 +80,7 @@ bool WorldObject::Load(const char* filepath)
         // Not implemented
     }
 
-    m_pRenderMesh->SetMesh(*m_pIndexedMesh.get(), 0, 0);
-
+    //m_pRenderMesh->SetMesh(*m_pIndexedMesh.get(), 0, 0);
     return result;
 }
 
@@ -119,7 +118,8 @@ IWorldObj::SubObj* WorldObject::FindSubObject(const char* nodeName)
 
 IWorldObj::SubObj& WorldObject::AddSubObject(IWorldObj* pObj)
 {
-    // TODO: insert return statement here
+    SubObj sub;
+    return sub;
 }
 
 bool WorldObject::RemoveSubObject(int index)

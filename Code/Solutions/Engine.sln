@@ -10,10 +10,19 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnimationModule", "..\AnimationModule\AnimationModule.vcxproj", "{38A55403-BDFB-49F1-9DBD-153C202C5101}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldModule", "..\WorldModule\WorldModule.vcxproj", "{00984FEE-C2A7-454B-9BDB-13160A1D49E1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B4449F4F-C035-4014-A7AD-A11394B796E7} = {B4449F4F-C035-4014-A7AD-A11394B796E7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "..\SystemModule\SystemModule.vcxproj", "{50B33E6C-0BD9-430A-942B-D2F46AFD6D07}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B4449F4F-C035-4014-A7AD-A11394B796E7} = {B4449F4F-C035-4014-A7AD-A11394B796E7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX11Renderer", "..\DX11Module\DX11Module.vcxproj", "{45E0B3B5-9754-48C6-B946-3ED288F7A6F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B4449F4F-C035-4014-A7AD-A11394B796E7} = {B4449F4F-C035-4014-A7AD-A11394B796E7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldEditor", "..\WorldEditor\WorldEditor.vcxproj", "{3045EBCB-74CE-431A-9EAD-5A6188309A95}"
 EndProject
@@ -43,6 +52,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pugixml_vs2019", "..\SDKs\pugixml\pugixml_vs2019.vcxproj", "{07CF01C0-B887-499D-AD9C-799CB6A9FE64}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shaders", "..\..\Engine\Shaders\Shaders.vcxproj", "{6BD2694D-C76C-425F-BBF7-EC18FE01200F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleMath", "..\SDKs\SimpleMath\SimpleMath.vcxproj", "{B4449F4F-C035-4014-A7AD-A11394B796E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +175,14 @@ Global
 		{6BD2694D-C76C-425F-BBF7-EC18FE01200F}.Release|x64.Build.0 = Release|x64
 		{6BD2694D-C76C-425F-BBF7-EC18FE01200F}.Release|x86.ActiveCfg = Release|Win32
 		{6BD2694D-C76C-425F-BBF7-EC18FE01200F}.Release|x86.Build.0 = Release|Win32
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Debug|x64.ActiveCfg = Debug|x64
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Debug|x64.Build.0 = Debug|x64
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Debug|x86.ActiveCfg = Debug|Win32
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Debug|x86.Build.0 = Debug|Win32
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Release|x64.ActiveCfg = Release|x64
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Release|x64.Build.0 = Release|x64
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Release|x86.ActiveCfg = Release|Win32
+		{B4449F4F-C035-4014-A7AD-A11394B796E7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +201,7 @@ Global
 		{A4B86C19-18B3-45F9-8502-6CFA90A5CB70} = {54FB8ACF-483C-4DEA-A733-A4FCE6B83FAC}
 		{E8A2D604-B1BB-4BE2-9772-81120FE983DD} = {54FB8ACF-483C-4DEA-A733-A4FCE6B83FAC}
 		{07CF01C0-B887-499D-AD9C-799CB6A9FE64} = {A7F7E6CC-6F74-4363-B121-E2F4EBD4F40D}
+		{B4449F4F-C035-4014-A7AD-A11394B796E7} = {A7F7E6CC-6F74-4363-B121-E2F4EBD4F40D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C880C1C6-256B-4C00-BE23-7587B8D45D1D}

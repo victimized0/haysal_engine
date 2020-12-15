@@ -20,10 +20,10 @@ bool Material::SetGetMaterialParamVec3(const char* sParamName, Vec3& v, bool bGe
     return false;
 }
 
-void Material::SetTexture(int textureId, int textureSlot = static_cast<int>(ShaderResourceTextureSlot::Diffuse))
+void Material::SetTexture(int textureId, int textureSlot)
 {
 }
 
-void Material::SetSubTexture(int textureId, int subMaterialSlot, int textureSlot = static_cast<int>(ShaderResourceTextureSlot::Diffuse))
+void Material::SetSubTexture(int textureId, int subMaterialSlot, int textureSlot)
 {
 }

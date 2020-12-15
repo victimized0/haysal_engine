@@ -37,7 +37,7 @@ void ObjectManager::LoadObject(const char* filename)
 	auto name = Path::GetNameWithoutExt(filename);
 	pObj->SetGeometryName(name.c_str());
 
-	m_objectsMap[name.c_str()] = std::move(pObj);
+	m_objectsMap.try_emplace(name.c_str(), std::move(pObj));
 	m_objects.push_back(pObj.get());
 }
 
@@ -48,9 +48,10 @@ void ObjectManager::UnloadObject(WorldObject* pObj)
 
 void ObjectManager::DeleteObject(WorldObject* pObj)
 {
-	auto it = std::find_if(m_objectsMap.begin(), m_objectsMap.end(), [&](std::unique_ptr<WorldObject> const& pObject) -> bool { return pObject.get() == pObj; });
-	if (it != m_objectsMap.end())
-		m_objectsMap.erase(it);
+	assert(false); // TODO: Find a way to properly delete from such a map...
+	//auto it = std::find_if(m_objectsMap.begin(), m_objectsMap.end(), [&](std::unique_ptr<WorldObject, WorldObjDeleter> const& pObject) -> bool { return pObject.get() == pObj; });
+	//if (it != m_objectsMap.end())
+	//	m_objectsMap.erase(it);
 
 	auto it2 = std::find_if(m_objects.begin(), m_objects.end(), [&](WorldObject* pObject) -> bool { return pObject == pObj; });
 	if (it2 != m_objects.end())

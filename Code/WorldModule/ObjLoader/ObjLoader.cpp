@@ -17,8 +17,8 @@ bool ObjLoader::Load(const char* filename, IIndexedMesh* pMesh)
 	bool result = LoadObj(&attr, &shapes, &materials, nullptr, nullptr, filename, mtl_dir);
 
 	// TODO: Process parsed data to Mesh/Indexed Mesh data
-	pMesh->SetShapes(shapes);
-	pMesh->SetMaterials(materials);
+	//pMesh->SetShapes(shapes);
+	//pMesh->SetMaterials(materials);
 
 	return result;
 }

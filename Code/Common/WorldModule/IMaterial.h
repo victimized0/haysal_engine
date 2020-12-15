@@ -2,7 +2,7 @@
 #define INTERFACE_MATERIAL_H
 #pragma once
 
-#include "..\RenderModule\IShader.h"
+#include <RenderModule\IShader.h>
 
 struct ShaderItem;
 

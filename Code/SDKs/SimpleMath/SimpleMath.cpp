@@ -8,7 +8,6 @@
 // http://go.microsoft.com/fwlink/?LinkID=615561
 //-------------------------------------------------------------------------------------
 
-#include "pch.h"
 #include "SimpleMath.h"
 
 /****************************************************************************
@@ -146,7 +145,7 @@ RECT DirectX::SimpleMath::Viewport::ComputeTitleSafeArea(UINT backBufferWidth, U
     float safew = (float(backBufferWidth) + 19.f) / 20.f;
     float safeh = (float(backBufferHeight) + 19.f) / 20.f;
 
-    RECT rct;
+    RECT rct = {};
     rct.left = static_cast<LONG>(safew);
     rct.top = static_cast<LONG>(safeh);
     rct.right = static_cast<LONG>(float(backBufferWidth) - safew + 0.5f);

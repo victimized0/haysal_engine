@@ -50,6 +50,8 @@ struct RenderParams
 		, pMaterial(nullptr)
 		, pRenderNode(nullptr)
 		, pInstance(nullptr)
+		, pShaderParams(nullptr)
+		, Distance(0.f)
 	{}
 
 	Matrix						Matrix;
