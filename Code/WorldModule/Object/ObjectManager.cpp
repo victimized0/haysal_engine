@@ -33,11 +33,6 @@ void ObjectManager::RenderObjects(IRenderView* pIRndView)
 
 void ObjectManager::LoadObject(const char* filename)
 {
-	if (IWorldObj* pObj = FindObject(filename))
-	{
-		return;
-	}
-
 	auto pObj = std::make_unique<WorldObject>();
 	pObj->Load(filename);
 
