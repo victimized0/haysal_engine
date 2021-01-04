@@ -42,3 +42,7 @@ void CharacterRenderNode::Translate(const Vec3& delta)
 void CharacterRenderNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }
+
+void CharacterRenderNode::SetMaterial(IMaterial* pMaterial)
+{
+}

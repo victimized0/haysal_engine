@@ -24,7 +24,7 @@ public:
 
 	virtual void					OnFrameStart() final;
 	virtual void					RenderScene(const int renderFlags, const Camera& camera) override;
-	virtual //const Camera&			GetRenderingCamera() const override;
+	//virtual const Camera&			GetRenderingCamera() const override;
 
 	virtual void					BeginOcclusionCulling(IRenderView* pRenderView);
 	virtual void					EndOcclusionCulling();
@@ -34,7 +34,6 @@ public:
 	virtual void					SelectEntity(IRenderNode* pEntity) override;
 	virtual void					RegisterEntity(IRenderNode* pEntity) override;
 	virtual void					UnregisterEntity(IRenderNode* pEntity) override;
-	virtual void					FreeRenderNodeState(IRenderNode* pEntity) override;
 	virtual uint32					GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects = 0) override;
 
 	virtual ILightSourceNode*		CreateLightSource() override;
@@ -68,6 +67,7 @@ private:
 	Camera							m_camera;
 	std::vector<ILightSourceNode*>	m_staticLights;
 	ObjectManager					m_objManager;
+	std::vector<IRenderNode*>		m_renderNodes;
 	//class LightEntity*			m_pSun;
 	//class OctreeNode*				m_pObjectsTree = nullptr;
 

@@ -1,2 +1,4 @@
 C:\Users\Hayali\source\repos\haysal_engine\Code\SDKs\SimpleMath\Bin\x64\SimpleMath.pdb
 C:\Users\Hayali\source\repos\haysal_engine\Code\SDKs\SimpleMath\Temp\x64\SimpleMath.pdb
+C:\Users\283460\source\repos\HaySal_Engine\Code\SDKs\SimpleMath\Bin\x64\SimpleMath.pdb
+C:\Users\283460\source\repos\HaySal_Engine\Code\SDKs\SimpleMath\Temp\x64\SimpleMath.pdb

@@ -35,6 +35,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{29cf0548-79d2-401a-b8a1-9b4a87e558d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces\EntitySystem">
+      <UniqueIdentifier>{2fdc4466-05e2-4d26-80cb-88fc7f392927}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldModule\IWorldModule.h">
@@ -141,6 +144,15 @@
     </ClInclude>
     <ClInclude Include="Utils\SimpleMath.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AIModule\IAISystem.h">
+      <Filter>Interfaces\AIModule</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\IEntity.h">
+      <Filter>Interfaces\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\IEntitySystem.h">
+      <Filter>Interfaces\EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,3 +42,7 @@ void LightSourceNode::Translate(const Vec3& delta)
 void LightSourceNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }
+
+void LightSourceNode::SetMaterial(IMaterial* pMaterial)
+{
+}

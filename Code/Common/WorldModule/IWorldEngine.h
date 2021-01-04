@@ -30,14 +30,11 @@ struct IWorldEngine
 	//virtual void					GetLoadedStatObjArray(IStatObj** pObjectsArray, int& nCount) = 0;
 
 	//virtual void					AddObjToDebugDrawList(SObjectInfoToAddToDebugDrawList& objInfo) = 0;
-	virtual IRenderNode* CreateRenderNode(RenderNodeType type) = 0;
+	virtual IRenderNode*			CreateRenderNode(RenderNodeType type) = 0;
 	virtual void					DeleteRenderNode(IRenderNode* pRenderNode) = 0;
 	virtual void					SelectEntity(IRenderNode* pEntity) = 0;
 	virtual void					RegisterEntity(IRenderNode* pEntity) = 0;
 	virtual void					UnregisterEntity(IRenderNode* pEntity) = 0;
-	virtual void					FreeRenderNodeState(IRenderNode* pEntity) = 0;
-	//virtual void					OnEntityDeleted(struct IEntity* pEntity) = 0;
-	//virtual void					OnRenderMeshDeleted(IRenderMesh* pRenderMesh) = 0;
 	virtual uint32					GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects = 0) = 0;
 
 	virtual ILightSourceNode* CreateLightSource() = 0;

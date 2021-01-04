@@ -66,7 +66,7 @@ public:
 	virtual void					GetStatistics(Statistics& stats)			final;
 
 	virtual void					SetMatrix(const Matrix& m)							{ m_worldMat = m; }
-	virtual Matrix					GetWorldMatrix()					const	final	{ return m_worldMat; }
+	virtual Matrix					GetWorldMatrix()							final	{ return m_worldMat; }
 
 	// TODO: Physics
 	// PhysGeo*						GetPhysGeom()

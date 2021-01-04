@@ -1,0 +1,61 @@
+<goap_actions>
+  <action name="scout">
+    <preconditions>
+      <state name="armedwithgun" value="true" />
+    </preconditions>
+    <effects>
+      <state name="enemyvisible" value="true" />
+    </effects>
+  </action>
+  <action name="approach">
+    <preconditions>
+      <state name="enemyvisible" value="true" />
+    </preconditions>
+    <effects>
+      <state name="nearenemy" value="true" />
+    </effects>
+  </action>
+  <action name="aim">
+    <preconditions>
+      <state name="enemyvisible" value="true" />
+      <state name="weaponloaded" value="true" />
+    </preconditions>
+    <effects>
+      <state name="enemylinedup" value="true" />
+    </effects>
+  </action>
+  <action name="shoot">
+    <preconditions>
+      <state name="enemylinedup" value="true" />
+    </preconditions>
+    <effects>
+      <state name="enemyalive" value="false" />
+    </effects>
+  </action>
+  <action name="load">
+    <preconditions>
+      <state name="armedwithgun" value="true" />
+    </preconditions>
+    <effects>
+      <state name="weaponloaded" value="true" />
+    </effects>
+  </action>
+  <action name="detonatebomb" cost="5">
+    <preconditions>
+      <state name="armedwithbomb" value="true" />
+      <state name="nearenemy" value="true" />
+    </preconditions>
+    <effects>
+      <state name="alive" value="false" />
+      <state name="enemyalive" value="false" />
+    </effects>
+  </action>
+  <action name="flee">
+    <preconditions>
+      <state name="enemyvisible" value="true" />
+    </preconditions>
+    <effects>
+      <state name="nearenemy" value="false" />
+    </effects>
+  </action>
+</goap_actions>

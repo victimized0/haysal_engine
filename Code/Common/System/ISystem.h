@@ -20,23 +20,25 @@ struct ISystem;
 struct IPhysics;
 struct IWorldEngine;
 struct IRenderer;
-struct IAIModule;
+struct IAISystem;
 struct IScripts;
 struct IAnimModule;
 struct ITimer;
+struct IEntitySystem;
 
 struct SystemInitParams;
 
 struct Environment
 {
-	ISystem*		pSystem		= nullptr;
-	IPhysics*		pPhysics	= nullptr;
-	IRenderer*		pRenderer	= nullptr;
-	IWorldEngine*	pWorld		= nullptr;
-	IAIModule*		pAI			= nullptr;
-	IScripts*		pScripts	= nullptr;
-	IAnimModule*	pAnimation	= nullptr;
-	ITimer*			pTimer		= nullptr;
+	ISystem*		pSystem			= nullptr;
+	IPhysics*		pPhysics		= nullptr;
+	IRenderer*		pRenderer		= nullptr;
+	IWorldEngine*	pWorld			= nullptr;
+	IAISystem*		pAISystem		= nullptr;
+	IEntitySystem*	pEntitySystem	= nullptr;
+	IScripts*		pScripts		= nullptr;
+	IAnimModule*	pAnimation		= nullptr;
+	ITimer*			pTimer			= nullptr;
 };
 
 extern Environment* gEnv;
@@ -62,12 +64,12 @@ struct ISystem
 	//virtual IResourceManager*		GetIResourceManager() = 0;
 	//virtual ICmdLine*				GetICmdLine() = 0;
 	//virtual ILog*					GetILog() = 0;
-	//virtual IEntitySystem*		GetIEntitySystem() = 0;
+	virtual IEntitySystem*			GetIEntitySystem() = 0;
 	virtual IWorldEngine*			GetIWorld() = 0;
 	virtual IScripts*				GetIScripts() = 0;
 	virtual IPhysics*				GetIPhysics() = 0;
 	virtual IRenderer*				GetIRenderer() = 0;
-	virtual IAIModule*				GetIAIModule() = 0;
+	virtual IAISystem*				GetIAISystem() = 0;
 	virtual IAnimModule*			GetIAnimModule() = 0;
 
 	virtual WIN_HWND				GetHWND() = 0;

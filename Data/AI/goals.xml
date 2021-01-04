@@ -1,0 +1,5 @@
+<goals>
+  <goal name="killenemy">
+    <state name="enemyalive" value="false" />
+  </goal>
+</goals>

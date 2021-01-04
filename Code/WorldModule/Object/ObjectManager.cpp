@@ -15,16 +15,16 @@ void ObjectManager::RenderObjects(IRenderView* pIRndView)
 	{
 		if (pObj == nullptr)
 			continue;
-		if (pObj->GetMaterial()->GetFlags() & MaterialFlags::DontRender)
+		if (pObj->GetMaterial() && pObj->GetMaterial()->GetFlags() & MaterialFlags::DontRender)
 			continue;	// Do not render objects flagged with do not render :)
 
 		Matrix worldMat = pObj->GetWorldMatrix();
 		if (IWorldObj* pParent = pObj->GetParent())
 			worldMat = worldMat * pParent->GetWorldMatrix();
 
-		RenderParams params;
+		RenderParams params = {};
 		params.pMaterial	= pObj->GetMaterial();
-		params.Matrix		= worldMat;
+		params.pMatrix		= &worldMat; // Most likely a bug is here!!!
 		//params.pRenderNode = pObj->GetRenderNode();
 
 		pObj->Render(params, pIRndView);
@@ -74,7 +74,8 @@ void ObjectManager::EndFrame()
 {
 	for (WorldObject* pObj : m_objects)
 	{
-		pObj->GetMaterial()->ResetFlags(MaterialFlags::DontRender);
+		if (pObj->GetMaterial())
+			pObj->GetMaterial()->ResetFlags(MaterialFlags::DontRender);
 	}
 }
 

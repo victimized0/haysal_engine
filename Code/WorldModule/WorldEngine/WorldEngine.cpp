@@ -9,6 +9,8 @@
 #include "RenderNodes\VegetationNode.h"
 #include "RenderNodes\CharacterRenderNode.h"
 
+#include "EntitySystem\IEntitySystem.h" // TODO: Delete this when normal level loading system is implemented!
+
 WorldEngine* g_world = nullptr;
 
 WorldEngine::WorldEngine()
@@ -111,6 +113,8 @@ IRenderNode* WorldEngine::CreateRenderNode(RenderNodeType type)
 
 void WorldEngine::DeleteRenderNode(IRenderNode* pRenderNode)
 {
+	UnregisterEntity(pRenderNode);
+	SAFE_DELETE(pRenderNode);
 }
 
 void WorldEngine::SelectEntity(IRenderNode* pEntity)
@@ -119,14 +123,14 @@ void WorldEngine::SelectEntity(IRenderNode* pEntity)
 
 void WorldEngine::RegisterEntity(IRenderNode* pEntity)
 {
+	m_renderNodes.push_back(pEntity);
 }
 
 void WorldEngine::UnregisterEntity(IRenderNode* pEntity)
 {
-}
-
-void WorldEngine::FreeRenderNodeState(IRenderNode* pEntity)
-{
+	auto it = std::find(m_renderNodes.begin(), m_renderNodes.end(), pEntity);
+	if (it != m_renderNodes.end())
+		m_renderNodes.erase(it);
 }
 
 uint32 WorldEngine::GetObjectsByType(RenderNodeType objType, IRenderNode** pObjects)
@@ -218,6 +222,8 @@ void WorldEngine::LoadTestLevel()
 {
 	// TODO: Delete this method, it's used only for test purposes.
 	using namespace pugi;
+
+	gEnv->pEntitySystem->Load();
 
 	xml_document doc = gEnv->pSystem->LoadXmlFromFile("Data/Levels/Test/test.xml");
 	auto firstObject = doc.root().find_node([&](xml_node& node) { return strcmp(node.name(), "object") == 0; });

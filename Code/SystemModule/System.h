@@ -43,13 +43,13 @@ public:
 	//virtual IResourceManager*		GetIResourceManager() final;
 	//virtual ICmdLine*				GetICmdLine() final;
 	//virtual ILog*					GetILog() final;
-	//virtual IEntitySystem*		GetIEntitySystem() final;
-	virtual IWorldEngine*			GetIWorld() final;
-	virtual IScripts*				GetIScripts() final;
-	virtual IPhysics*				GetIPhysics() final;
-	virtual IRenderer*				GetIRenderer() final;
-	virtual IAIModule*				GetIAIModule() final;
-	virtual IAnimModule*			GetIAnimModule() final;
+	virtual IEntitySystem*			GetIEntitySystem()	final { return m_env.pEntitySystem; }
+	virtual IWorldEngine*			GetIWorld()			final { return m_env.pWorld; }
+	virtual IScripts*				GetIScripts()		final { return m_env.pScripts; }
+	virtual IPhysics*				GetIPhysics()		final { return m_env.pPhysics; }
+	virtual IRenderer*				GetIRenderer()		final { return m_env.pRenderer; }
+	virtual IAISystem*				GetIAISystem()		final { return m_env.pAISystem; }
+	virtual IAnimModule*			GetIAnimModule()	final { return m_env.pAnimation; }
 
 	virtual WIN_HWND				GetHWND() final;
 
@@ -98,7 +98,7 @@ private:
 	bool							InitWorldEngine(const SystemInitParams& startupParams);
 	//bool							InitFileSystem(const SystemInitParams& startupParams);
 	//void							InitLog(const SystemInitParams& startupParams);
-	//bool							InitEntitySystem(const SystemInitParams& startupParams);
+	bool							InitEntitySystem(const SystemInitParams& startupParams);
 
 	bool							CloseRenderModule();
 	void							ShutDown();

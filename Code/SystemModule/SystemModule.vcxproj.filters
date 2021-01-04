@@ -5,10 +5,27 @@
     <ClCompile Include="System.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="..\EntitySystem\EntitySystem.cpp">
+      <Filter>EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EntitySystem\Entity.cpp">
+      <Filter>EntitySystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="..\EntitySystem\EntitySystem.h">
+      <Filter>EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EntitySystem\Entity.h">
+      <Filter>EntitySystem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="EntitySystem">
+      <UniqueIdentifier>{719e51c0-be11-4498-a3e2-fee10ed06d94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

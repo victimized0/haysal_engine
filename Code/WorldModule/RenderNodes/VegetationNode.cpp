@@ -42,3 +42,7 @@ void VegetationNode::Translate(const Vec3& delta)
 void VegetationNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }
+
+void VegetationNode::SetMaterial(IMaterial* pMaterial)
+{
+}

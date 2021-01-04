@@ -120,7 +120,7 @@ void RenderMesh::Render(const RenderParams& params, IRenderView* pRenderView)
     RenderItem rendItem;
     rendItem.pRenderMesh = this;
     rendItem.pShaderItem = &params.pMaterial->GetShaderItem();
-    rendItem.WorldMatrix = params.Matrix;
+    rendItem.WorldMatrix = *params.pMatrix;
     rendItem.pRenderNode = params.pRenderNode;
     //rendItem.pShaderTechnique = &params.pMaterial->GetTechnique();
 

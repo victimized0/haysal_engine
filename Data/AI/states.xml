@@ -1,0 +1,10 @@
+<world_states>
+  <state name="enemyvisible" value="false" />
+  <state name="armedwithgun" value="true" />
+  <state name="weaponloaded" value="false" />
+  <state name="enemylinedup" value="false" />
+  <state name="enemyalive" value="true" />
+  <state name="armedwithbomb" value="true" />
+  <state name="nearenemy" value="false" />
+  <state name="alive" value="true" />
+</world_states>

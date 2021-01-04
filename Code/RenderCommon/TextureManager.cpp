@@ -8,12 +8,13 @@ TextureManager::~TextureManager()
 
 void TextureManager::PreloadDefaultTextures()
 {
+	using namespace pugi;
 	if (m_defaultTextures.size())
 		return;
 
-	pugi::xml_document doc = gEnv->pSystem->LoadXmlFromFile("Engine/default_textures.xml");
-	const pugi::xml_node& root = doc.child("Textures");
-	for (pugi::xml_node entry = root.first_child(); entry; entry = entry.next_sibling())
+	xml_document doc = gEnv->pSystem->LoadXmlFromFile("Engine/default_textures.xml");
+	const xml_node& root = doc.child("Textures");
+	for (xml_node entry = root.first_child(); entry; entry = entry.next_sibling())
 	{
 		if (std::string(entry.name()) != "Texture")
 			continue;

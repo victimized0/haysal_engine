@@ -19,6 +19,7 @@ public:
 	virtual void			SetAABB(const AABB& aabb) final;
 	virtual void			Translate(const Vec3& delta) final;
 	virtual void			Render(const RenderParams& info, IRenderView* pRenderView) final;
+	virtual void			SetMaterial(IMaterial* pMaterial) final;
 	// ~Inherited via IDecalRenderNode
 
 private:

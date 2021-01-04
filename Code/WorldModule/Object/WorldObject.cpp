@@ -99,16 +99,17 @@ void WorldObject::Render(const RenderParams& params, IRenderView* pRenderView)
         if (subObj.IsHidden)
             continue;
 
-        RenderParams subObjParams;
+        RenderParams subObjParams = {};
         subObjParams.pMaterial  = params.pMaterial;
-        subObjParams.Matrix     = subObj.WorldMat * params.Matrix;
+        subObjParams.pMatrix    = /*subObj.WorldMat * */params.pMatrix;
         subObjParams.Flags      = params.Flags;
 
         subObj.pWorldObj->Render(subObjParams, pRenderView);
     }
 
     // TODO: Set flags that define in which render list this object will submit a render item
-    m_pRenderMesh->Render(params, pRenderView);
+    if (m_pRenderMesh)
+        m_pRenderMesh->Render(params, pRenderView);
 }
 
 IWorldObj::SubObj* WorldObject::FindSubObject(const char* nodeName)

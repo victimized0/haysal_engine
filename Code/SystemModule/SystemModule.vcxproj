@@ -173,6 +173,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\EntitySystem\Entity.cpp" />
+    <ClCompile Include="..\EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -184,6 +186,8 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\EntitySystem\Entity.h" />
+    <ClInclude Include="..\EntitySystem\EntitySystem.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Timer.h" />

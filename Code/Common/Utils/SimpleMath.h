@@ -508,6 +508,8 @@ namespace DirectX
             Matrix& operator*= (float S) noexcept;
             Matrix& operator/= (float S) noexcept;
 
+            Matrix& operator* (const Matrix& M) noexcept;
+
             Matrix& operator/= (const Matrix& M) noexcept;
                 // Element-wise divide
 

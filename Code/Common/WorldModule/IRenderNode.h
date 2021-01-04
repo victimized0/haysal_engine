@@ -4,6 +4,8 @@
 
 #include <RenderModule\IRenderer.h>
 
+struct IEntity;
+
 enum class RenderNodeType
 {
 	NonRenderable,
@@ -39,12 +41,13 @@ struct IRenderNode
 	virtual void		Render(const RenderParams& info, struct IRenderView* pRenderView) = 0;
 	virtual void        Release() { delete this; }
 
+	virtual void		SetMaterial(struct IMaterial* pMaterial) = 0;
 	virtual void		SetMatrix(const Matrix& mat) {}
 	bool				IsHidden() const { return (GetFlags() & RenderNodeFlags::Hidden) ? true : false; }
 	uint32				GetFlags() const { return m_flags; }
 
-	//virtual void		SetOwnerEntity(IEntity* pEntity) { assert(!"Not supported by this object type"); }
-	//virtual IEntity*	GetOwnerEntity() const { return nullptr; }
+	virtual void		SetOwnerEntity(IEntity* pEntity) { assert(!"Not supported by this object type"); }
+	virtual IEntity*	GetOwnerEntity() const { return nullptr; }
 
 protected:
 	virtual void		Hide(bool hide)
@@ -83,6 +86,7 @@ struct IDecalRenderNode : public IRenderNode
 struct IMeshRenderNode : public IRenderNode
 {
 	virtual ~IMeshRenderNode() {}
+	virtual const Matrix& GetMatrix() const = 0;
 };
 
 struct ICharacterRenderNode : public IRenderNode

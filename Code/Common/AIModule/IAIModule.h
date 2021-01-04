@@ -6,7 +6,7 @@
 
 struct IAIModule : public IEngineModule
 {
-
+	virtual ~IAIModule() {}
 };
 
 #endif //INTERFACE_AI_MODULE_H

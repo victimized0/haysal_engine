@@ -171,7 +171,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AIModule.cpp" />
+    <ClCompile Include="AIAgent.cpp" />
+    <ClCompile Include="AIAction.cpp" />
+    <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="ActionPlanner.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -180,10 +183,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AIModule.h" />
+    <ClInclude Include="AIAgent.h" />
+    <ClInclude Include="AIAction.h" />
+    <ClInclude Include="AISystem.h" />
+    <ClInclude Include="ActionPlanner.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SDKs\pugixml\pugixml_vs2019.vcxproj">
+      <Project>{07cf01c0-b887-499d-ad9c-799cb6a9fe64}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\SDKs\SimpleMath\SimpleMath.vcxproj">
       <Project>{b4449f4f-c035-4014-a7ad-a11394b796e7}</Project>
     </ProjectReference>

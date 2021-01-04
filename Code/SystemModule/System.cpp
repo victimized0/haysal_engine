@@ -3,6 +3,9 @@
 
 #include <WorldModule\IWorldEngine.h>
 #include <RenderModule\IRenderer.h>
+#include <AIModule\IAISystem.h>
+#include <EntitySystem\IEntitySystem.h>
+#include "..\EntitySystem\EntitySystem.h"
 
 #if PLATFORM_WINDOWS
 static LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -70,7 +73,7 @@ System::~System()
 {
 	ShutDown();
 	UnregisterWindowMessageHandler(this);
-	OutputDebugStringA("SHUTDDOWN!!");
+
 	SafeFreeLib(m_dll.hAI);
 	SafeFreeLib(m_dll.hScript);
 	SafeFreeLib(m_dll.hPhysics);
@@ -106,7 +109,7 @@ bool System::Initialise(SystemInitParams& initParams)
 	//LoadConfiguration("user.cfg", pCVarsWhiteListConfigSink, eLoadConfigInit, ELoadConfigurationFlags::SuppressConfigNotFoundWarning);
 	//m_pTextModeConsole->SetTitle(m_pProjectManager->GetCurrentProjectName());
 
-	//if (!InitPhysics(startupParams))
+	//if (!InitPhysics(initParams))
 	//	return false;
 
 	if (!InitRenderModule(initParams))
@@ -117,25 +120,25 @@ bool System::Initialise(SystemInitParams& initParams)
 		return (false);
 	m_timer.Reset();
 
-	//if (!InitInput(startupParams))
+	//if (!InitInput(initParams))
 	//	return false;
 
-	//if (!InitAnimationSystem(startupParams))
+	//if (!InitAnimationSystem(initParams))
 	//	return false;
+
+	//if (!InitScriptSystem(initParams))
+	//	return false;
+
+	if (!InitAIModule(initParams))
+		return false;
+
+	if (!InitEntitySystem(initParams))
+		return false;
 
 	if (!InitWorldEngine(initParams))
 		return false;
 
-	//if (!InitScriptSystem(startupParams))
-	//	return false;
-
-	//if (!InitEntitySystem(startupParams))
-	//	return false;
-
-	//if (!InitAISystem(startupParams))
-	//	return false;
-
-	//InitGameFramework(startupParams);
+	//InitGameFramework(initParams);
 	//m_env.pInput->PostInit();
 
 	return true;
@@ -188,6 +191,9 @@ bool System::Update()
 
 	//if (m_env.pWorld)
 	//	m_env.pWorld->Tick();  // clear per frame temp data
+
+	if (m_env.pAISystem)
+		m_env.pAISystem->Update();
 
 	return true;
 }
@@ -260,7 +266,7 @@ void System::Render()
 			m_env.pWorld->RenderScene(flags, m_viewCamera);
 		}
 
-		if (m_env.pAI)
+		if (m_env.pAISystem)
 		{
 		//	m_env.pAI->DebugDraw();
 		}
@@ -285,36 +291,6 @@ void System::Quit()
 #if !PLATFORM_LINUX && !PLATFORM_DURANGO && !PLATFORM_ORBIS
 	PostQuitMessage(0);
 #endif
-}
-
-IWorldEngine* System::GetIWorld()
-{
-	return m_env.pWorld;
-}
-
-IScripts* System::GetIScripts()
-{
-	return m_env.pScripts;
-}
-
-IPhysics* System::GetIPhysics()
-{
-	return m_env.pPhysics;
-}
-
-IRenderer* System::GetIRenderer()
-{
-	return m_env.pRenderer;
-}
-
-IAIModule* System::GetIAIModule()
-{
-	return m_env.pAI;
-}
-
-IAnimModule* System::GetIAnimModule()
-{
-	return m_env.pAnimation;
 }
 
 void System::SaveConfiguration()
@@ -564,9 +540,7 @@ bool System::InitModule(const SystemInitParams& startupParams, const char* dllNa
 	typedef IEngineModule* (*CreateModuleFunc)(ISystem* pSystem, const char* dllName);
 	auto pCreateModuleFunc = (CreateModuleFunc)GetProcAddress(dll, "CreateModule");
 	if (pCreateModuleFunc)
-	{
 		pModule = pCreateModuleFunc(this, dllName);
-	}
 
 	if (pModule == nullptr)
 		return false;
@@ -618,6 +592,13 @@ bool System::InitPhysicsModule(const SystemInitParams& startupParams)
 
 bool System::InitAIModule(const SystemInitParams& startupParams)
 {
+	if (!InitModule(startupParams, DLL_AI_MODULE))
+		return false;
+
+	if (!m_env.pAISystem)
+		return false;
+
+	m_env.pAISystem->Init();
 	return true;
 }
 
@@ -640,6 +621,14 @@ bool System::InitWorldEngine(const SystemInitParams& startupParams)
 		return false;
 
 	return m_env.pWorld->Init();
+}
+
+bool System::InitEntitySystem(const SystemInitParams& startupParams)
+{
+	// TODO: Move this to a .dll
+	IEntitySystem* pEntitySys = new EntitySystem();
+	m_env.pEntitySystem = pEntitySys;
+	return m_env.pEntitySystem != nullptr;
 }
 
 bool System::CloseRenderModule()
@@ -668,23 +657,26 @@ void System::ShutDown()
 
 	SAFE_RELEASE(m_env.pRenderer);
 
-	//if (m_env.pEntitySystem)
-	//	m_env.pEntitySystem->Unload();
+	if (m_env.pEntitySystem)
+		m_env.pEntitySystem->ShutDown();
 
 	if (m_env.pWorld)
 		m_env.pWorld->ShutDown();
 
 	//m_pResourceManager->Shutdown();
 
-	UnloadModule("AIModule");
-	UnloadModule("AnimationModule");
-	UnloadModule("WorldModule");
-	//UnloadModule("EntitySystem");
-	UnloadModule("PhysicsModule");
-	UnloadModule("LuaModule");
-	CloseRenderModule();			// TODO: might move this somewhere else
+	UnloadModule(DLL_AI_MODULE);
+	UnloadModule(DLL_ANIM_MODULE);
+	UnloadModule(DLL_WORLD_MODULE);
+	UnloadModule(DLL_ENTITY_MODULE);
+	UnloadModule(DLL_PHYSICS_MODULE);
+	UnloadModule(DLL_LUA_MODULE);
+	UnloadModule(DLL_INPUT_MODULE);
+
+	CloseRenderModule(); // TODO: might move this somewhere else
 
 	SAFE_DELETE(m_env.pRenderer);
+	SAFE_DELETE(m_env.pEntitySystem); // TODO: Move to a .dll
 	//SAFE_DELETE(m_pCmdLine);
 	//SAFE_RELEASE(m_env.pConsole);
 

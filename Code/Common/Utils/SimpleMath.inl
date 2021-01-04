@@ -2044,6 +2044,12 @@ inline Matrix& Matrix::operator*= (const Matrix& M) noexcept
     return *this;
 }
 
+inline Matrix& Matrix::operator* (const Matrix& M) noexcept
+{
+    Matrix mtx(*this);
+    return mtx *= M;
+}
+
 inline Matrix& Matrix::operator*= (float S) noexcept
 {
     using namespace DirectX;

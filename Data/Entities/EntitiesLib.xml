@@ -1,0 +1,23 @@
+<entities>
+  <entity name="apple">
+    <ai_agent>
+      <actions_set>
+        <action name="scout" />
+        <action name="approach" />
+        <action name="aim" />
+        <action name="shoot" />
+        <action name="load" />
+        <action name="detonatebomb" />
+        <action name="flee" />
+      </actions_set>
+      <goals_set>
+        <goal name="killenemy" />
+      </goals_set>
+    </ai_agent>
+    <render_proxy>
+      <object src="Objects/Test/apple.obj" />
+      <material src="Objects/Test/apple.mtl" />
+    </render_proxy>
+    <physics_proxy />
+  </entity>
+</entities>

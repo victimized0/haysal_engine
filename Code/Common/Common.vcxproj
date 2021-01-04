@@ -146,8 +146,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AIModule\IAIModule.h" />
+    <ClInclude Include="AIModule\IAISystem.h" />
     <ClInclude Include="AnimModule\IAnimModule.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="EntitySystem\IEntity.h" />
+    <ClInclude Include="EntitySystem\IEntitySystem.h" />
     <ClInclude Include="Utils\FileHelper.h" />
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />

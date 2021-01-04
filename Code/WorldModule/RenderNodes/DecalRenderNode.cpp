@@ -42,3 +42,7 @@ void DecalRenderNode::Translate(const Vec3& delta)
 void DecalRenderNode::Render(const RenderParams& info, IRenderView* pRenderView)
 {
 }
+
+void DecalRenderNode::SetMaterial(IMaterial* pMaterial)
+{
+}

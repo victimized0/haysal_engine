@@ -116,7 +116,7 @@ struct IWorldObj : public IBaseObj
 
 	virtual void			GetStatistics(Statistics& stats) = 0;
 	virtual void			SetMatrix(const Matrix& m) = 0;
-	virtual Matrix			GetWorldMatrix() const = 0;
+	virtual Matrix			GetWorldMatrix() = 0;
 };
 
 #endif //INTERFACE_WORLD_OBJECT_H

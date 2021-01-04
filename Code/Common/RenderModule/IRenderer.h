@@ -46,7 +46,7 @@ struct RenderParams
 	RenderParams()
 		: Alpha(1.f)
 		, Flags(0)
-		, Matrix(Matrix::Identity)
+		, pMatrix(nullptr)
 		, pMaterial(nullptr)
 		, pRenderNode(nullptr)
 		, pInstance(nullptr)
@@ -54,7 +54,7 @@ struct RenderParams
 		, Distance(0.f)
 	{}
 
-	Matrix						Matrix;
+	Matrix*						pMatrix;
 	IMaterial*					pMaterial;
 	IRenderNode*				pRenderNode;
 	void*						pInstance;
