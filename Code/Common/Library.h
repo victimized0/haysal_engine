@@ -52,6 +52,8 @@ public:
 		return GetProcAddress(m_hModule, procName);
 	}
 
+	void ReleaseOwnership() { m_hModule = nullptr; }
+
 private:
 	WIN_HMODULE m_hModule;
 

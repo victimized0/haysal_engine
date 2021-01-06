@@ -96,12 +96,12 @@ struct ISystem
 	virtual pugi::xml_document		LoadXmlFromFile(const char* filename) = 0;
 };
 
-typedef ISystem* (*PFNLoadSystemInterface)(SystemInitParams& initParams);
+typedef ISystem* (*PFNLoadSystemInterface)(SystemInitParams& initParams, bool manualUpdate);
 
 //! Interface of the DLL.
 extern "C"
 {
-	SYSTEM_API ISystem* LoadSystem(SystemInitParams& initParams);
+	SYSTEM_API ISystem* LoadSystem(SystemInitParams& initParams, bool manualUpdate = false);
 }
 
 #endif //INTERFACE_SYSTEM_H

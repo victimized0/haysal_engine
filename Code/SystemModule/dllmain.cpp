@@ -19,7 +19,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-extern "C" SYSTEM_API ISystem* LoadSystem(SystemInitParams& startupParams)
+extern "C" SYSTEM_API ISystem* LoadSystem(SystemInitParams& startupParams, bool manualUpdate /*= false*/)
 {
 	std::unique_ptr<System> pSystem;
 	{
@@ -37,6 +37,11 @@ extern "C" SYSTEM_API ISystem* LoadSystem(SystemInitParams& startupParams)
 	}
 
 	// run main loop
-	pSystem->RunMainLoop();
+	if (!manualUpdate)
+	{
+		pSystem->RunMainLoop();
+		return nullptr;
+	}
+
 	return pSystem.release();
 };

@@ -45,6 +45,35 @@ std::string GetRootFolder()
 	return rootDir;
 }
 
+bool InitialiseEngine(SystemInitParams& startupParams, bool manualUpdate = false)
+{
+	//FindRootFolderAndSetAsCurrentWorkingDirectory();
+
+	Library systemLibrary("System");
+	if (!systemLibrary.IsLoaded())
+	{
+		return false;
+	}
+
+	auto LoadSystemFunc = (PFNLoadSystemInterface)systemLibrary.GetProcedureAddress("LoadSystem");
+	if (LoadSystemFunc(startupParams, manualUpdate) != nullptr)
+	{
+		if (manualUpdate)
+		{
+			// Forward ownership to the function caller
+			// This is done since the engine loop will be updated outside of this function scope
+			// In other cases we would be exiting the engine at this point.
+			systemLibrary.ReleaseOwnership();
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+
 #else
 #error FindExecFolder not implemented
 #error FindEngineFolder not implemented
