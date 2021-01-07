@@ -30,6 +30,12 @@ Renderer::~Renderer()
 	
 }
 
+WIN_HWND Renderer::Init(int width, int height, const SystemInitParams& initParams)
+{
+	m_isEditor = initParams.IsEditor;
+	return nullptr;
+}
+
 void Renderer::PostInit()
 {
 	// TODO: Called after other systems that renderer depends on were initialised

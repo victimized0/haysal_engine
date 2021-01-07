@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 	// Enable dev mode
 
 	SystemInitParams startupParams = {};
+    startupParams.IsEditor = true;
     if (!InitialiseEngine(startupParams, true))
     {
         return EXIT_FAILURE;

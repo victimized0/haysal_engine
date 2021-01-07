@@ -41,7 +41,7 @@ public:
 									Renderer();
 	virtual							~Renderer();
 
-	WIN_HWND						Init(int width, int height, const SystemInitParams& initParams) override = 0;
+	WIN_HWND						Init(int width, int height, const SystemInitParams& initParams) override;
 	void							PostInit() override;
 	virtual WIN_HWND				GetHWND() override = 0;
 
@@ -64,6 +64,7 @@ public:
 	virtual void					FlushRenderList() override;
 
 	inline bool						IsHDR() { return HasFeature(FEATURE_HDR); }
+	inline bool						IsEditorMode() const { return m_isEditor; }
 
 	virtual int						GetHeight() const override { return RenderResources::s_Width; }
 	virtual int						GetWidth() const override { return RenderResources::s_Height; }
@@ -84,6 +85,7 @@ protected:
 	void							OnResolutionChanged(int w, int h);
 
 protected:
+	bool							m_isEditor;
 	bool							m_isSysResInit;
 	bool							m_isInit;
 	bool							m_enableVSync;

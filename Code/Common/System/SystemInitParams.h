@@ -6,7 +6,8 @@
 
 struct SystemInitParams
 {
-	ISystem* pSystem;
+	ISystem*	pSystem;
+	bool		IsEditor;
 };
 
 #endif //SYSTEM_INIT_PARAMS_H
