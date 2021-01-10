@@ -14,12 +14,20 @@ AIAgent::~AIAgent()
 
 void AIAgent::Init()
 {
+    m_ap.Initialise();
 }
 
 void AIAgent::Release()
 {
+    m_ap.Release();
 	m_actionsSet.clear();
+    m_goalsSet.clear();
 	m_pCurrentGoal = nullptr; // Non-owning membership.
+}
+
+void AIAgent::Update(float dt)
+{
+
 }
 
 void AIAgent::AddAction(IAIAction *pAction)
@@ -30,6 +38,15 @@ void AIAgent::AddAction(IAIAction *pAction)
 
 	if (auto pActInst = reinterpret_cast<AIAction*>(pAction))
 		m_actionsSet.push_back(pActInst);
+}
+
+void AIAgent::AddGoal(AIGoal* pGoal)
+{
+	auto it = std::find(m_goalsSet.begin(), m_goalsSet.end(), pGoal);
+	if (it != m_goalsSet.end())
+		return;	// Goal is already included in this agent's goals set
+
+    m_goalsSet.push_back(pGoal);
 }
 
 void AIAgent::SetGoal(AIGoal* pNewGoal)

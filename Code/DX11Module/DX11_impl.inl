@@ -28,7 +28,7 @@ inline D3D11_USAGE ConvertUsageFlags(uint32 flags)
 	assert((flags & (ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE)) != (ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE));
 
 	return D3D11_USAGE (
-		((flags & ResourceFlags::USAGE_CPU_READ)	? D3D11_USAGE_STAGING :
+		((flags & ResourceFlags::USAGE_CPU_READ)	? D3D11_USAGE_DEFAULT : //D3D11_USAGE_STAGING :
 		((flags & ResourceFlags::USAGE_CPU_WRITE)	? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT)));
 }
 

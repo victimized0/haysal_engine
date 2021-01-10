@@ -3,11 +3,11 @@
 
 #include <WorldModule\IWorldObj.h>
 
-RenderMesh::RenderMesh(const char* srcName)
+RenderMesh::RenderMesh(const char* srcName, RenderMeshType type)
     : m_srcFileName(srcName)
+    , m_type(type)
     , m_vertexFormat(VertexFormat::None)
     , m_topology(PrimitiveTopology::Undefined)
-    , m_type(RenderMeshType::Immmutable)
     , m_flags(0)
     , m_vtxCount(0)
     , m_idxCount(0)
@@ -31,7 +31,7 @@ int RenderMesh::Release()
     int count = --m_refCount; // TODO: add multithread support
     if (count < 0)
     {
-        assert(false); // If the number is negative, it means that integer overflow took place => it was referenced way too many times.
+        //assert(false); // If the number is negative, it means that integer overflow took place => it was referenced way too many times.
     }
 
     if (count == 0)
@@ -39,11 +39,17 @@ int RenderMesh::Release()
         // TODO: Delete the object from it's owner
     }
 
+    SAFE_DELETE(m_pVertexBuffer);
+    SAFE_DELETE(m_pIndexBuffer);
+
     return count;
 }
 
-void RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
+void RenderMesh::SetMesh(IMesh& mesh, uint32 flags)
 {
+    m_pVertexBuffer = new GpuBuffer();
+    m_pIndexBuffer  = new GpuBuffer();
+
     m_boundingBox   = mesh.GetBoundingBox();
     m_vtxCount      = mesh.GetVerticesCount();
     m_idxCount      = mesh.GetIndicesCount();
@@ -51,6 +57,9 @@ void RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
     Vec3* pPos = mesh.GetPositionsData();
     Vec3* pNml = mesh.GetNormalsData();
     Vec2* pTex = mesh.GetTexCoordsData();
+    //Vec4* pCol = mesh.GetColoursData();
+
+    m_vertexFormat = VertexFormat::PosNmlTex;
 
     m_posNmlTex.resize(m_vtxCount);
     for (size_t i = 0; i < m_posNmlTex.size(); ++i)
@@ -89,9 +98,14 @@ void RenderMesh::SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset)
     }
 }
 
+IIndexedMesh* RenderMesh::GetIndexedMesh(IIndexedMesh* outMesh)
+{
+    return nullptr;
+}
+
 void RenderMesh::UpdateVertices(void* pData, int vertsCount, int offset)
 {
-    assert(false); // Currently engine isn't supposed to update static meshes
+    //assert(false); // Currently engine isn't supposed to update static meshes
     if (m_pVertexBuffer->IsNullBuffer() || !m_pVertexBuffer->IsAvailable())
     {
         uint32 flags = ResourceFlags::BIND_VERTEX_BUFFER /*| ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE*/;
@@ -104,7 +118,7 @@ void RenderMesh::UpdateVertices(void* pData, int vertsCount, int offset)
 
 void RenderMesh::UpdateIndices(uint32* pData, int indicesCount, int offset)
 {
-    assert(false); // Currently engine isn't supposed to update static meshes
+    //assert(false); // Currently engine isn't supposed to update static meshes
     if (m_pIndexBuffer->IsNullBuffer() || !m_pIndexBuffer->IsAvailable())
     {
         uint32 flags = ResourceFlags::BIND_INDEX_BUFFER /*| ResourceFlags::USAGE_CPU_READ | ResourceFlags::USAGE_CPU_WRITE*/;
@@ -119,7 +133,7 @@ void RenderMesh::Render(const RenderParams& params, IRenderView* pRenderView)
 {
     RenderItem rendItem;
     rendItem.pRenderMesh = this;
-    rendItem.pShaderItem = &params.pMaterial->GetShaderItem();
+    rendItem.pShaderItem = params.pMaterial ? &params.pMaterial->GetShaderItem() : nullptr;
     rendItem.WorldMatrix = *params.pMatrix;
     rendItem.pRenderNode = params.pRenderNode;
     //rendItem.pShaderTechnique = &params.pMaterial->GetTechnique();

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "WorldObject.h"
+#include "RenderNodes\MeshRenderNode.h"
 
 //struct WorldObjDeleter {
 //	void operator()(WorldObject* pObj) { SAFE_DELETE(pObj); }
@@ -18,8 +19,9 @@ public:
 
 	void						EndFrame();
 	void						RenderObjects(IRenderView* pIRndView);
+	void						RenderMeshNode(MeshRenderNode* pNode, IRenderView* pIRndView);
 
-	void						LoadObject(const char* filename);
+	IWorldObj*					LoadObject(const char* filename, const char* geomName = nullptr);
 	void						UnloadObject(WorldObject* pObj);
 
 	void						BeginOcclusionCulling();
@@ -28,6 +30,8 @@ public:
 
 	IWorldObj*					FindObject(int id);
 	IWorldObj*					FindObject(const char* filename);
+
+	int							GetLoadedCount() const { return m_objects.size(); }
 
 private:
 	void						DoFrustumCulling(const Camera* pCamera);

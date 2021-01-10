@@ -86,6 +86,9 @@
     <ClInclude Include="Object\WorldObject.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="ObjLoader\OBJ_Loader.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="WorldEngine">

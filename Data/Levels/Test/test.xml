@@ -1,6 +1,9 @@
 <scene>
-	<objects>
-		<object filename="Objects\Architecture\cottage\cottage.obj" position="0,0,0" rotation="0,0,0" scale="1,1,1" />
-		<object filename="Objects\Architecture\cottage\cottage.obj" position="10,0,0" rotation="0,0,0" scale="1,1,1" />
-	</objects>
+  <objects>
+    <object filename="Objects\Architecture\cottage\cottage.obj" position="0,0,0" rotation="0,0,0" scale="1,1,1" />
+    <object filename="Objects\Architecture\cottage\cottage.obj" position="10,0,0" rotation="0,0,0" scale="1,1,1" />
+  </objects>
+  <entities>
+  	<entity name="apple" position="5,5,5" rotation="0,0,0" scale="1,1,1" />
+  </entities>
 </scene>

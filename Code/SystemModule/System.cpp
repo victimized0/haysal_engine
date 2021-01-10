@@ -52,8 +52,8 @@ static LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 System::System(const SystemInitParams& startupParams)
 	: m_hWnd(nullptr)
-	, m_width(0)
-	, m_height(0)
+	, m_width(800)
+	, m_height(600)
 	, m_isDevMode(false)
 	, m_isPaused(false)
 	, m_shouldQuit(false)
@@ -626,8 +626,7 @@ bool System::InitWorldEngine(const SystemInitParams& startupParams)
 bool System::InitEntitySystem(const SystemInitParams& startupParams)
 {
 	// TODO: Move this to a .dll
-	IEntitySystem* pEntitySys = new EntitySystem();
-	m_env.pEntitySystem = pEntitySys;
+	m_env.pEntitySystem = new EntitySystem();
 	return m_env.pEntitySystem != nullptr;
 }
 

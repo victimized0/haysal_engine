@@ -14,8 +14,10 @@ struct IAIAgent
 
 	virtual void Init() = 0;
 	virtual void Release() = 0;
+	virtual void Update(float dt) = 0;
 
 	virtual void AddAction(IAIAction* pAction) = 0;
+	virtual void AddGoal(AIGoal* pGoal) = 0;
 	virtual void SetGoal(AIGoal* pGoal) = 0;
 
 	virtual void Parse(pugi::xml_node& agentNode, AgentDesc& agentDesc) = 0;

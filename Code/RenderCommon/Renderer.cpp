@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Renderer.h"
+#include "RenderMesh.h"
 
 Renderer* gRenderer = nullptr;
 
@@ -33,6 +34,10 @@ Renderer::~Renderer()
 WIN_HWND Renderer::Init(int width, int height, const SystemInitParams& initParams)
 {
 	m_isEditor = initParams.IsEditor;
+
+	RenderResources::s_Width = width;
+	RenderResources::s_Height = height;
+	RenderResources::Init();
 	return nullptr;
 }
 
@@ -149,4 +154,10 @@ void Renderer::FreeSysResources(int flags)
 IRenderView* Renderer::AllocateRenderView() const
 {
 	return new RenderView();
+}
+
+IRenderMesh* Renderer::CreateRenderMesh(const char* srcName, RenderMeshType bufferType)
+{
+	RenderMesh* pRenderMesh = new RenderMesh(srcName, bufferType);
+	return pRenderMesh;
 }

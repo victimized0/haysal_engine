@@ -202,6 +202,7 @@
     <ClInclude Include="Object\ObjectManager.h" />
     <ClInclude Include="Object\ObjectsTree.h" />
     <ClInclude Include="ObjLoader\ObjLoader.h" />
+    <ClInclude Include="ObjLoader\OBJ_Loader.h" />
     <ClInclude Include="ObjLoader\tiny_obj_loader.h" />
     <ClInclude Include="RenderNodes\CharacterRenderNode.h" />
     <ClInclude Include="RenderNodes\DecalRenderNode.h" />

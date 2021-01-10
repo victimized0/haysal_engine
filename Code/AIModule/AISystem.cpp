@@ -8,6 +8,10 @@ AISystem::~AISystem()
 
 void AISystem::Update()
 {
+	for (auto& agent : m_agents)
+	{
+		agent.Update(0.0f);
+	}
 }
 
 void AISystem::Init()
@@ -15,13 +19,10 @@ void AISystem::Init()
 	LoadStates();
 	LoadActions();
 	LoadGoals();
-
-	m_ap.Initialise();
 }
 
 void AISystem::Release()
 {
-	m_ap.Release();
 }
 
 IAIAgent* AISystem::CreateAgent()

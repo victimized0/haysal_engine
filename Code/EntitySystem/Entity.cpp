@@ -3,6 +3,7 @@
 
 #include <System\ISystem.h>
 #include <WorldModule\IWorldEngine.h>
+#include <WorldModule\IWorldObj.h>
 
 Entity::Entity()
     : m_scale(0.0f)
@@ -68,10 +69,18 @@ void Entity::Parse(pugi::xml_node& entityNode)
     auto rpNode = entityNode.child("render_proxy");
     if (!rpNode.empty() && gEnv->pWorld)
     {
-        // TODO: Parse render proxy
+        auto objNode = rpNode.child("object");
+        if (!objNode.empty())
+        {
+            // TODO: Parse render node type and pass it to CreateRenderNode() instead of hardcoding it
+            m_pRenderNode = gEnv->pWorld->CreateRenderNode(RenderNodeType::Mesh);
+            gEnv->pWorld->RegisterEntity(m_pRenderNode);
 
-        IRenderNode* pRndEnt = gEnv->pWorld->CreateRenderNode(RenderNodeType::Mesh);
-        gEnv->pWorld->RegisterEntity(pRndEnt);
+            const char* filename = objNode.attribute("src").as_string();
+            IWorldObj* pObj = gEnv->pWorld->LoadWorldObj(filename);
+            m_pRenderNode->SetWorldObj(pObj);
+            // TODO: Parse material
+        }
     }
 
     auto aiAgentNode = entityNode.child("ai_agent");

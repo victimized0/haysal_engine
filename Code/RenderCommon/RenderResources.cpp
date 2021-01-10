@@ -26,9 +26,9 @@ void RenderResources::Init()
     s_pTexDiffuseAcc        = Texture::GetOrCreateTexture( "$SceneDiffuseAcc",  s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
     s_pTexSpecularAcc       = Texture::GetOrCreateTexture( "$SceneSpecularAcc", s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
                                                                                                                                                                                      
-    s_pTexHdrTarget         = Texture::GetOrCreateTexture( "$SceneHdr",         s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
-    s_pTexHdrTargetDiv2     = Texture::GetOrCreateTexture( "$SceneHdr/2",       (s_Width + 1) / 2,  (s_Height + 1) / 2,     1, 0, TextureType::Tex2D, TextureFormat::Unknown );
-    s_pTexHdrTargetDiv4     = Texture::GetOrCreateTexture( "$SceneHdr/4",       (s_Width + 1) / 4,  (s_Height + 1) / 4,     1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    s_pTexHdrTarget         = Texture::GetOrCreateTexture( "$SceneHdr",         s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
+    s_pTexHdrTargetDiv2     = Texture::GetOrCreateTexture( "$SceneHdr/2",       (s_Width + 1) / 2,  (s_Height + 1) / 2,     1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
+    s_pTexHdrTargetDiv4     = Texture::GetOrCreateTexture( "$SceneHdr/4",       (s_Width + 1) / 4,  (s_Height + 1) / 4,     1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
                                                                                                                                                                                      
     s_pTexSceneNormal       = Texture::GetOrCreateTexture( "$SceneNormal",      s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
     s_pTexSceneDepth        = Texture::GetOrCreateTexture( "$SceneDepth",       s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );

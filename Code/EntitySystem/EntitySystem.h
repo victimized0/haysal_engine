@@ -8,19 +8,20 @@
 class EntitySystem : public IEntitySystem
 {
 public:
-					EntitySystem();
-	virtual			~EntitySystem();
+							EntitySystem();
+	virtual					~EntitySystem();
 
-	virtual void	Init() override;
-	virtual void	ShutDown() override;
+	virtual void			Init() override;
+	virtual void			ShutDown() override;
 
-	virtual void	Load() override;
-	virtual void	Unload() override;
+	virtual void			Load() override;
+	virtual void			Unload() override;
 
-	virtual IEntity* GetEntity(const char* name) override;
+	virtual IEntity*		LoadEntity(const char* name) override;
+	virtual IEntity*		GetEntity(const char* name) override;
 
 private:
-	std::vector<IEntity*> m_entities; // TODO: Load entities only on demand
+	std::vector<IEntity*>	m_entities; // TODO: Load entities only on demand
 
 };
 

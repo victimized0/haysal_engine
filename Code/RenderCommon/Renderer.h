@@ -43,6 +43,7 @@ public:
 
 	WIN_HWND						Init(int width, int height, const SystemInitParams& initParams) override;
 	void							PostInit() override;
+	virtual void					SetHWND(WIN_HWND hWnd) override = 0;
 	virtual WIN_HWND				GetHWND() override = 0;
 
 	virtual bool					CreateDevice() = 0;
@@ -77,6 +78,7 @@ public:
 	virtual void					FreeSysResources(int flags) override;
 
 	virtual IRenderView*			AllocateRenderView() const final;
+	virtual IRenderMesh*			CreateRenderMesh(const char* srcName, RenderMeshType bufferType = RenderMeshType::Static) override;
 
 protected:
 	void							SetFeature(uint64 feature) { m_features |= feature; }

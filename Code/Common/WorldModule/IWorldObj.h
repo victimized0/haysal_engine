@@ -83,6 +83,7 @@ struct IWorldObj : public IBaseObj
 	virtual void			SetFlags(uint32 flags) = 0;
 	virtual uint32			GetFlags() const = 0;
 
+	virtual void			SetIndexedMesh(class IndexedMesh* pIndexedMesh) = 0;
 	virtual IIndexedMesh*	GetIndexedMesh(bool createIfNone = false) = 0;
 	virtual IIndexedMesh*	CreateIndexedMesh() = 0;
 	virtual void			ReleaseIndexedMesh() = 0;

@@ -6,11 +6,15 @@
 
 struct MeshFace
 {
-	uint32 X;
-	uint32 Y;
-	uint32 Z;
+	uint16 X;
+	uint16 Y;
+	uint16 Z;
 
-	MeshFace(uint32 x, uint32 y, uint32 z)
+	MeshFace()
+		: X(0), Y(0), Z(0)
+	{}
+
+	MeshFace(uint16 x, uint16 y, uint16 z)
 		: X(x), Y(y), Z(z)
 	{}
 };
@@ -80,5 +84,35 @@ struct ISkinnedMesh : public IMesh
 {
 	virtual ~ISkinnedMesh() {}
 };
+
+//class Mesh
+//{
+//public:
+//	Mesh()
+//		: pIndices(nullptr)
+//		, pPositions(nullptr)
+//		, pNormals(nullptr)
+//		, pTexCoords(nullptr)
+//		, pColors(nullptr)
+//		, IndicesCount(0)
+//		, PositionsCount(0)
+//		, NormalsCount(0)
+//		, TexCoordsCount(0)
+//		, ColorsCount(0)
+//	{}
+//
+//	uint32* pIndices;
+//	Vec3*	pPositions;
+//	Vec3*	pNormals;
+//	Vec2*	pTexCoords;
+//	Vec3*	pColors;
+//	AABB	BBox;
+//
+//	uint32  IndicesCount;
+//	uint32  PositionsCount;
+//	uint32  NormalsCount;
+//	uint32  TexCoordsCount;
+//	uint32  ColorsCount;
+//};
 
 #endif //INTERFACE_MESH_H

@@ -31,16 +31,28 @@ void ObjectManager::RenderObjects(IRenderView* pIRndView)
 	}
 }
 
-void ObjectManager::LoadObject(const char* filename)
+void ObjectManager::RenderMeshNode(MeshRenderNode* pNode, IRenderView* pIRndView)
 {
+	// TODO: Check occlusion here
+	// TODO: Pick lod to render
+	pNode->Render(pIRndView);
+}
+
+IWorldObj* ObjectManager::LoadObject(const char* filename, const char* geomName)
+{
+	if (filename == nullptr)
+		return nullptr;
+
 	auto pObj = std::make_unique<WorldObject>();
+	pObj->SetRenderMesh(gEnv->pRenderer->CreateRenderMesh(filename));
 	pObj->Load(filename);
 
-	auto name = Path::GetNameWithoutExt(filename);
+	auto name = geomName ? geomName : Path::GetNameWithoutExt(filename);
 	pObj->SetGeometryName(name.c_str());
 
 	m_objectsMap.try_emplace(name.c_str(), std::move(pObj));
 	m_objects.push_back(m_objectsMap[name.c_str()].get());
+	return m_objectsMap[name.c_str()].get();
 }
 
 void ObjectManager::UnloadObject(WorldObject* pObj)

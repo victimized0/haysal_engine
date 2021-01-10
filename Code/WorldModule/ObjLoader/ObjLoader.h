@@ -2,6 +2,9 @@
 #define OBJ_LOADER_H
 #pragma once
 
+#define USE_OBJLOADER 1
+#define USE_TINYOBJLOADER 0
+
 class ObjLoader
 {
 public:

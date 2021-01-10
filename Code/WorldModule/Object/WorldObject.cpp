@@ -45,15 +45,17 @@ int WorldObject::Release()
 
 IIndexedMesh* WorldObject::CreateIndexedMesh()
 {
-    return nullptr;
+	if (m_pIndexedMesh == nullptr)
+		m_pIndexedMesh.reset(new IndexedMesh());
+	return m_pIndexedMesh.get();
 }
 
-void WorldObject::SetRenderMesh(std::unique_ptr<IRenderMesh>&& pRenderMesh)
+void WorldObject::SetRenderMesh(IRenderMesh* pRenderMesh)
 {
-    if (m_pRenderMesh == pRenderMesh)
+    if (m_pRenderMesh.get() == pRenderMesh)
         return;
 
-    m_pRenderMesh = std::move(pRenderMesh);
+    m_pRenderMesh.reset(pRenderMesh);
 
     if (m_pRenderMesh)
     {
@@ -72,7 +74,13 @@ bool WorldObject::Load(const char* filepath)
     std::string ext = Path::GetExtension(filepath);
     if (ext == ".obj")
     {
+        if (m_pIndexedMesh == nullptr)
+            CreateIndexedMesh();
+
         result = ObjLoader::Load(filepath, m_pIndexedMesh.get());
+
+        if (m_pRenderMesh)
+            m_pRenderMesh->SetMesh(*m_pIndexedMesh.get(), 0);
     }
     else
     {
@@ -99,10 +107,10 @@ void WorldObject::Render(const RenderParams& params, IRenderView* pRenderView)
         if (subObj.IsHidden)
             continue;
 
-        RenderParams subObjParams = {};
-        subObjParams.pMaterial  = params.pMaterial;
-        subObjParams.pMatrix    = /*subObj.WorldMat * */params.pMatrix;
-        subObjParams.Flags      = params.Flags;
+        RenderParams subObjParams   = {};
+        subObjParams.pMaterial      = params.pMaterial;
+        subObjParams.pMatrix        = /*subObj.WorldMat * */params.pMatrix;
+        subObjParams.Flags          = params.Flags;
 
         subObj.pWorldObj->Render(subObjParams, pRenderView);
     }

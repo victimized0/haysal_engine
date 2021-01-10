@@ -21,13 +21,11 @@ struct IWorldEngine
 	//virtual const					Camera& GetRenderingCamera() const = 0;
 
 	//virtual int						SaveStatObj(IStatObj* pStatObj, TSerialize ser) = 0;
-	//virtual IStatObj*				LoadStatObj(TSerialize ser) = 0;
-	//virtual IStatObj*				CreateStatObj() = 0;
-	//virtual IIndexedMesh*			CreateIndexedMesh() = 0;
-	//virtual IStatObj*				LoadStatObj(const char* szFileName, const char* szGeomName = NULL, /*[Out]*/ IStatObj::SSubObject** ppSubObject = NULL) = 0;
-	//virtual IStatObj*				FindStatObjectByFilename(const char* filename) = 0;
+	virtual struct IIndexedMesh*	CreateIndexedMesh() = 0;
+	virtual IWorldObj*				CreateWorldObj() = 0;
+	virtual IWorldObj*				LoadWorldObj(const char* filename, const char* geomName = nullptr) = 0;
+	virtual IWorldObj*				FindWorldObjByName(const char* filename) = 0;
 	virtual int						GetLoadedObjectCount() { return 0; }
-	//virtual void					GetLoadedStatObjArray(IStatObj** pObjectsArray, int& nCount) = 0;
 
 	//virtual void					AddObjToDebugDrawList(SObjectInfoToAddToDebugDrawList& objInfo) = 0;
 	virtual IRenderNode*			CreateRenderNode(RenderNodeType type) = 0;

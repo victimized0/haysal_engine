@@ -19,14 +19,16 @@ public:
 
 	virtual const AABB		GetAABB() const final			{ return m_bbox; }
 	virtual void			SetAABB(const AABB& aabb) final { m_bbox = aabb; }
-
-	void					SetWorldObj(IWorldObj* pObj);
+	
+	virtual IWorldObj*		GetWorldObj() final;
+	virtual void			SetWorldObj(IWorldObj* pObj) final;
 	virtual void			SetMaterial(IMaterial* pMaterial) final;
 	virtual void			SetMatrix(const Matrix& mat) final;
 	virtual const Matrix&	GetMatrix() const final			{ return m_matrix; }
 
 	virtual void			Translate(const Vec3& delta) final;
 	virtual void			Render(const RenderParams& info, IRenderView* pRenderView) final;
+	void					Render(IRenderView* pRenderView);
 
 	virtual void			SetOwnerEntity(IEntity* pEntity) final	{ m_pOwner = pEntity; }
 	virtual IEntity*		GetOwnerEntity() const final			{ return m_pOwner; }

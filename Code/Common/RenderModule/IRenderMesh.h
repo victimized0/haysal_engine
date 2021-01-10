@@ -7,13 +7,6 @@
 enum class PrimitiveTopology : uint8;
 class GpuBuffer;
 
-enum class RenderMeshType : uint8
-{
-	Immmutable	= 0,
-	Static		= 1,
-	Dynamic		= 2,
-};
-
 struct IRenderMesh
 {
 	virtual						~IRenderMesh() {}
@@ -28,7 +21,7 @@ struct IRenderMesh
 	virtual RenderMeshType		GetMeshType() const = 0;
 	virtual PrimitiveTopology	GetPrimitiveTopology() const = 0;
 
-	virtual void				SetMesh(IMesh& mesh, uint32 flags, const Vec3* pPosOffset) = 0;
+	virtual void				SetMesh(IMesh& mesh, uint32 flags) = 0;
 	virtual IIndexedMesh*		GetIndexedMesh(IIndexedMesh* outMesh) = 0;
 
 	virtual void				UpdateVertices(void* pVertBuffer, int vertsCount, int offset) = 0;

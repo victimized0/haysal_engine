@@ -3,6 +3,7 @@
 #include <System\SystemInitParams.h>
 #include "WorldEditor.h"
 #include <QtWidgets/QApplication>
+#include <RenderModule\IRenderer.h>
 
 // Advise notebook graphics drivers to prefer discrete GPU when no explicit application profile exists
 extern "C"
@@ -25,5 +26,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     WorldEditor w;
     w.show();
+
+    //gEnv->pRenderer->SetHWND((HWND)w.winId());
+
     return a.exec();
 }

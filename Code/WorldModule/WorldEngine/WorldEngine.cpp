@@ -67,6 +67,12 @@ void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 	//if draw objects AABBs
 	//	m_pObjectsTree->RenderDebug();
 
+	for (auto pNode: m_renderNodes)
+	{
+		MeshRenderNode* pMeshNode = reinterpret_cast<MeshRenderNode*>(pNode);
+		m_objManager.RenderMeshNode(pMeshNode, pRndView.get());
+	}
+
 	m_objManager.RenderObjects(pRndView.get());
 
 	// Notify game framework OnRenderScene();
@@ -218,22 +224,65 @@ void WorldEngine::ApplyForceToEnvironment(Vec3 vPos, float fRadius, float fAmoun
 {
 }
 
+IIndexedMesh* WorldEngine::CreateIndexedMesh()
+{
+	return new IndexedMesh();
+}
+
+IWorldObj* WorldEngine::CreateWorldObj()
+{
+	WorldObject* pWorldObj = new WorldObject();
+	pWorldObj->CreateIndexedMesh();
+	return pWorldObj;
+}
+
+IWorldObj* WorldEngine::LoadWorldObj(const char* filename, const char* geomName)
+{
+	if (filename == nullptr)
+		return nullptr;
+	if (filename[0] == 0)
+		return nullptr;
+
+	return m_objManager.LoadObject(filename);
+}
+
+IWorldObj* WorldEngine::FindWorldObjByName(const char* filename)
+{
+	if (filename == nullptr)
+		return nullptr;
+	if (filename[0] == 0)
+		return nullptr;
+
+	return m_objManager.FindObject(filename);
+}
+
+int WorldEngine::GetLoadedObjectCount()
+{
+	return m_objManager.GetLoadedCount();
+}
+
 void WorldEngine::LoadTestLevel()
 {
 	// TODO: Delete this method, it's used only for test purposes.
 	using namespace pugi;
 
-	gEnv->pEntitySystem->Load();
+	//gEnv->pEntitySystem->Load();
 
 	xml_document doc = gEnv->pSystem->LoadXmlFromFile("Data/Levels/Test/test.xml");
-	auto firstObject = doc.root().find_node([&](xml_node& node) { return strcmp(node.name(), "object") == 0; });
 
+	auto firstObject = doc.root().find_node([&](xml_node& node) { return strcmp(node.name(), "object") == 0; });
 	for (xml_node& object = firstObject; object; object = object.next_sibling())
 	{
 		const char* fileName = object.attribute("filename").as_string();
 		m_objManager.LoadObject(fileName);
 	}
 
+	auto firstEntity = doc.root().find_node([&](xml_node& node) { return strcmp(node.name(), "entity") == 0; });
+	for (xml_node& entity = firstEntity; entity; entity = entity.next_sibling())
+	{
+		const char* name = entity.attribute("name").as_string();
+		gEnv->pEntitySystem->LoadEntity(name);
+	}
 }
 
 class WorldModule final : public IWorldModule

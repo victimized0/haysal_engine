@@ -199,9 +199,58 @@ void RenderView::Execute_OpaquePass()
 {
 	gRenderer->PushProfileMarker("OPAQUE_PASS");
 
+	GpuContext* pContext = DeviceFactory::Get().GetContext();
+	gRenderer->PushProfileMarker("SHADOW_PASS");
+
+	CB_PerDraw cbpd;
+
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::Opaque)])
 	{
+		VertexFormat		vtxFmt			= renderItem.pRenderMesh->GetVertexFormat();
+		ShaderTechnique*	pTech			= renderItem.pShaderTechnique;
+		GpuBuffer*			pVertexBuffer	= renderItem.pRenderMesh->GetVertexBuffer();
+		GpuBuffer*			pIndexBuffer	= renderItem.pRenderMesh->GetIndexBuffer();
+		IGpuBuffer*			pVBuffer		= pVertexBuffer->GetDevBuffer()->GetBuffer();
+		IGpuBuffer*			pIBuffer		= pIndexBuffer->GetDevBuffer()->GetBuffer();
+		IVertexLayout*		pCurLayout		= nullptr;
 
+		pContext->IASetPrimitiveTopology(static_cast<D3D11_PRIMITIVE_TOPOLOGY>(renderItem.pRenderMesh->GetPrimitiveTopology()));
+
+		const UINT stride = VertexFormatsHelper::GetStride(vtxFmt);
+		const UINT ofsets = 0;
+		pContext->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &ofsets);
+		pContext->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+		cbpd.WorldMatrix = renderItem.WorldMatrix;
+		m_pcbPerDraw->Update(reinterpret_cast<void*>(&cbpd), sizeof(CB_PerDraw));
+
+		IGpuBuffer* ppCBPerDraw = m_pcbPerDraw->GetBuffer();
+		pContext->VSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
+		pContext->PSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
+
+		GpuRTV* pHDRTarget = RenderResources::s_pTexHdrTarget->GetDeviceTexture()->LookupRTV(ResourceViewType::RenderTarget);
+		pContext->OMSetRenderTargets(1, &pHDRTarget, nullptr);
+
+		for (auto& pass : pTech->m_Passes)
+		{
+			Shader* pVS = pass.m_pVertexShader;
+			Shader* pPS = pass.m_pPixelShader;
+
+			IVertexLayout* pNewLayout = DeviceFactory::Get().GetOrCreateInputLayout(pVS->GetShaderBlob(), vtxFmt)->second;
+			if (pNewLayout != pCurLayout)
+			{
+				pCurLayout = pNewLayout;
+				pContext->IASetInputLayout(pCurLayout);
+			}
+
+			//pContext->VSSetShader(pVS., nullptr, 0);
+			//pContext->PSSetShader(pPS, nullptr, 0);
+
+			// Set samplers from pass
+			// Set shader resources
+
+			pContext->DrawIndexed(renderItem.pRenderMesh->GetIndicesCount(), 0, 0);
+		}
 	}
 
 	gRenderer->PopProfileMarker("OPAQUE_PASS");

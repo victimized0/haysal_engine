@@ -33,7 +33,6 @@ private:
 	std::vector<AIWorldState>	m_goapStates;
 	std::vector<AIAction>		m_goapActions;
 	std::vector<AIGoal>			m_goapGoals;
-	ActionPlanner				m_ap;
 
 };
 #endif //USE_GOAP

@@ -5,6 +5,7 @@
 #include <RenderModule\IRenderer.h>
 
 struct IEntity;
+struct IWorldObj;
 
 enum class RenderNodeType
 {
@@ -48,6 +49,9 @@ struct IRenderNode
 
 	virtual void		SetOwnerEntity(IEntity* pEntity) { assert(!"Not supported by this object type"); }
 	virtual IEntity*	GetOwnerEntity() const { return nullptr; }
+
+	virtual IWorldObj*	GetWorldObj() { return nullptr; };
+	virtual void		SetWorldObj(IWorldObj* pObj) {}
 
 protected:
 	virtual void		Hide(bool hide)

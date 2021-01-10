@@ -38,12 +38,13 @@ public:
 	virtual void					SetFilePath(const char* szFileName)			final	{ m_srcFileName = szFileName; }
 	virtual const char*				GetGeometryName()							final	{ return m_geometryName.c_str(); }
 	virtual void					SetGeometryName(const char* szGeoName)		final	{ m_geometryName = szGeoName; }
-
+	
+	virtual void					SetIndexedMesh(IndexedMesh* pIndexedMesh)   final   { m_pIndexedMesh.reset(pIndexedMesh);}
 	virtual IIndexedMesh*			GetIndexedMesh(bool createfNone = false)	final	{ return m_pIndexedMesh.get(); }
 	virtual IIndexedMesh*			CreateIndexedMesh()							final;
 	virtual void					ReleaseIndexedMesh()						final	{ SAFE_RELEASE(m_pIndexedMesh); }
 	virtual IRenderMesh*			GetRenderMesh()						const	final	{ return m_pRenderMesh.get(); }
-	void							SetRenderMesh(std::unique_ptr<IRenderMesh>&& pRenderMesh);
+	void							SetRenderMesh(IRenderMesh* pRenderMesh);
 
 	virtual void					SetMaterial(IMaterial* pMaterial)			final	{ m_pMaterial.reset(pMaterial); }
 	virtual IMaterial*				GetMaterial()						const	final	{ return m_pMaterial.get(); }

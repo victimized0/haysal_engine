@@ -15,6 +15,7 @@ public:
 							DX11Renderer();
 	virtual					~DX11Renderer();
 
+	virtual void			SetHWND(WIN_HWND hWnd) final { m_hWnd = (HWND)hWnd; }
 	virtual WIN_HWND		GetHWND() final { return m_hWnd; }
 	bool					CreateMainWindow(int width, int height);
 	void					DestroyMainWindow();

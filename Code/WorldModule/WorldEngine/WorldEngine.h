@@ -60,6 +60,12 @@ public:
 	virtual void					SetRenderNodeMaterialAtPosition(RenderNodeType eNodeType, const Vec3& vPos, IMaterial* pMat) override;
 	virtual void					ApplyForceToEnvironment(Vec3 vPos, float fRadius, float fAmountOfForce) override;
 
+	virtual IIndexedMesh*			CreateIndexedMesh() override;
+	virtual IWorldObj*				CreateWorldObj() override;
+	virtual IWorldObj*				LoadWorldObj(const char* filename, const char* geomName = nullptr) override;
+	virtual IWorldObj*				FindWorldObjByName(const char* filename) override;
+	virtual int						GetLoadedObjectCount() override;
+
 private:
 	void LoadTestLevel();
 
