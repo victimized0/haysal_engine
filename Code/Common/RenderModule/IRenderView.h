@@ -18,7 +18,7 @@ enum class RenderListId : uint8
 	Transparent	,
 	PostEffects ,
 
-	Count
+	AACount
 };
 
 struct IRenderView

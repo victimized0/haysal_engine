@@ -171,10 +171,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AgentActions\CombatActions.cpp" />
+    <ClCompile Include="AgentActions\LocomotionActions.cpp" />
+    <ClCompile Include="AgentActions\ShooterActions.cpp" />
     <ClCompile Include="AIAgent.cpp" />
     <ClCompile Include="AIAction.cpp" />
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="ActionPlanner.cpp" />
+    <ClCompile Include="AgentActions\BaseAgentAction.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -183,10 +187,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AgentActions\CombatActions.h" />
+    <ClInclude Include="AgentActions\LocomotionActions.h" />
+    <ClInclude Include="AgentActions\ShooterActions.h" />
     <ClInclude Include="AIAgent.h" />
     <ClInclude Include="AIAction.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="ActionPlanner.h" />
+    <ClInclude Include="AgentActions\BaseAgentAction.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>

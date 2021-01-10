@@ -7,13 +7,13 @@ ActionPlanner::~ActionPlanner()
 
 void ActionPlanner::Initialise()
 {
-	m_states.resize(AP_MAX_ATOMS);
+	//m_states.resize(AP_MAX_STATES);
 	m_actions.resize(AP_MAX_ACTIONS);
 }
 
 void ActionPlanner::Clear()
 {
-	m_states.clear();
+	//m_states.clear();
 	m_actions.clear();
 }
 
@@ -24,6 +24,7 @@ void ActionPlanner::Release()
 
 bool ActionPlanner::SetWorldModel(AIWorldState* pWModel, const char* atomName, bool value)
 {
+	m_wm = g_aiSystem->GetWorldModel();
 	return true;
 }
 
@@ -42,9 +43,9 @@ bool ActionPlanner::SetActionCost(const char* actionName, int cost)
 	return true;
 }
 
-std::vector<IAIAction> ActionPlanner::Plan(AIWorldState* pWM, AIGoal* pGoal)
+std::queue<AIAction> ActionPlanner::Plan(const AIWorldModel& wm, AIGoal* pGoal)
 {
-	return std::vector<IAIAction>();
+	return std::queue<AIAction>();
 }
 
 #ifdef _DEBUG

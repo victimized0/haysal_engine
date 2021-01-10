@@ -40,7 +40,7 @@ private:
 	void					Execute_PostEffect();
 
 private:
-	std::array<RenderList, static_cast<size_t>(RenderListId::Count)> m_renderLists;
+	std::array<RenderList, static_cast<size_t>(RenderListId::AACount)> m_renderLists;
 	// TODO: Refactor to move code to PipelineStages array
 
 	RenderViewport			m_viewport;

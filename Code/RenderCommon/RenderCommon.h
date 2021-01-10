@@ -38,7 +38,7 @@ enum class ConstBufferSlot : uint8
 	PerPass		= 2,
 	PerFrame	= 3,
 
-	Count
+	AACount
 };
 
 enum class ShaderClass : uint8
@@ -48,7 +48,7 @@ enum class ShaderClass : uint8
 	Geometry	= 2,
 	Compute		= 3,
 
-	Count
+	AACount
 };
 
 enum class ShaderStage : uint8
@@ -58,7 +58,7 @@ enum class ShaderStage : uint8
 	Geometry	= BIT8(static_cast<uint8>(ShaderClass::Geometry)),
 	Compute		= BIT8(static_cast<uint8>(ShaderClass::Compute)),
 
-	Count		= static_cast<uint8>(ShaderClass::Count)
+	AACount		= static_cast<uint8>(ShaderClass::AACount)
 };
 
 struct ShaderBlob

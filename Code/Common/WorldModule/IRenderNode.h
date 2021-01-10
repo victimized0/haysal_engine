@@ -16,7 +16,7 @@ enum class RenderNodeType
 	Decal,
 	Character,
 
-	Count
+	AACount
 };
 
 enum RenderNodeFlags : uint64

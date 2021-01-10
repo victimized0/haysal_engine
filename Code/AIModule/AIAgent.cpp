@@ -5,6 +5,7 @@
 
 AIAgent::AIAgent()
 	: m_pCurrentGoal(nullptr)
+    , m_currentStance(AgentStance::Idle)
 {
 }
 
@@ -27,7 +28,22 @@ void AIAgent::Release()
 
 void AIAgent::Update(float dt)
 {
+    if (m_pCurrentGoal == nullptr)
+        return;
 
+    if (m_pCurrentGoal && /*GetStance() == AgentStance::Idle &&*/ m_actionsPlan.empty())
+        m_actionsPlan = m_ap.Plan(g_aiSystem->GetWorldModel(), m_pCurrentGoal);
+
+    AIAction* pCurAct = nullptr;
+    while (pCurAct == nullptr || m_actionsPlan.size() > 0)
+    {
+        pCurAct = &m_actionsPlan.front();
+        if (pCurAct && pCurAct->IsCompleted())
+            m_actionsPlan.pop();
+    }
+
+    if (pCurAct)
+        pCurAct->GetAgentAction()->Execute(this);
 }
 
 void AIAgent::AddAction(IAIAction *pAction)

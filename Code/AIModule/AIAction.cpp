@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "AIAction.h"
 
-
 AIAction::AIAction()
-	: m_cost(0)
+	: m_pAgentAction(nullptr)
+	, m_cost(0)
 {
 }
 
@@ -13,14 +13,14 @@ AIAction::~AIAction()
 	m_preconds.clear();
 }
 
-void AIAction::AddPrecond(const char* stateName, bool stateValue)
+void AIAction::AddPrecond(AIWorldState& state)
 {
-	m_preconds.insert({ stateName, stateValue });
+	m_preconds.push_back(state);
 }
 
-void AIAction::AddEffect(const char* stateName, bool stateValue)
+void AIAction::AddEffect(AIWorldState& state)
 {
-	m_effects.insert({ stateName, stateValue });
+	m_effects.push_back(state);
 }
 
 void AIAction::SetCost(int cost)
@@ -46,7 +46,11 @@ void AIAction::Parse(const pugi::xml_node& actionNode)
 		const char* state_name	= stateNode.attribute("name").as_string();
 		bool		state_value = stateNode.attribute("value").as_bool();
 
-		AddPrecond(state_name, state_value);
+		AIWorldState state = {};
+		state.Name	= state_name;
+		state.Value = state_value;
+
+		AddPrecond(state);
 	}
 
 	auto effects = actionNode.child("effects");
@@ -58,6 +62,10 @@ void AIAction::Parse(const pugi::xml_node& actionNode)
 		const char* state_name	= stateNode.attribute("name").as_string();
 		bool		state_value = stateNode.attribute("value").as_bool();
 
-		AddEffect(state_name, state_value);
+		AIWorldState state = {};
+		state.Name	= state_name;
+		state.Value = state_value;
+
+		AddEffect(state);
 	}
 }

@@ -3,11 +3,11 @@
     <ai_agent>
       <actions_set>
         <action name="scout" />
-        <action name="approach" />
+        <action name="moveto" />
+        <action name="runto" />
         <action name="aim" />
         <action name="shoot" />
-        <action name="load" />
-        <action name="detonatebomb" />
+        <action name="reload" />
         <action name="flee" />
       </actions_set>
       <goals_set>

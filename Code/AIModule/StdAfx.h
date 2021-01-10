@@ -10,6 +10,8 @@
 #include <platform.h>
 #include "AIAction.h"
 #include "AIAgent.h"
-#include "ActionPlanner.h"
+#include "AISystem.h"
+
+extern AISystem* g_aiSystem;
 
 #endif //AI_STD_AFX_H

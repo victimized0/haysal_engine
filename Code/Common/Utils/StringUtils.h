@@ -18,6 +18,13 @@ inline std::string ToString(const wchar_t* wstr)
 	return outStr;
 }
 
+inline std::string& ToLower(std::string& str)
+{
+	std::transform(str.begin(), str.end(), str.begin(),
+		[](unsigned char c) { return std::tolower(c); });
+	return str;
+}
+
 namespace Path
 {
 	inline std::string GetNameFromPath(const std::string& path)

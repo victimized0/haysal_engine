@@ -89,6 +89,7 @@ typedef char				int8;
 #include <memory>
 #include <array>
 #include <vector>
+#include <queue>
 #include <string>
 #include <map>
 #include <tuple>

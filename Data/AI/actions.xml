@@ -7,7 +7,7 @@
       <state name="enemyvisible" value="true" />
     </effects>
   </action>
-  <action name="approach">
+  <action name="moveto">
     <preconditions>
       <state name="enemyvisible" value="true" />
     </preconditions>
@@ -32,22 +32,12 @@
       <state name="enemyalive" value="false" />
     </effects>
   </action>
-  <action name="load">
+  <action name="reload">
     <preconditions>
       <state name="armedwithgun" value="true" />
     </preconditions>
     <effects>
       <state name="weaponloaded" value="true" />
-    </effects>
-  </action>
-  <action name="detonatebomb" cost="5">
-    <preconditions>
-      <state name="armedwithbomb" value="true" />
-      <state name="nearenemy" value="true" />
-    </preconditions>
-    <effects>
-      <state name="alive" value="false" />
-      <state name="enemyalive" value="false" />
     </effects>
   </action>
   <action name="flee">

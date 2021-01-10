@@ -8,7 +8,7 @@ enum class BufferUsage : uint8
 	Static,
 	Dynamic,
 
-	Count
+	AACount
 };
 
 enum class BufferType : uint8
@@ -17,7 +17,7 @@ enum class BufferType : uint8
 	Index,
 	Constant,
 
-	Count
+	AACount
 };
 
 class GpuBuffer : NoCopy

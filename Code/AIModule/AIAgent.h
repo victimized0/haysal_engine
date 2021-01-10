@@ -2,7 +2,6 @@
 #define AI_AGENT_H
 #pragma once
 
-#include <AIModule\IAISystem.h>
 #include "ActionPlanner.h"
 
 class AIAgent : public IAIAgent
@@ -20,11 +19,15 @@ public:
 	virtual void			SetGoal(AIGoal* pGoal)			override;
 	virtual void			Parse(pugi::xml_node& agentNode, AgentDesc& agentDesc)	override;
 
+	virtual AgentStance		GetStance() const override { return m_currentStance; }
+
 private:
 	std::vector<IAIAction*>	m_actionsSet;
+	std::queue<AIAction>	m_actionsPlan;
 	std::vector<AIGoal*>	m_goalsSet;
 	AIGoal*					m_pCurrentGoal;
 	ActionPlanner			m_ap;
+	AgentStance				m_currentStance;
 
 };
 

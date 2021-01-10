@@ -10,6 +10,18 @@
       <Filter>GOAP</Filter>
     </ClCompile>
     <ClCompile Include="AIAgent.cpp" />
+    <ClCompile Include="AgentActions\LocomotionActions.cpp">
+      <Filter>AgentActions</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentActions\ShooterActions.cpp">
+      <Filter>AgentActions</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentActions\CombatActions.cpp">
+      <Filter>AgentActions</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentActions\BaseAgentAction.cpp">
+      <Filter>AgentActions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -21,10 +33,25 @@
       <Filter>GOAP</Filter>
     </ClInclude>
     <ClInclude Include="AIAgent.h" />
+    <ClInclude Include="AgentActions\LocomotionActions.h">
+      <Filter>AgentActions</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentActions\ShooterActions.h">
+      <Filter>AgentActions</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentActions\CombatActions.h">
+      <Filter>AgentActions</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentActions\BaseAgentAction.h">
+      <Filter>AgentActions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GOAP">
       <UniqueIdentifier>{dab7935a-3ad1-4ee3-bb5d-597913a37fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AgentActions">
+      <UniqueIdentifier>{ef281ecc-403e-4a36-b949-1d21f239d1ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
