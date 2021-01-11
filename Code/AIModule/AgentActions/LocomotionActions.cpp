@@ -64,11 +64,11 @@ void AgentMoveToAction::Execute(IAIAgent* pAgent)
 	AIStimulus* pStimulus = pAgent->GetStimulus();
 	if (!pStimulus) return;
 
-	Vec3 speed(0.1f, 0.1f, 0.1f); // TODO: Speed needs to come from Physics
-	pEnt->Translate(speed);
+	Vec3 dPos;// = AStarPathfinding.GetNextLoc();
+	dPos *= 0.1f; // TODO: Speed needs to come from Physics
+	pEnt->Translate(dPos);
 
 	//pEnt->PlayAnimation(Walk, loop: true);
-
 	if (pEnt->GetRenderNode()->GetAABB().Intersects(pStimulus->pTarget->GetRenderNode()->GetAABB()))
 	{
 		//pEnt->StopAnimation(Walk);

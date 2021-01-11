@@ -16,9 +16,9 @@ public:
 	virtual IAgentAction*	GetAgentAction()							const	override { return m_pAgentAction; }
 
 	virtual bool			IsCompleted	()								const	override { return m_pAgentAction->IsCompleted(); }
-	virtual bool			IsWSConformPreconds	(const AIWorldState& ws)const	override;
+	virtual bool			CheckConform	(const AIWorldModel& ws)const	override;
 
-	virtual AIWorldState	ApplyEffects		(const AIWorldState& ws)const	override;
+	virtual AIWorldModel	ApplyEffects		(const AIWorldModel& ws)const	override;
 	virtual void			AddPrecond	(const char* name, bool value)			override;
 	virtual void			AddEffect	(const char* name, bool value)			override;
 
@@ -30,11 +30,11 @@ public:
 	// ~Inherited via IAIAction
 
 private:
-	IAgentAction*							m_pAgentAction;
-	std::unordered_map<std::string, bool>	m_preconds;
-	std::unordered_map<std::string, bool>	m_effects;
-	std::string								m_name;
-	int										m_cost;
+	IAgentAction*				m_pAgentAction;
+	std::map<std::string, bool>	m_preconds;
+	std::map<std::string, bool>	m_effects;
+	std::string					m_name;
+	int							m_cost;
 };
 
 #endif //AI_ACTION_H

@@ -2,13 +2,13 @@
 #define INTERFACE_AI_SYSTEM_H
 #pragma once
 
-struct AIWorldState;
+struct AIWorldModel;
 struct IAIAction;
 struct IAIAgent;
 struct AIStimulus;
 struct IEntity;
 
-typedef AIWorldState AIGoal;
+typedef AIWorldModel AIGoal;
 
 enum class AgentActionType : uint32
 {
@@ -74,13 +74,13 @@ struct IAIAgent
 	virtual AgentStance		GetStance() const = 0;
 };
 
-struct AIWorldState
+struct AIWorldModel
 {
 	float						Priority;
 	std::string					Name;
 	std::map<std::string, bool>	Params;
 
-	AIWorldState(const char* name)
+	AIWorldModel(const char* name)
 		: Name(name)
 		, Priority(0.0f)
 	{}
@@ -95,7 +95,7 @@ struct AIWorldState
 		return Params.at(paramName);
 	}
 
-	inline bool MeetsGoal(const AIGoal& goal) const
+	inline bool SatisfiesGoal(const AIGoal& goal) const
 	{
 		for (const auto& kv : goal.Params)
 		{
@@ -118,7 +118,7 @@ struct AIWorldState
 		return dist;
 	}
 
-	inline bool operator==(const AIWorldState& other)
+	inline bool operator==(const AIWorldModel& other)
 	{
 		for (const auto& kv : other.Params)
 		{
@@ -134,8 +134,8 @@ struct IAIAction
 {
 	virtual					~IAIAction() {}
 	virtual bool			IsCompleted() const = 0;
-	virtual bool			IsWSConformPreconds(const AIWorldState& ws) const = 0;
-	virtual AIWorldState	ApplyEffects(const AIWorldState& ws) const = 0;
+	virtual bool			CheckConform(const AIWorldModel& ws) const = 0;
+	virtual AIWorldModel	ApplyEffects(const AIWorldModel& ws) const = 0;
 
 	virtual void			AddPrecond(const char* name, bool value) = 0;
 	virtual void			AddEffect(const char* name, bool value) = 0;
@@ -158,7 +158,7 @@ struct IAIActionPlanner
 	virtual void	Clear() = 0;
 	virtual void	Release() = 0;
 
-	virtual int		Plan(const AIWorldState& start, const AIWorldState& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan) = 0;
+	virtual int		Plan(const AIWorldModel& start, const AIWorldModel& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan) = 0;
 };
 
 struct IAISystem

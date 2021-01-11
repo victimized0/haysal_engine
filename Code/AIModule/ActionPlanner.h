@@ -9,7 +9,7 @@ struct AStarNode
 {
 	static int s_count;
 
-	AIWorldState	WS;
+	AIWorldModel	WS;
 	IAIAction*		pAct;
 
 	int				ParentId;
@@ -27,7 +27,7 @@ struct AStarNode
 		Id = ++s_count;
 	}
 
-	AStarNode(AIWorldState state, int g, int h, int parentId, IAIAction* pAction)
+	AStarNode(AIWorldModel state, int g, int h, int parentId, IAIAction* pAction)
 		: WS(state)
 		, G(g)
 		, H(h)
@@ -61,11 +61,11 @@ public:
 	virtual void						Clear()			final;
 	virtual void						Release()		final;
 
-	virtual int							Plan(const AIWorldState& start, const AIWorldState& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan) final;
+	virtual int							Plan(const AIWorldModel& start, const AIWorldModel& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan) final;
 	// ~Inherited via IAIActionPlanner
 
 private:
-	bool								IsVisited(const AIWorldState& ws);
+	bool								IsVisited(const AIWorldModel& ws);
 	AStarNode&							PopFromFrontier();
 	void								PushToFrontier(AStarNode&& node);
 

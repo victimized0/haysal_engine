@@ -7,7 +7,7 @@ AIAgent::AIAgent(IEntity* pOwner)
     : m_pOwningEntity(pOwner)
 	, m_pCurrentGoal(nullptr)
     , m_currentStance(AgentStance::Idle)
-    , m_ws("Root")
+    , m_wm("Root")
 {
 }
 
@@ -44,7 +44,7 @@ void AIAgent::Update(float dt)
     int pathSize = -1;
     if (m_pCurrentGoal && m_actionsPlan.empty())
     {
-        pathSize = m_ap.Plan(m_ws, *m_pCurrentGoal, m_actionsSet, m_actionsPlan);
+        pathSize = m_ap.Plan(m_wm, *m_pCurrentGoal, m_actionsSet, m_actionsPlan);
 #ifdef _DEBUG
         OutputDebugStringA("AIAgent actions plan: \n");
         for (IAIAction* pAct : m_actionsPlan)
@@ -180,7 +180,7 @@ void AIAgent::Parse(pugi::xml_node& agentNode)
             int			value   = paramNode.attribute("value").as_bool();
 
             // TODO: value should be retrieved from an entire world model (from AISystem, for example?)
-            m_ws.SetValue(name, value);
+            m_wm.SetValue(name, value);
         }
     }
 }

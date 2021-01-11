@@ -20,9 +20,9 @@ AIAction::~AIAction()
 	m_preconds.clear();
 }
 
-AIWorldState AIAction::ApplyEffects(const AIWorldState& ws) const
+AIWorldModel AIAction::ApplyEffects(const AIWorldModel& ws) const
 {
-	AIWorldState tmp(ws);
+	AIWorldModel tmp(ws);
 	for (const auto& effect : m_effects)
 		tmp.SetValue(effect.first.c_str(), effect.second);
 	return tmp;
@@ -48,7 +48,7 @@ void AIAction::SetName(const char* name)
 	m_name = name;
 }
 
-bool AIAction::IsWSConformPreconds(const AIWorldState& ws) const
+bool AIAction::CheckConform(const AIWorldModel& ws) const
 {
 	for (const auto& precond : m_preconds)
 	{

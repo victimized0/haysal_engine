@@ -33,7 +33,7 @@ private:
 	IEntity*				m_pOwningEntity;
 
 	ActionPlanner			m_ap;
-	AIWorldState			m_ws;
+	AIWorldModel			m_wm;
 	AIStimulus				m_curStimulus;
 
 	std::vector<IAIAction*>	m_actionsSet;

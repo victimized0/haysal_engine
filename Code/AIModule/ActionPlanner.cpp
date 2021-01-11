@@ -20,9 +20,9 @@ void ActionPlanner::Release()
 	Clear();
 }
 
-int ActionPlanner::Plan(const AIWorldState& start, const AIWorldState& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan)
+int ActionPlanner::Plan(const AIWorldModel& start, const AIWorldModel& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan)
 {
-    if (start.MeetsGoal(goal))
+    if (start.SatisfiesGoal(goal))
         return -1; // World state is already in goal state!
 
     m_lstFrontier.clear();
@@ -36,7 +36,7 @@ int ActionPlanner::Plan(const AIWorldState& start, const AIWorldState& goal, con
         AStarNode& curNode(PopFromFrontier());
         int planSize = 0;
 
-        if (curNode.WS.MeetsGoal(goal))
+        if (curNode.WS.SatisfiesGoal(goal))
         {
             do
             {
@@ -56,9 +56,9 @@ int ActionPlanner::Plan(const AIWorldState& start, const AIWorldState& goal, con
         int outcomeNum = 0;
         for (const auto& act : actions)
         {
-            if (act->IsWSConformPreconds(curNode.WS))
+            if (act->CheckConform(curNode.WS))
             {
-                AIWorldState outcomeWS = act->ApplyEffects(curNode.WS);
+                AIWorldModel outcomeWS = act->ApplyEffects(curNode.WS);
                 outcomeWS.Name = std::string("Outcome") + std::to_string(++outcomeNum);
                 if (IsVisited(outcomeWS))
                     continue;
@@ -88,7 +88,7 @@ int ActionPlanner::Plan(const AIWorldState& start, const AIWorldState& goal, con
     return -1; // No path found!
 }
 
-bool ActionPlanner::IsVisited(const AIWorldState& ws)
+bool ActionPlanner::IsVisited(const AIWorldModel& ws)
 {
 	auto it = std::find_if(m_lstVisited.begin(), m_lstVisited.end(), [&](const AStarNode& node) { return node.WS.Params == ws.Params; });
 	return it != m_lstVisited.end();

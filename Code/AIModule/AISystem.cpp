@@ -136,7 +136,7 @@ public:
 	}
 };
 
-extern "C" DLL_EXPORT IEngineModule * CreateModule(ISystem * pSystem)
+extern "C" DLL_EXPORT IEngineModule* CreateModule(ISystem * pSystem)
 {
 	auto pModule = new AIModule();
 	// TODO: Subscribe to system events
