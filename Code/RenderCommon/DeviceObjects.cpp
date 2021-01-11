@@ -27,7 +27,7 @@ void DeviceFactory::ReleaseResources()
 void DeviceFactory::AllocateDefaultInputLayouts()
 {
 	s_inputLayoutsCache.reserve(static_cast<size_t>(VertexFormat::Total));
-	for (size_t i = 0; i < s_inputLayoutsCache.size(); ++i)
+	for (size_t i = 0; i < static_cast<size_t>(VertexFormat::Total); ++i)
 		CreateVertexFormat(InputLayout::InputLayoutDescs[i].ElementsCount, InputLayout::InputLayoutDescs[i].ElementsDesc);
 }
 
@@ -119,32 +119,36 @@ HRESULT DeviceFactory::CreateTexture2D(uint16 width, uint16 height, uint16 mipsC
 	size_t index = 0;
 
 	const uint8* pSrcBits = texData.pData[0];
-	D3D11_SUBRESOURCE_DATA* initData = new D3D11_SUBRESOURCE_DATA[mipsCount * arraySize];
-	for (size_t j = 0; j < arraySize; ++j)
+	D3D11_SUBRESOURCE_DATA* initData = nullptr;
+	if (pSrcBits != nullptr)
 	{
-		size_t w = texData.Width;
-		size_t h = texData.Height;
-		size_t d = texData.Depth;
-
-		for (size_t i = 0; i < mipsCount; ++i)
+		initData = new D3D11_SUBRESOURCE_DATA[mipsCount * arraySize];
+		for (size_t j = 0; j < arraySize; ++j)
 		{
-			DeviceFormats::GetSurfaceInfo(w, h, texData.Format, &numBytes, &rowBytes, nullptr);
+			size_t w = texData.Width;
+			size_t h = texData.Height;
+			size_t d = texData.Depth;
 
-			assert(index < mipsCount* arraySize);
-			initData[index].pSysMem				= (const void*)pSrcBits;
-			initData[index].SysMemPitch			= static_cast<UINT>(rowBytes);
-			initData[index].SysMemSlicePitch	= static_cast<UINT>(numBytes);
-			++index;
+			for (size_t i = 0; i < mipsCount; ++i)
+			{
+				DeviceFormats::GetSurfaceInfo(w, h, texData.Format, &numBytes, &rowBytes, nullptr);
 
-			pSrcBits += numBytes * d;
+				assert(index < mipsCount* arraySize);
+				initData[index].pSysMem = (const void*)pSrcBits;
+				initData[index].SysMemPitch = static_cast<UINT>(rowBytes);
+				initData[index].SysMemSlicePitch = static_cast<UINT>(numBytes);
+				++index;
 
-			w = w >> 1;
-			h = h >> 1;
-			d = d >> 1;
+				pSrcBits += numBytes * d;
 
-			if (w == 0) w = 1;
-			if (h == 0) h = 1;
-			if (d == 0) d = 1;
+				w = w >> 1;
+				h = h >> 1;
+				d = d >> 1;
+
+				if (w == 0) w = 1;
+				if (h == 0) h = 1;
+				if (d == 0) d = 1;
+			}
 		}
 	}
 
@@ -168,7 +172,7 @@ HRESULT DeviceFactory::CreateTexture2D(uint16 width, uint16 height, uint16 mipsC
 
 	// TODO: Incapsulate this to API-independent call
 	hr = m_pDevice->CreateTexture2D(&desc, initData, &pTex);
-	SAFE_DELETE(initData);
+	SAFE_DELETE_ARRAY(initData);
 
 	if (SUCCEEDED(hr) && pTex)
 	{

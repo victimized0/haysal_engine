@@ -31,6 +31,8 @@ void AISystem::Init()
 	m_agentActions.insert({ AgentActionType::RunTo,		new AgentRunToAction() });
 	m_agentActions.insert({ AgentActionType::Jump,		new AgentJumpAction() });
 	m_agentActions.insert({ AgentActionType::PickUp,	new AgentPickUpAction() });
+	m_agentActions.insert({ AgentActionType::Scout,		new AgentScoutAction() });
+	m_agentActions.insert({ AgentActionType::Flee,		new AgentFleeAction() });
 
 	m_agentActions.insert({ AgentActionType::Aim,		new AgentAimAction() });
 	m_agentActions.insert({ AgentActionType::Shoot,		new AgentShootAction() });
@@ -38,23 +40,29 @@ void AISystem::Init()
 
 	m_agentActions.insert({ AgentActionType::Punch,		new AgentPunchAction() });
 	m_agentActions.insert({ AgentActionType::Kick,		new AgentKickAction() });
-
-	LoadStates();
-	LoadActions();
-	LoadGoals();
 }
 
 void AISystem::Release()
 {
-	for (auto pAgentAction : m_agentActions)
+	for (auto& pAgentAction : m_agentActions)
 		SAFE_DELETE(pAgentAction.second);
 	m_agentActions.clear();
 }
 
+void AISystem::ProcessStimulus(AIStimulus stimulus)
+{
+	for (auto& agent : m_agents)
+	{
+		if (agent.PerceptsStimulus(stimulus.Type))
+			agent.ProcessStimulus(stimulus);
+	}
+}
+
 IAIAgent* AISystem::CreateAgent()
 {
-	m_agents.push_back( {} );
-	return &m_agents.back();
+	m_agents.push_back( { nullptr } );
+	IAIAgent* pAgent = &m_agents.back();
+	return pAgent;
 }
 
 void AISystem::DestroyAgent(IAIAgent* pAgent)
@@ -65,23 +73,6 @@ void AISystem::DestroyAgent(IAIAgent* pAgent)
 		m_agents.erase(it);
 		SAFE_RELEASE(pAgent);
 	}
-}
-
-IAIAction* AISystem::GetAction(const char* name)
-{
-	auto it = std::find_if(m_goapActions.begin(), m_goapActions.end(), [&](AIAction& act) { return strcmp(act.GetName(), name) == 0; });
-	if (it != m_goapActions.end())
-		return &(*it);
-	return nullptr;
-}
-
-AIGoal* AISystem::GetGoal(const char* name)
-{
-	assert(false); // Not implemented
-	//auto it = std::find_if(m_goapGoals.begin(), m_goapGoals.end(), [&](AIGoal& goal) { strcmp(goal.GetName(), name) == 0 });
-	//if (it != m_goapGoals.end())
-	//	return &(*it);
-	return nullptr;
 }
 
 AgentActionType AISystem::ActionNameToType(const char* name)
@@ -128,66 +119,6 @@ IAgentAction* AISystem::AgentActionFromName(const char* name)
 IAgentAction* AISystem::AgentActionFromType(AgentActionType type)
 {
 	return m_agentActions[type];
-}
-
-void AISystem::ModifyWorldModel(const std::vector<AIWorldState>& effects)
-{
-	for (const auto& effect : effects)
-	{
-		auto it = std::find_if(m_worldModel.begin(), m_worldModel.end(), [&](AIWorldState& state) { return state.Name == effect.Name; });
-		if (it != m_worldModel.end())
-		{
-			it->Value = effect.Value;
-		}
-	}
-}
-
-void AISystem::LoadStates()
-{
-	using namespace pugi;
-	xml_document doc = gEnv->pSystem->LoadXmlFromFile("Data/AI/states.xml");
-	auto statesRoot = doc.child("world_states");
-
-	for (xml_node stateNode = statesRoot.first_child(); stateNode; stateNode = stateNode.next_sibling())
-	{
-		if (std::string(stateNode.name()) != "state")
-			continue;
-
-		const char*	act_name	= stateNode.attribute("name").as_string();
-		int			act_cost	= stateNode.attribute("cost").as_int(1);
-
-		//m_goapStates.push_back(action);
-	}
-}
-
-void AISystem::LoadActions()
-{
-	using namespace pugi;
-	xml_document doc = gEnv->pSystem->LoadXmlFromFile("Data/AI/actions.xml");
-	auto actionsRoot = doc.child("goap_actions");
-
-	for (xml_node actionNode = actionsRoot.first_child(); actionNode; actionNode = actionNode.next_sibling())
-	{
-		if (std::string(actionNode.name()) != "action")
-			continue;
-
-		const char*	act_name	= actionNode.attribute("name").as_string();
-		int			act_cost	= actionNode.attribute("cost").as_int(1);
-
-		AIAction action = {};
-		action.SetName(act_name);
-		action.SetCost(act_cost);
-		action.Parse(actionNode);
-		action.SetAgentAction(AgentActionFromName(act_name));
-
-		m_goapActions.push_back(action);
-	}
-}
-
-void AISystem::LoadGoals()
-{
-	using namespace pugi;
-
 }
 #endif //USE_GOAP
 

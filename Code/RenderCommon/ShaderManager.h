@@ -27,7 +27,8 @@ private:
 	void			SaveShaderCacheFile();
 
 public:
-	static Shader*	s_DefaultShader;
+	static Shader*	s_DefaultVS;
+	static Shader*	s_DefaultPS;
 	static Shader*	s_HDRPostProcess;
 
 private:

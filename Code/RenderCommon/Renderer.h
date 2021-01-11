@@ -67,9 +67,9 @@ public:
 	inline bool						IsHDR() { return HasFeature(FEATURE_HDR); }
 	inline bool						IsEditorMode() const { return m_isEditor; }
 
-	virtual int						GetHeight() const override { return RenderResources::s_Width; }
-	virtual int						GetWidth() const override { return RenderResources::s_Height; }
-	virtual IDXGISurface*			GetBackBuffer() const override;
+	virtual int						GetHeight() const override { return RenderResources::s_Height; }
+	virtual int						GetWidth() const override { return RenderResources::s_Width; }
+	virtual IDXGISurface*			GetBackBuffer(GpuResource** pRes) const override;
 
 	const MSAA&						GetMSAA() const { return m_MSAAData; }
 	int								GetDepthBpp() const { return 32; }

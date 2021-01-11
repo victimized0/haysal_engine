@@ -4,12 +4,12 @@
 
 enum class VertexFormat : uint8
 {
-	None			= 0,
-	Pos				= 1,
-	PosTex			= 2,
-	PosColTex		= 3,
-	PosNmlTex		= 4,
-	PosNmlColTex	= 5,
+	None = 0,
+	Pos,
+	PosTex,
+	PosColTex,
+	PosNmlTex,
+	PosNmlColTex,
 
 	Total
 };

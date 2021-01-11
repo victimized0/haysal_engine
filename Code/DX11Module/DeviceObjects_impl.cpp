@@ -82,3 +82,20 @@ void DeviceFactory::DownloadContents(IGpuBuffer* pBuffer, uint32 subresource, si
 	memcpy(pOutData, pInData, size);
 	Unmap(pBuffer, subresource);
 }
+
+HRESULT DeviceFactory::CreateDeviceShader(const ShaderBlob* blob, DeviceShaderType type, void** pOutShader)
+{
+	HRESULT hr = S_OK;
+
+	if (type == DeviceShaderType::Vertex)
+	{
+		hr = Get().GetDevice()->CreateVertexShader(blob->m_pData, blob->m_size, nullptr, reinterpret_cast<IVertexShader**>(pOutShader));
+	}
+
+	if (type == DeviceShaderType::Pixel)
+	{
+		hr = Get().GetDevice()->CreatePixelShader(blob->m_pData, blob->m_size, nullptr, reinterpret_cast<IPixelShader**>(pOutShader));
+	}
+
+	return hr;
+}

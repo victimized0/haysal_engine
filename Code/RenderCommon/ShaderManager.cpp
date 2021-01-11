@@ -3,6 +3,9 @@
 #include <Utils\CRC.h>
 #include <sstream>
 
+Shader* ShaderManager::s_DefaultVS = nullptr;
+Shader* ShaderManager::s_DefaultPS = nullptr;
+
 ShaderManager::ShaderManager()
 {
 }
@@ -23,6 +26,8 @@ void ShaderManager::Init()
 
 void ShaderManager::ShutDown()
 {
+	SAFE_DELETE(s_DefaultVS);
+	SAFE_DELETE(s_DefaultPS);
 	m_shaderCache.clear();
 }
 
@@ -38,8 +43,10 @@ HRESULT ShaderManager::CompileShader(const ShaderInfo& info, ShaderBlob* pOutBlo
 #endif
 	
 	std::string srcFile		= Path::AppendPath(m_srcShadersDir, info.ShaderName);
+	srcFile.append(".hlsl");
 	std::wstring filepath	= ToWString(srcFile.c_str());
 	std::string csoPath		= Path::AppendPath(m_shaderCacheDir, info.ShaderName);
+	csoPath.append(".cso");
 	std::wstring savePath	= ToWString(csoPath.c_str());
 
 	hr = D3DCompileFromFile(filepath.c_str(),
@@ -63,7 +70,8 @@ HRESULT ShaderManager::CompileShader(const ShaderInfo& info, ShaderBlob* pOutBlo
 		assert(hr == S_OK);
 		if (SUCCEEDED(hr))
 		{
-			pOutBlob->m_pData = static_cast<GpuBlob*>(shaderBlob);
+			pOutBlob->m_pData = shaderBlob->GetBufferPointer();
+			pOutBlob->m_size = shaderBlob->GetBufferSize();
 			SaveShaderCacheFile();
 		}
 	}
@@ -82,6 +90,8 @@ void ShaderManager::LoadShader(const char* filename, Shader* pOutShader)
 	std::string shaderName  = Path::GetNameFromPath(filename);					// Passed filename should already be a shader name but just in case.
 	std::string csoFilepath = Path::AppendPath(m_shaderCacheDir, shaderName);
 	std::string srcFilepath = Path::AppendPath(m_srcShadersDir, shaderName);
+	csoFilepath.append(".cso");
+	srcFilepath.append(".hlsl");
 
 	auto it = m_shaderCache.find("shaderName");
 	if (it != m_shaderCache.end())												// Check whether a compiled shader already exists
@@ -112,6 +122,26 @@ void ShaderManager::PreloadBinaryShaders()
 
 void ShaderManager::LoadSystemShaders()
 {
+	s_DefaultVS = new Shader();
+	s_DefaultPS = new Shader();
+
+	s_DefaultVS->m_devShaderType = DeviceShaderType::Vertex;
+	s_DefaultPS->m_devShaderType = DeviceShaderType::Pixel;
+
+	ShaderInfo defaultVSinfo	= {};
+	defaultVSinfo.EntryPoint	= "DefaultVS";
+	defaultVSinfo.ShaderName	= "default";
+	defaultVSinfo.Target		= "vs_5_0";
+	s_DefaultVS->SetInfo(defaultVSinfo);
+
+	ShaderInfo defaultPSinfo	= {};
+	defaultPSinfo.EntryPoint	= "DefaultPS";
+	defaultPSinfo.ShaderName	= "default";
+	defaultPSinfo.Target		= "ps_5_0";
+	s_DefaultPS->SetInfo(defaultPSinfo);
+
+	CompileShader(defaultVSinfo, s_DefaultVS->GetShaderBlob());
+	CompileShader(defaultPSinfo, s_DefaultPS->GetShaderBlob());
 }
 
 uint32 ShaderManager::CalculateShaderCRC(const char* shaderPath)
@@ -123,11 +153,11 @@ uint32 ShaderManager::CalculateShaderCRC(const char* shaderPath)
 
 void ShaderManager::ParseShaderCacheFile()
 {
-	assert(m_shaderCacheFile.size() == 0);					// It's supposed that we load shader cache file into memory only once?
 	std::string line;
 	std::ifstream shaderCache(m_shaderCacheFile.c_str());
 
-	while (std::getline(shaderCache, line)) {
+	while (std::getline(shaderCache, line))
+	{
 		std::vector<std::string> header;
 		String::split(header, line, ":");
 

@@ -255,6 +255,7 @@ struct ShaderInfo {
 class Shader : public IShader, public BaseResource
 {
 public:
+	friend class ShaderManager;
 											Shader();
 	virtual									~Shader();
 
@@ -276,6 +277,7 @@ public:
 	virtual CullType						GetCullType() const override		{ return m_cullType; }
 	virtual ShaderType						GetShaderType() const override		{ return m_shaderType; }
 	virtual ShaderBlob*						GetShaderBlob() override			{ return &m_shaderBlob; }
+	virtual void*							GetOrCreateDeviceShader() override;
 
 	virtual int								ForceRelease() override;
 	virtual bool							Reload() override;
@@ -291,9 +293,11 @@ public:
 	void									Free();
 
 private:
+	void*									m_pDeviceShader;
 	std::string								m_srcFileName;
 	std::string								m_entryPoint;
 	ShaderType								m_shaderType;
+	DeviceShaderType						m_devShaderType;
 	ShaderBlob								m_shaderBlob;
 	ShaderInfo								m_shaderInfo;
 	CullType								m_cullType;

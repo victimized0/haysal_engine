@@ -8,30 +8,33 @@ class AIAction : public IAIAction
 {
 public:
 							AIAction();
+							AIAction(std::string name, int cost);
 	virtual					~AIAction();
 
 	// Inherited via IAIAction
 	virtual void			SetAgentAction(IAgentAction* pAct)					override { m_pAgentAction = pAct; m_pAgentAction->Init(this); }
 	virtual IAgentAction*	GetAgentAction()							const	override { return m_pAgentAction; }
 
-	virtual bool			IsCompleted()								const	override { return m_pAgentAction->IsCompleted(); }
-	virtual void			AddPrecond	(AIWorldState& state)					override;
-	virtual void			AddEffect	(AIWorldState& state)					override;
+	virtual bool			IsCompleted	()								const	override { return m_pAgentAction->IsCompleted(); }
+	virtual bool			IsWSConformPreconds	(const AIWorldState& ws)const	override;
+
+	virtual AIWorldState	ApplyEffects		(const AIWorldState& ws)const	override;
+	virtual void			AddPrecond	(const char* name, bool value)			override;
+	virtual void			AddEffect	(const char* name, bool value)			override;
+
 	virtual void			SetCost		(int cost)								override;
+	virtual int				GetCost		()										override { return m_cost; }
+
 	virtual void			SetName		(const char* name)						override;
 	virtual const char*		GetName		()										override { return m_name.c_str(); }
-	virtual const std::vector<AIWorldState>& GetEffects()				const	override { return m_effects; }
-	virtual const std::vector<AIWorldState>& GetPreconds()				const	override { return m_preconds; }
-
-	virtual void			Parse		(const pugi::xml_node& actNode)			override;
 	// ~Inherited via IAIAction
 
 private:
-	IAgentAction*				m_pAgentAction;
-	std::string					m_name;
-	std::vector<AIWorldState>	m_preconds;
-	std::vector<AIWorldState>	m_effects;
-	int							m_cost;
+	IAgentAction*							m_pAgentAction;
+	std::unordered_map<std::string, bool>	m_preconds;
+	std::unordered_map<std::string, bool>	m_effects;
+	std::string								m_name;
+	int										m_cost;
 };
 
 #endif //AI_ACTION_H

@@ -16,9 +16,20 @@ Shader::~Shader()
 
 int Shader::Release()
 {
+	SAFE_DELETE(m_pDeviceShader);
+
 	if (m_flags & ShaderFlags::SystemShader)	// System shaders shouldn't be freed
 		return -1;
 	return BaseResource::Release();
+}
+
+void* Shader::GetOrCreateDeviceShader()
+{
+	if (m_pDeviceShader == nullptr);
+	HRESULT hr = DeviceFactory::Get().CreateDeviceShader(GetShaderBlob(), m_devShaderType, &m_pDeviceShader);
+	if (SUCCEEDED(hr))
+		return m_pDeviceShader;
+	return nullptr;
 }
 
 int Shader::ForceRelease()

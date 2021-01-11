@@ -29,17 +29,20 @@ public:
 	virtual IRenderNode*	GetRenderNode() override    { return m_pRenderNode; }
 	virtual IAIAgent*		GetAIAgent() override		{ return m_pAiAgent; }
 
+	virtual void			Translate(Vec3& delta) override;
+	virtual void			Rotate(Quat& q) override;
+
 	virtual void			Parse(pugi::xml_node& entityNode) override;
 	// ~Inherited via IEntity
 
 private:
-	std::string		m_name;
-	Quat			m_rot;
-	Vec3			m_pos;
-	float			m_scale;
+	std::string				m_name;
+	Quat					m_rot;
+	Vec3					m_pos;
+	float					m_scale;
 
-	IRenderNode*	m_pRenderNode;
-	IAIAgent*		m_pAiAgent;
+	IRenderNode*			m_pRenderNode;
+	IAIAgent*				m_pAiAgent;
 
 };
 

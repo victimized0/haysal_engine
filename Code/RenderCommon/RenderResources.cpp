@@ -22,16 +22,31 @@ void RenderResources::Init()
     assert(s_Width > 0);
     assert(s_Height > 0);
 
-    s_pTexShadowMap         = Texture::GetOrCreateTexture( "$ShadowMap",        s_SizeShadowMap,    s_SizeShadowMap,        1, 0, TextureType::Tex2D, TextureFormat::Unknown );
-    s_pTexDiffuseAcc        = Texture::GetOrCreateTexture( "$SceneDiffuseAcc",  s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
-    s_pTexSpecularAcc       = Texture::GetOrCreateTexture( "$SceneSpecularAcc", s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    s_pTexShadowMap         = Texture::GetOrCreateDepthStencil( "$ShadowMap",        s_SizeShadowMap,    s_SizeShadowMap,        1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    s_pTexDiffuseAcc        = Texture::GetOrCreateRenderTarget( "$SceneDiffuseAcc",  s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    s_pTexSpecularAcc       = Texture::GetOrCreateRenderTarget( "$SceneSpecularAcc", s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
                                                                                                                                                                                      
-    s_pTexHdrTarget         = Texture::GetOrCreateTexture( "$SceneHdr",         s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
-    s_pTexHdrTargetDiv2     = Texture::GetOrCreateTexture( "$SceneHdr/2",       (s_Width + 1) / 2,  (s_Height + 1) / 2,     1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
-    s_pTexHdrTargetDiv4     = Texture::GetOrCreateTexture( "$SceneHdr/4",       (s_Width + 1) / 4,  (s_Height + 1) / 4,     1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
+    s_pTexHdrTarget         = Texture::GetOrCreateRenderTarget( "$SceneHdr",         s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
+    s_pTexHdrTargetDiv2     = Texture::GetOrCreateRenderTarget( "$SceneHdr/2",       (s_Width + 1) / 2,  (s_Height + 1) / 2,     1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
+    s_pTexHdrTargetDiv4     = Texture::GetOrCreateRenderTarget( "$SceneHdr/4",       (s_Width + 1) / 4,  (s_Height + 1) / 4,     1, 0, TextureType::Tex2D, TextureFormat::R16G16B16A16F );
                                                                                                                                                                                      
-    s_pTexSceneNormal       = Texture::GetOrCreateTexture( "$SceneNormal",      s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
-    s_pTexSceneDepth        = Texture::GetOrCreateTexture( "$SceneDepth",       s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    s_pTexSceneNormal       = Texture::GetOrCreateRenderTarget( "$SceneNormal",      s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    s_pTexSceneDepth        = Texture::GetOrCreateDepthStencil( "$SceneDepth",       s_Width,            s_Height,               1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+
+    s_pTexBackBuffer        = Texture::GetOrCreateTexture( "$BackBuffer", s_Width, s_Height, 1, 0, TextureType::Tex2D, TextureFormat::Unknown );
+    
+    ResourceView rtvDesc    = ResourceView::RenderTargetView(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+    GpuResource* backBuffer = nullptr;
+    gRenderer->GetBackBuffer(&backBuffer);
+
+    TextureLayout layout = s_pTexBackBuffer->GetTextureLayout();
+    layout.Format = DeviceFormats::ConvertToTexFormat(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+
+    DeviceTexture* pDeviceTexture = DeviceTexture::Create(layout, {});
+    pDeviceTexture->SetRawResource(backBuffer);
+    pDeviceTexture->GetOrCreateRTV(rtvDesc);
+
+    s_pTexBackBuffer->SetDeviceTexture(pDeviceTexture);
 }
 
 void RenderResources::Release()

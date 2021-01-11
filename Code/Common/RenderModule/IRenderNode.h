@@ -24,7 +24,7 @@ struct IRenderNode
 	virtual void		Translate(const Vec3& delta) = 0;
 	virtual bool		IsVisible() const { return true; }
 
-	virtual void		Render(const RenderInfo& info) = 0;
+	virtual void		Render(const struct RenderInfo& info) = 0;
 	virtual void        Release() { delete this; }
 
 	virtual void		SetMatrix(const Matrix& mat) {}

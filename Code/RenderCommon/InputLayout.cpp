@@ -6,7 +6,7 @@ InputLayout::InputLayout(std::vector<InputElementDesc>&& decs)
 	, m_StartSlot(0)
 {
 	// Calculate strides
-	m_Strides.reserve(m_ElementsDesc.size());
+	m_Strides.resize(m_ElementsDesc.size());
 	for (const auto& dec : m_ElementsDesc)
 	{
 		const uint16 slot = dec.InputSlot;

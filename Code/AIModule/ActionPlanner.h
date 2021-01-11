@@ -7,38 +7,71 @@
 
 struct AStarNode
 {
+	static int s_count;
 
+	AIWorldState	WS;
+	IAIAction*		pAct;
+
+	int				ParentId;
+	int				Id;
+	int				G;			// Cost
+	int				H;			// Heuristic: recursion number aka number of nodes from start to this node
+
+	AStarNode()
+		: G(0)
+		, H(0)
+		, WS("Unnamed")
+		, ParentId(0)
+		, pAct(nullptr)
+	{
+		Id = ++s_count;
+	}
+
+	AStarNode(AIWorldState state, int g, int h, int parentId, IAIAction* pAction)
+		: WS(state)
+		, G(g)
+		, H(h)
+		, ParentId(parentId)
+		, pAct(pAction)
+	{
+		Id = ++s_count;
+	}
+
+	int F() const { return G + H; }
+
+	inline bool operator<(const AStarNode& other)
+	{
+		return this->F() < other.F();
+	}
+
+	inline bool operator==(const AStarNode& other)
+	{
+		return this->Id == other.Id;
+	}
 };
 
 class ActionPlanner final : public IAIActionPlanner
 {
-private:
-	typedef std::vector<IAIAction*>		ActionsVector;
-
 public:
-						ActionPlanner() = default;
-	virtual 			~ActionPlanner();
+										ActionPlanner() = default;
+	virtual 							~ActionPlanner();
 
 	// Inherited via IAIActionPlanner
-	virtual void		Initialise()	final;
-	virtual void		Clear()			final;
-	virtual void		Release()		final;
+	virtual void						Initialise()	final;
+	virtual void						Clear()			final;
+	virtual void						Release()		final;
 
-	virtual bool		SetWorldModel			(AIWorldState* pWModel, const char* atomName, bool value)	final;
-	virtual bool		AddActionPrecondition	(const char* actionName, const char* atomName, bool value)	final;
-	virtual bool		AddActionEffect			(const char* actionName, const char* atomName, bool value)	final;
-	virtual bool		SetActionCost			(const char* actionName, int cost)							final;
-	virtual std::queue<AIAction> Plan			(const AIWorldModel& wm, AIGoal* pGoal)						final;
-
-#ifdef _DEBUG
-	virtual void		PrintDebugInfo			()															final;
-#endif
+	virtual int							Plan(const AIWorldState& start, const AIWorldState& goal, const std::vector<IAIAction*>& actions, std::vector<IAIAction*>& outPlan) final;
 	// ~Inherited via IAIActionPlanner
 
 private:
-	AIWorldModel		m_wm;
-	ActionsVector		m_actions;
+	bool								IsVisited(const AIWorldState& ws);
+	AStarNode&							PopFromFrontier();
+	void								PushToFrontier(AStarNode&& node);
 
+private:
+	std::vector<AStarNode>				m_lstFrontier;
+	std::vector<AStarNode>				m_lstVisited;
 };
 
 #endif //ACTION_PLANNER_H

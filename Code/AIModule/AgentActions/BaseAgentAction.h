@@ -13,13 +13,12 @@ public:
 	virtual void Release() override;
 
 	virtual bool IsCompleted() const override { return m_isCompleted; }
-	virtual void OnComplete() override;
 
 	virtual void Execute(IAIAgent* pAgent) override = 0;
 	virtual AgentActionType GetType() const override = 0;
 	// ~Inherited via IAgentAction
 
-private:
+protected:
 	IAIAction*	m_pOwnerAct;
 	bool		m_isCompleted;
 

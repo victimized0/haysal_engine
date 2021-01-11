@@ -33,6 +33,12 @@ enum class ShaderType : uint8
 	Sky			= 5,
 };
 
+enum class DeviceShaderType
+{
+	Vertex,
+	Pixel
+};
+
 enum class TechniqueId
 {
 	General = 0,
@@ -154,6 +160,7 @@ struct IShader
 	virtual CullType						GetCullType() const = 0;
 	virtual ShaderType						GetShaderType() const = 0;
 	virtual ShaderBlob*						GetShaderBlob() = 0;
+	virtual void*							GetOrCreateDeviceShader() = 0;
 
 	static uint32							GetTextureSlotNum(ShaderResourceTextureSlot textureType) { return static_cast<uint32>(textureType); }
 };

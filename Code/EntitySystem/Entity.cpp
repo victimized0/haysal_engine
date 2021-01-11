@@ -30,17 +30,17 @@ void Entity::Release()
 
 Vec3 Entity::GetWorldPos()
 {
-    return Vec3();
+    return GetLocalPos();
 }
 
 Quat Entity::GetWorldRot()
 {
-    return Quat();
+    return GetLocalRot();
 }
 
 float Entity::GetWorldScale()
 {
-    return 0.0f;
+    return GetLocalScale();
 }
 
 Matrix Entity::GetWorldMatrix()
@@ -57,6 +57,19 @@ Matrix Entity::GetLocalMatrix()
     Matrix R = Matrix::CreateFromQuaternion(m_rot);
     Matrix S = Matrix::CreateScale(m_scale);
     return T * R * S;
+}
+
+void Entity::Translate(Vec3& delta)
+{
+    m_pos += delta;
+
+    if (m_pRenderNode)
+        m_pRenderNode->Translate(delta);
+}
+
+void Entity::Rotate(Quat& q)
+{
+    m_rot *= q;
 }
 
 void Entity::Parse(pugi::xml_node& entityNode)
@@ -86,14 +99,9 @@ void Entity::Parse(pugi::xml_node& entityNode)
     auto aiAgentNode = entityNode.child("ai_agent");
     if (!aiAgentNode.empty())
     {
-        AgentDesc agentDesc = {};
         m_pAiAgent = gEnv->pAISystem->CreateAgent();
-        m_pAiAgent->Parse(aiAgentNode, agentDesc);
-
-        for (IAIAction* pAct : agentDesc.ActionsSet)
-            m_pAiAgent->AddAction(pAct);
-
-        for (AIGoal* pGoal : agentDesc.GoalsSet)
-            m_pAiAgent->SetGoal(pGoal);
+        m_pAiAgent->Parse(aiAgentNode);
+        m_pAiAgent->SetOwner(this);
+        m_pAiAgent->Init();
     }
 }

@@ -19,6 +19,9 @@ struct IEntity
 	virtual Matrix			GetWorldMatrix() = 0;
 	virtual Matrix			GetLocalMatrix() = 0;
 
+	virtual void			Translate(Vec3& delta) = 0;
+	virtual void			Rotate(Quat& q) = 0;
+
 	virtual const char*		GetName() = 0;
 
 	//virtual PhysicsProxy* GetPhysicsProxy() = 0;

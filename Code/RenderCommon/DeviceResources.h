@@ -135,28 +135,28 @@ public:
 
 	void											InitResourceViews();
 	GpuView*										CreateResourceView(const ResourceView& desc);
-	ResourceViewType								GetOrCreateResourceView(const ResourceView& desc);
-	ResourceViewType								ReserveResourceView(const ResourceView& desc);
+	GpuView*										GetOrCreateResourceView(const ResourceView& desc);
+	GpuView*										ReserveResourceView(const ResourceView& desc);
 	void											ReserveResourceViews(int count);
 	void											ReleaseResourceViews();
 
-	const std::pair<ResourceView, GpuResource*>		LookupResourceView(const ResourceViewType desc) const;
-	std::pair<ResourceView, GpuResource*>			LookupResourceView(const ResourceViewType desc);
+	const GpuResource*								LookupResourceView(const ResourceView::Type type) const;
+	GpuResource*									LookupResourceView(const ResourceView::Type type);
 
 	void											SetRawResource(GpuResource* pRes);
 
-	inline GpuSRV*									GetOrCreateSRV(const ResourceView desc)	{ return reinterpret_cast<GpuSRV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
-	inline GpuRTV*									GetOrCreateRTV(const ResourceView desc)	{ return reinterpret_cast<GpuRTV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
-	inline GpuUAV*									GetOrCreateUAV(const ResourceView desc)	{ return reinterpret_cast<GpuUAV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
-	inline GpuDSV*									GetOrCreateDSV(const ResourceView desc)	{ return reinterpret_cast<GpuDSV*>(LookupResourceView(GetOrCreateResourceView(desc)).second); }
+	inline GpuSRV*									GetOrCreateSRV(const ResourceView desc)	{ return reinterpret_cast<GpuSRV*>(GetOrCreateResourceView(desc)); }
+	inline GpuRTV*									GetOrCreateRTV(const ResourceView desc)	{ return reinterpret_cast<GpuRTV*>(GetOrCreateResourceView(desc)); }
+	inline GpuUAV*									GetOrCreateUAV(const ResourceView desc)	{ return reinterpret_cast<GpuUAV*>(GetOrCreateResourceView(desc)); }
+	inline GpuDSV*									GetOrCreateDSV(const ResourceView desc)	{ return reinterpret_cast<GpuDSV*>(GetOrCreateResourceView(desc)); }
 
-	inline GpuSRV*									LookupSRV(const ResourceViewType desc) const { return reinterpret_cast<GpuSRV*>(LookupResourceView(desc).second); }
-	inline GpuRTV*									LookupRTV(const ResourceViewType desc) const { return reinterpret_cast<GpuRTV*>(LookupResourceView(desc).second); }
-	inline GpuUAV*									LookupUAV(const ResourceViewType desc) const { return reinterpret_cast<GpuUAV*>(LookupResourceView(desc).second); }
-	inline GpuDSV*									LookupDSV(const ResourceViewType desc) const { return reinterpret_cast<GpuDSV*>(LookupResourceView(desc).second); }
+	inline GpuSRV*									LookupSRV(const ResourceView::Type type) { return reinterpret_cast<GpuSRV*>(LookupResourceView(type)); }
+	inline GpuRTV*									LookupRTV(const ResourceView::Type type) { return reinterpret_cast<GpuRTV*>(LookupResourceView(type)); }
+	inline GpuUAV*									LookupUAV(const ResourceView::Type type) { return reinterpret_cast<GpuUAV*>(LookupResourceView(type)); }
+	inline GpuDSV*									LookupDSV(const ResourceView::Type type) { return reinterpret_cast<GpuDSV*>(LookupResourceView(type)); }
 
 protected:
-	std::vector<std::pair<ResourceView, GpuView*>>	m_resourceViews;
+	std::map<ResourceView::Type, GpuView*>			m_resourceViews;
 	TextureType										m_textureType;
 
 	uint32											m_flags;

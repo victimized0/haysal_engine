@@ -9,7 +9,6 @@
     <ClCompile Include="AIAction.cpp">
       <Filter>GOAP</Filter>
     </ClCompile>
-    <ClCompile Include="AIAgent.cpp" />
     <ClCompile Include="AgentActions\LocomotionActions.cpp">
       <Filter>AgentActions</Filter>
     </ClCompile>
@@ -22,6 +21,7 @@
     <ClCompile Include="AgentActions\BaseAgentAction.cpp">
       <Filter>AgentActions</Filter>
     </ClCompile>
+    <ClCompile Include="AIAgent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
@@ -32,7 +32,6 @@
     <ClInclude Include="AIAction.h">
       <Filter>GOAP</Filter>
     </ClInclude>
-    <ClInclude Include="AIAgent.h" />
     <ClInclude Include="AgentActions\LocomotionActions.h">
       <Filter>AgentActions</Filter>
     </ClInclude>
@@ -45,6 +44,7 @@
     <ClInclude Include="AgentActions\BaseAgentAction.h">
       <Filter>AgentActions</Filter>
     </ClInclude>
+    <ClInclude Include="AIAgent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GOAP">

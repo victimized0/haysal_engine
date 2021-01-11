@@ -7,20 +7,35 @@ AIAction::AIAction()
 {
 }
 
+AIAction::AIAction(std::string name, int cost)
+	: m_pAgentAction(nullptr)
+	, m_name(name)
+	, m_cost(cost)
+{
+}
+
 AIAction::~AIAction()
 {
 	m_effects.clear();
 	m_preconds.clear();
 }
 
-void AIAction::AddPrecond(AIWorldState& state)
+AIWorldState AIAction::ApplyEffects(const AIWorldState& ws) const
 {
-	m_preconds.push_back(state);
+	AIWorldState tmp(ws);
+	for (const auto& effect : m_effects)
+		tmp.SetValue(effect.first.c_str(), effect.second);
+	return tmp;
 }
 
-void AIAction::AddEffect(AIWorldState& state)
+void AIAction::AddPrecond(const char* name, bool value)
 {
-	m_effects.push_back(state);
+	m_preconds[name] = value;
+}
+
+void AIAction::AddEffect(const char* name, bool value)
+{
+	m_effects[name] = value;
 }
 
 void AIAction::SetCost(int cost)
@@ -33,39 +48,12 @@ void AIAction::SetName(const char* name)
 	m_name = name;
 }
 
-void AIAction::Parse(const pugi::xml_node& actionNode)
+bool AIAction::IsWSConformPreconds(const AIWorldState& ws) const
 {
-	using namespace pugi;
-
-	auto preconds = actionNode.child("preconditions");
-	for (xml_node stateNode = preconds.first_child(); stateNode; stateNode = stateNode.next_sibling())
+	for (const auto& precond : m_preconds)
 	{
-		if (std::string(stateNode.name()) != "state")
-			continue;
-
-		const char* state_name	= stateNode.attribute("name").as_string();
-		bool		state_value = stateNode.attribute("value").as_bool();
-
-		AIWorldState state = {};
-		state.Name	= state_name;
-		state.Value = state_value;
-
-		AddPrecond(state);
+		if (ws.Params.at(precond.first) != precond.second)
+			return false;
 	}
-
-	auto effects = actionNode.child("effects");
-	for (xml_node stateNode = effects.first_child(); stateNode; stateNode = stateNode.next_sibling())
-	{
-		if (std::string(stateNode.name()) != "state")
-			continue;
-
-		const char* state_name	= stateNode.attribute("name").as_string();
-		bool		state_value = stateNode.attribute("value").as_bool();
-
-		AIWorldState state = {};
-		state.Name	= state_name;
-		state.Value = state_value;
-
-		AddEffect(state);
-	}
+	return true;
 }

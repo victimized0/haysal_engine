@@ -9,13 +9,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="hlsl\default.hlsl">
-      <Filter>hlsl</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="hlsl\common.hlsli">
       <Filter>hlsl\Headers</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="hlsl\default.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

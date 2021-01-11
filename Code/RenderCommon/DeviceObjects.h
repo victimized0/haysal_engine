@@ -56,6 +56,8 @@ public:
 	HRESULT											CreateTexture3D();
 	HRESULT											CreateTextureCube();
 
+	HRESULT											CreateDeviceShader(const ShaderBlob* blob, DeviceShaderType type, void** pOutShader);
+
 	void											ReleaseResource(GpuResource* pResource);
 
 	// Buffer resources

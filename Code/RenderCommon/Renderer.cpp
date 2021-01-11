@@ -38,6 +38,9 @@ WIN_HWND Renderer::Init(int width, int height, const SystemInitParams& initParam
 	RenderResources::s_Width = width;
 	RenderResources::s_Height = height;
 	RenderResources::Init();
+
+	m_pShaderManager->Init();
+	DeviceFactory::Get().AllocateDefaultInputLayouts();
 	return nullptr;
 }
 
@@ -122,10 +125,11 @@ void Renderer::RenderScene(IRenderView* renderView)
 	PopProfileMarker("SCENE");
 }
 
-IDXGISurface* Renderer::GetBackBuffer() const
+IDXGISurface* Renderer::GetBackBuffer(GpuResource** pRes) const
 {
 	IDXGISurface* pBackBuffer = nullptr;
 #if RENDERER_DX11
+	m_swapChain.Get()->GetBuffer(0, IID_PPV_ARGS(pRes));
 	m_swapChain.Get()->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
 #elif RENDERER_VK
 	assert(false); // TODO: Not implemented

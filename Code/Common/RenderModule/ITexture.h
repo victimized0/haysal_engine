@@ -170,6 +170,8 @@ struct ITexture
 	virtual const TextureFormat	GetFormat() const = 0;
 	virtual void				UpdateData(TextureData*&& data, int flags) = 0;
 
+	virtual struct TextureLayout		GetTextureLayout() const = 0;
+
 };
 
 #endif //INTERFACE_TEXTURE_H

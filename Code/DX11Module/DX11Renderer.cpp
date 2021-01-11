@@ -142,8 +142,6 @@ void DX11Renderer::DestroyMainWindow()
 
 WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initParams)
 {
-	Renderer::Init(width, height, initParams);
-
 	if (!CreateMainWindow(width, height))
 	{
 		ShutDown();
@@ -216,7 +214,19 @@ WIN_HWND DX11Renderer::Init(int width, int height, const SystemInitParams& initP
 	DeviceFactory::Get().SetDevice(m_pDevice.Get());
 	DeviceFactory::Get().SetContext(m_pContext.Get());
 
+	D3D11_VIEWPORT vp = {};
+	vp.Width	= m_viewport.Width;
+	vp.Height	= m_viewport.Height;
+	vp.MinDepth	= m_viewport.MinDepth;
+	vp.MaxDepth	= m_viewport.MaxDepth;
+	vp.TopLeftX	= m_viewport.X;
+	vp.TopLeftY	= m_viewport.Y;
+
+	m_pContext->RSSetViewports(1, &vp);
+
 	m_isInit = true;
+
+	Renderer::Init(m_swapChain.GetDisplayWidth(), m_swapChain.GetDisplayHeight(), initParams);
 	return m_hWnd;
 }
 

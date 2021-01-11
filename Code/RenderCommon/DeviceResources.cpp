@@ -73,32 +73,32 @@ void DeviceResource::InitResourceViews()
 	else ReserveResourceView(DSV);
 }
 
-ResourceViewType DeviceResource::GetOrCreateResourceView(const ResourceView& desc)
+GpuView* DeviceResource::GetOrCreateResourceView(const ResourceView& desc)
 {
-	for (int i = 0; i < m_resourceViews.size(); ++i)
+	for (auto& rv : m_resourceViews)
 	{
-		auto it = m_resourceViews[i];
-		if (it.first == desc)
-			return ResourceViewType(i);
+		if (rv.first == desc.Desc.ViewType && rv.second != nullptr)
+			return rv.second;
 	}
 
-	m_resourceViews.emplace_back(std::make_pair(desc, CreateResourceView(desc)));
-	return ResourceViewType(m_resourceViews.size());
+	m_resourceViews[ResourceView::Type(desc.Desc.ViewType)] = CreateResourceView(desc);
+	return m_resourceViews[ResourceView::Type(desc.Desc.ViewType)];
 }
 
-ResourceViewType DeviceResource::ReserveResourceView(const ResourceView& desc)
+GpuView* DeviceResource::ReserveResourceView(const ResourceView& desc)
 {
 	const uint32 arrSize = m_resourceViews.size();
 
 	// Reservation is unfailable
-	assert(arrSize == uint32(ResourceViewType(arrSize)));
-	m_resourceViews.emplace_back(std::make_pair(desc, nullptr));
-	return ResourceViewType(arrSize);
+	assert(arrSize == uint32(ResourceView::Type(arrSize)));
+	m_resourceViews[ResourceView::Type(desc.Desc.ViewType)] = nullptr;
+	return m_resourceViews[ResourceView::Type(desc.Desc.ViewType)];
 }
 
 void DeviceResource::ReserveResourceViews(int count)
 {
-	m_resourceViews.reserve(count);
+	for (int i = 0; i < count; ++i)
+		m_resourceViews[ResourceView::Type(i)] = nullptr;
 }
 
 void DeviceResource::ReleaseResourceViews()
@@ -106,21 +106,24 @@ void DeviceResource::ReleaseResourceViews()
 	m_resourceViews.clear();
 }
 
-const std::pair<ResourceView, GpuResource*> DeviceResource::LookupResourceView(ResourceViewType type) const
+const GpuResource* DeviceResource::LookupResourceView(ResourceView::Type type) const
 {
-	return std::pair<ResourceView, GpuResource*>({}, nullptr);
+	for (auto& rv : m_resourceViews)
+	{
+		if (rv.first == type)
+			return reinterpret_cast<GpuResource*>(rv.second);
+	}
+	return nullptr;
 }
 
-std::pair<ResourceView, GpuResource*> DeviceResource::LookupResourceView(ResourceViewType type)
+GpuResource* DeviceResource::LookupResourceView(ResourceView::Type type)
 {
-	return std::pair<ResourceView, GpuResource*>({}, nullptr);
-	//for (const auto& it : m_resourceViews)
-	//{
-	//	if (it.first.Desc.ViewType == type)
-	//	{
-	//		return std::pair(it.first, nullptr);
-	//	}
-	//}
+	for (auto& rv : m_resourceViews)
+	{
+		if (rv.first == type)
+			return reinterpret_cast<GpuResource*>(rv.second);
+	}
+	return nullptr;
 }
 
 void DeviceResource::SetRawResource(GpuResource* pRes)

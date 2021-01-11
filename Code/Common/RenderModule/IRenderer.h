@@ -149,7 +149,7 @@ struct IRenderer
 	virtual void			InitSysResources() = 0;
 	virtual void			FreeSysResources(int flags) = 0;
 
-	virtual IDXGISurface*	GetBackBuffer() const = 0;
+	virtual IDXGISurface*	GetBackBuffer(struct GpuResource** pRes) const = 0;
 
 	virtual int				GetHeight() const = 0;
 	virtual int				GetWidth() const = 0;

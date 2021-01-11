@@ -121,10 +121,32 @@ void Texture::Refresh()
 
 void Texture::CreateRenderTarget(TextureFormat format, const Color& clearCol)
 {
+    if (m_texLayout.Format == TextureFormat::Unknown)
+        m_texLayout.Format = format;
+    if (m_texLayout.Format == TextureFormat::Unknown)
+        return;
+
+    m_texLayout.Flags       |= TextureFlags::RenderTarget;
+    m_texLayout.ClearColor  = clearCol;
+    m_texLayout.MipsCount   = 1;
+
+    TextureData pData = {};
+    CreateDeviceTexture(std::move(pData));
 }
 
 void Texture::CreateDepthStencil(TextureFormat format, const Color& clearCol)
 {
+    if (m_texLayout.Format == TextureFormat::Unknown)
+        m_texLayout.Format = format;
+    if (m_texLayout.Format == TextureFormat::Unknown)
+        return;
+
+    m_texLayout.Flags       |= TextureFlags::DepthStencil;
+    m_texLayout.ClearColor  = clearCol;
+    m_texLayout.MipsCount   = 1;
+
+    TextureData pData = {};
+    CreateDeviceTexture(std::move(pData));
 }
 
 void Texture::CreateShaderResource(const TextureData& texData)
@@ -198,12 +220,18 @@ Texture* Texture::GetOrCreateTexture(const char* name, uint16 width, uint16 heig
 
 Texture* Texture::GetOrCreateRenderTarget(const char* name, uint16 width, uint16 height, uint16 depth, uint32 flags, TextureType type, TextureFormat format)
 {
-    return GetOrCreateTexture(name, width, height, depth, flags | TextureFlags::RenderTarget, type, format);
+    Texture* pTex = GetOrCreateTexture(name, width, height, depth, flags | TextureFlags::RenderTarget, type, format);
+    pTex->m_flags |= flags;
+    pTex->CreateRenderTarget(format, Colors::White);
+    return pTex;
 }
 
 Texture* Texture::GetOrCreateDepthStencil(const char* name, uint16 width, uint16 height, uint16 depth, uint32 flags, TextureType type, TextureFormat format)
 {
-    return GetOrCreateTexture(name, width, height, depth, flags | TextureFlags::DepthStencil, type, format);
+    Texture* pTex = GetOrCreateTexture(name, width, height, depth, flags | TextureFlags::DepthStencil, type, format);
+    pTex->m_flags |= flags;
+    pTex->CreateDepthStencil(format, Colors::White);
+    return pTex;
 }
 
 void Texture::SetDeviceTexture(DeviceTexture* pDevTex)

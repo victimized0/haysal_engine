@@ -44,6 +44,9 @@ struct InputLayout
 			const D3D11_INPUT_ELEMENT_DESC& desc0 = m_ElementsDesc[i];
 			const D3D11_INPUT_ELEMENT_DESC& desc1 = descs[i];
 
+			if (desc0.SemanticName == nullptr)
+				return false;
+
 			if (_stricmp(desc0.SemanticName, desc1.SemanticName) != 0
 					 || desc0.SemanticIndex			!= desc1.SemanticIndex
 					 || desc0.Format				!= desc1.Format

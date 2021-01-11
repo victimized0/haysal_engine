@@ -1,18 +1,78 @@
 <entities>
-  <entity name="apple">
+  <entity name="guardian">
     <ai_agent>
       <actions_set>
-        <action name="scout" />
-        <action name="moveto" />
-        <action name="runto" />
-        <action name="aim" />
-        <action name="shoot" />
-        <action name="reload" />
-        <action name="flee" />
+        <action name="scout">
+          <preconditions>
+            <param name="enemy_visible" value="false" />
+            <param name="has_gun" value="true" />
+          </preconditions>
+          <effects>
+            <param name="enemy_visible" value="true" />
+          </effects>
+        </action>
+        <action name="moveto">
+          <preconditions>
+            <param name="enemy_visible" value="true" />
+            <param name="near_enemy" value="false" />
+          </preconditions>
+          <effects>
+            <param name="near_enemy" value="true" />
+          </effects>
+        </action>
+        <action name="aim">
+          <preconditions>
+            <param name="enemy_visible" value="true" />
+            <param name="weapon_loaded" value="true" />
+            <param name="aim_at_enemy" value="false" />
+          </preconditions>
+          <effects>
+            <param name="aim_at_enemy" value="true" />
+          </effects>
+        </action>
+        <action name="shoot">
+          <preconditions>
+            <param name="aim_at_enemy" value="true" />
+            <param name="enemy_alive" value="true" />
+          </preconditions>
+          <effects>
+            <param name="enemy_alive" value="false" />
+          </effects>
+        </action>
+        <action name="reload">
+          <preconditions>
+            <param name="weapon_loaded" value="false" />
+            <param name="has_gun" value="true" />
+          </preconditions>
+          <effects>
+            <param name="weapon_loaded" value="true" />
+          </effects>
+        </action>
+        <action name="flee">
+          <preconditions>
+            <param name="enemy_visible" value="true" />
+            <param name="near_enemy" value="true" />
+          </preconditions>
+          <effects>
+            <param name="near_enemy" value="false" />
+          </effects>
+        </action>
       </actions_set>
       <goals_set>
-        <goal name="killenemy" />
+        <goal name="kill_enemy" priority="100">
+          <param name="enemy_alive" value="false" />
+        </goal>
       </goals_set>
+      <world_states_set>
+        <param name="enemy_visible" value="false" />
+        <param name="has_gun" value="true" />
+        <param name="has_nade" value="false" />
+        <param name="weapon_loaded" value="false" />
+        <param name="enemy_alive" value="true" />
+        <param name="aim_at_enemy" value="false" />
+        <param name="near_enemy" value="false" />
+        <param name="alive" value="true" />
+      </world_states_set>
     </ai_agent>
     <render_proxy>
       <object src="Objects/Test/apple.obj" />

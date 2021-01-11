@@ -143,7 +143,7 @@ void RenderView::Execute_ShadowPass()
 		pContext->VSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
 		//pContext->PSSetConstantBuffers( CB_PerDraw::Slot, 1, 1, &ppCBPerDraw );
 
-		GpuDSV* pShadowMap = RenderResources::s_pTexShadowMap->GetDeviceTexture()->LookupDSV(ResourceViewType::DepthOnly);
+		GpuDSV* pShadowMap = RenderResources::s_pTexShadowMap->GetDeviceTexture()->LookupDSV(ResourceView::Type::DSV);
 		pContext->OMSetRenderTargets(0, nullptr, pShadowMap);
 
 		for (auto& pass : pTech->m_Passes)
@@ -228,13 +228,42 @@ void RenderView::Execute_OpaquePass()
 		pContext->VSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
 		pContext->PSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
 
-		GpuRTV* pHDRTarget = RenderResources::s_pTexHdrTarget->GetDeviceTexture()->LookupRTV(ResourceViewType::RenderTarget);
-		pContext->OMSetRenderTargets(1, &pHDRTarget, nullptr);
+		//GpuRTV* pHDRTarget = RenderResources::s_pTexHdrTarget->GetDeviceTexture()->LookupRTV(ResourceView::Type::RTV);
+		//pContext->OMSetRenderTargets(1, &pHDRTarget, nullptr);
 
-		for (auto& pass : pTech->m_Passes)
+		GpuRTV* pBackBuffer = RenderResources::s_pTexBackBuffer->GetDeviceTexture()->LookupRTV(ResourceView::Type::RTV);
+		pContext->OMSetRenderTargets(1, &pBackBuffer, nullptr);
+
+		if (false)
 		{
-			Shader* pVS = pass.m_pVertexShader;
-			Shader* pPS = pass.m_pPixelShader;
+			for (auto& pass : pTech->m_Passes)
+			{
+				Shader* pVS = pass.m_pVertexShader;
+				Shader* pPS = pass.m_pPixelShader;
+
+				IVertexLayout* pNewLayout = DeviceFactory::Get().GetOrCreateInputLayout(pVS->GetShaderBlob(), vtxFmt)->second;
+				if (pNewLayout != pCurLayout)
+				{
+					pCurLayout = pNewLayout;
+					pContext->IASetInputLayout(pCurLayout);
+				}
+
+				//pContext->VSSetShader(pVS., nullptr, 0);
+				//pContext->PSSetShader(pPS, nullptr, 0);
+
+				// Set samplers from pass
+				// Set shader resources
+
+				pContext->DrawIndexed(renderItem.pRenderMesh->GetIndicesCount(), 0, 0);
+			}
+		}
+		else
+		{
+			Shader* pVS = gRenderer->GetShaderMan()->s_DefaultVS;
+			Shader* pPS = gRenderer->GetShaderMan()->s_DefaultPS;
+
+			IVertexShader*	pDevVS = reinterpret_cast<IVertexShader*>(pVS->GetOrCreateDeviceShader());
+			IPixelShader*	pDevPS = reinterpret_cast<IPixelShader*>(pPS->GetOrCreateDeviceShader());
 
 			IVertexLayout* pNewLayout = DeviceFactory::Get().GetOrCreateInputLayout(pVS->GetShaderBlob(), vtxFmt)->second;
 			if (pNewLayout != pCurLayout)
@@ -243,11 +272,8 @@ void RenderView::Execute_OpaquePass()
 				pContext->IASetInputLayout(pCurLayout);
 			}
 
-			//pContext->VSSetShader(pVS., nullptr, 0);
-			//pContext->PSSetShader(pPS, nullptr, 0);
-
-			// Set samplers from pass
-			// Set shader resources
+			pContext->VSSetShader(pDevVS, nullptr, 0);
+			pContext->PSSetShader(pDevPS, nullptr, 0);
 
 			pContext->DrawIndexed(renderItem.pRenderMesh->GetIndicesCount(), 0, 0);
 		}
@@ -269,6 +295,7 @@ void RenderView::Execute_TranspPass()
 void RenderView::Execute_PostEffect()
 {
 	gRenderer->PushProfileMarker("POST_EFFECTS");
+	GpuContext* pContext = DeviceFactory::Get().GetContext();
 
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::PostEffects)])
 	{

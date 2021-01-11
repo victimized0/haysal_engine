@@ -22,7 +22,7 @@ void BaseAgentAction::Release()
 	m_pOwnerAct = nullptr;
 }
 
-void BaseAgentAction::OnComplete()
+AgentActionType BaseAgentAction::GetType() const
 {
-	g_aiSystem->ModifyWorldModel(m_pOwnerAct->GetEffects());
+	return AgentActionType();
 }

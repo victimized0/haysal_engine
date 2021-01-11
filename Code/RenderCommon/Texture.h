@@ -31,6 +31,7 @@ public:
 	virtual inline const int8			GetNumMips() const final		{ return m_texLayout.MipsCount; }
 	virtual inline const TextureType	GetTextureType() const final	{ return m_texLayout.Type; }
 	virtual const TextureFormat			GetFormat() const final			{ return m_texLayout.Format; }
+	virtual inline TextureLayout		GetTextureLayout() const final  { return m_texLayout; }
 	virtual inline const uint32			GetDeviceDataSize() const final;
 	virtual inline const uint32			GetDataSize() const final;
 	virtual const bool					IsTextureLoaded() const final;
