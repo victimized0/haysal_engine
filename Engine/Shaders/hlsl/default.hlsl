@@ -3,7 +3,7 @@
 VS_OUT DefaultVS( in VS_IN_POS input )
 {
 	VS_OUT output	= (VS_OUT)0;
-	output.HPos		= mul( mul(ViewProjMatrix, WorldMatrix), float4(input.Pos.xyz, 1.0f));
+	output.HPos		= mul(float4(input.Pos.xyz, 1.0f), mul(WorldMatrix, ViewProjMatrix) );
 	output.Color	= float4(1.f, 0.f, 0.f, 1.f);
 	return output;
 }

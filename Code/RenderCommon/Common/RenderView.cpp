@@ -57,9 +57,9 @@ void RenderView::BeginFrame()
 
 	CB_PerFrame cb = {};
 	cb.CamPos				= Vec4(cam.GetPosition(), 1.0f);
-	cb.ProjMatrix			= cam.GetProj();
-	cb.ViewMatrix			= cam.GetView();
-	cb.ViewProjMatrix		= cb.ViewMatrix * cb.ProjMatrix;
+	cb.ProjMatrix			= cam.GetProj().Transpose();
+	cb.ViewMatrix			= cam.GetView().Transpose();
+	cb.ViewProjMatrix		= cb.ProjMatrix * cb.ViewMatrix;
 	cb.InvViewMatrix		= cb.ViewMatrix.Invert();
 	cb.InvViewProjMatrix	= cb.ViewProjMatrix.Invert();
 	cb.SunDir				= gEnv->pWorld->GetSunDirNormalized();
@@ -245,7 +245,7 @@ void RenderView::Execute_OpaquePass()
 		pContext->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &ofsets);
 		pContext->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		cbpd.WorldMatrix = renderItem.WorldMatrix;
+		cbpd.WorldMatrix = renderItem.WorldMatrix.Transpose();
 		m_pcbPerDraw->Update(&cbpd, sizeof(cbpd));
 
 		IGpuBuffer* ppCBPerDraw = m_pcbPerDraw->GetBuffer();
