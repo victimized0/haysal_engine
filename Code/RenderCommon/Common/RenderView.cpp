@@ -48,6 +48,31 @@ int RenderView::GetLightsCount() const
 	return 0;
 }
 
+void RenderView::BeginFrame()
+{
+	for (auto& list : m_renderLists)
+		list.clear();
+
+	const Camera& cam = gEnv->pSystem->GetViewCamera();
+
+	CB_PerFrame cb = {};
+	cb.CamPos				= Vec4(cam.GetPosition(), 1.0f);
+	cb.ProjMatrix			= cam.GetProj();
+	cb.ViewMatrix			= cam.GetView();
+	cb.ViewProjMatrix		= cb.ViewMatrix * cb.ProjMatrix;
+	cb.InvViewMatrix		= cb.ViewMatrix.Invert();
+	cb.InvViewProjMatrix	= cb.ViewProjMatrix.Invert();
+	cb.SunDir				= gEnv->pWorld->GetSunDirNormalized();
+	cb.SkyCol				= gEnv->pWorld->GetSkyColor();
+
+	SetFrameData(&cb, sizeof(cb));
+
+	GpuContext* pContext = DeviceFactory::Get().GetContext();
+
+	GpuRTV* pBackBuffer = RenderResources::s_pTexBackBuffer->GetDeviceTexture()->LookupRTV(ResourceView::Type::RTV);
+	pContext->ClearRenderTargetView(pBackBuffer, RenderResources::s_pTexBackBuffer->GetTextureLayout().ClearColor);
+}
+
 void RenderView::Submit(RenderItem item, RenderListId listId)
 {
 	uint8 id = static_cast<uint8>(listId);
@@ -59,7 +84,7 @@ void RenderView::ExecuteRenderPass(RenderListId listId)
 	switch (listId)
 	{
 	case RenderListId::ShadowGen:
-		Execute_ShadowPass();
+		//Execute_ShadowPass();
 		break;
 	case RenderListId::ZPrePass:
 		Execute_EarlyZPass();
@@ -200,9 +225,8 @@ void RenderView::Execute_OpaquePass()
 	gRenderer->PushProfileMarker("OPAQUE_PASS");
 
 	GpuContext* pContext = DeviceFactory::Get().GetContext();
-	gRenderer->PushProfileMarker("SHADOW_PASS");
 
-	CB_PerDraw cbpd;
+	CB_PerDraw cbpd = {};
 
 	for (auto& renderItem : m_renderLists[static_cast<int>(RenderListId::Opaque)])
 	{
@@ -222,7 +246,7 @@ void RenderView::Execute_OpaquePass()
 		pContext->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 		cbpd.WorldMatrix = renderItem.WorldMatrix;
-		m_pcbPerDraw->Update(reinterpret_cast<void*>(&cbpd), sizeof(CB_PerDraw));
+		m_pcbPerDraw->Update(&cbpd, sizeof(cbpd));
 
 		IGpuBuffer* ppCBPerDraw = m_pcbPerDraw->GetBuffer();
 		pContext->VSSetConstantBuffers( CB_PerDraw::Slot, 1, &ppCBPerDraw );
@@ -264,6 +288,7 @@ void RenderView::Execute_OpaquePass()
 
 			IVertexShader*	pDevVS = reinterpret_cast<IVertexShader*>(pVS->GetOrCreateDeviceShader());
 			IPixelShader*	pDevPS = reinterpret_cast<IPixelShader*>(pPS->GetOrCreateDeviceShader());
+			pContext->IASetPrimitiveTopology(static_cast<D3D11_PRIMITIVE_TOPOLOGY>(renderItem.pRenderMesh->GetPrimitiveTopology()));
 
 			IVertexLayout* pNewLayout = DeviceFactory::Get().GetOrCreateInputLayout(pVS->GetShaderBlob(), vtxFmt)->second;
 			if (pNewLayout != pCurLayout)

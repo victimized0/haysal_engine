@@ -23,8 +23,8 @@ public:
 
 private:
 	uint32			CalculateShaderCRC(const char* shaderPath);
-	void			ParseShaderCacheFile();
-	void			SaveShaderCacheFile();
+	void			LoadShaderCombinations();
+	void			SaveShaderCombinations();
 
 public:
 	static Shader*	s_DefaultVS;

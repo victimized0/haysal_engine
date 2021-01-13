@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DeviceObjects.h"
+#include "Common\DeviceObjects.h"
 
 IVertexLayout* DeviceFactory::CreateInputLayout(const InputLayout& layout, const ShaderBlob* pVertexShader)
 {

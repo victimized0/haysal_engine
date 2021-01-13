@@ -30,6 +30,7 @@ void WorldEngine::Release()
 
 void WorldEngine::ShutDown()
 {
+	SAFE_DELETE(m_pRenderView);
 }
 
 void WorldEngine::OnFrameStart()
@@ -38,6 +39,9 @@ void WorldEngine::OnFrameStart()
 
 bool WorldEngine::Init()
 {
+	if (gEnv->pRenderer)
+		m_pRenderView = gEnv->pRenderer->AllocateRenderView();
+
 	LoadTestLevel();
 	return true;
 }
@@ -54,15 +58,16 @@ void WorldEngine::UpdateCamera()
 
 void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 {
+	m_camera = camera;
+
 	IRenderer* pRnd = gEnv->pRenderer;
 	if (pRnd == nullptr)
 		return;
 
-	std::unique_ptr<IRenderView> pRndView;
-	pRndView.reset(pRnd->AllocateRenderView());
 	pRnd->BeginFrame();
+	m_pRenderView->BeginFrame();
 
-	BeginOcclusionCulling(pRndView.get());
+	BeginOcclusionCulling(m_pRenderView);
 
 	//if draw objects AABBs
 	//	m_pObjectsTree->RenderDebug();
@@ -70,14 +75,14 @@ void WorldEngine::RenderScene(const int renderFlags, const Camera& camera)
 	for (auto pNode: m_renderNodes)
 	{
 		MeshRenderNode* pMeshNode = reinterpret_cast<MeshRenderNode*>(pNode);
-		m_objManager.RenderMeshNode(pMeshNode, pRndView.get());
+		m_objManager.RenderMeshNode(pMeshNode, m_pRenderView);
 	}
 
-	m_objManager.RenderObjects(pRndView.get());
+	m_objManager.RenderObjects(m_pRenderView);
 
 	// Notify game framework OnRenderScene();
 
-	pRnd->RenderScene(pRndView.get());
+	pRnd->RenderScene(m_pRenderView);
 	EndOcclusionCulling();
 	pRnd->EndFrame();
 

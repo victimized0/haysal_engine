@@ -105,21 +105,11 @@ void Renderer::RenderScene(IRenderView* renderView)
 {
 	PushProfileMarker("SCENE");
 
-	const Camera& cam = gEnv->pSystem->GetViewCamera();
-
-	CB_PerFrame cbpf;
-	cbpf.CamPos			= Vec4(cam.GetPosition(), 1.0f);
-	cbpf.ProjMatrix		= cam.GetProj().Transpose();
-	cbpf.ViewMatrix		= cam.GetView().Transpose();
-	cbpf.ViewProjMatrix	= (cam.GetView() * cam.GetProj()).Transpose();
-
-	renderView->SetFrameData(reinterpret_cast<void*>(&cbpf), sizeof(CB_PerFrame));
-
-	renderView->ExecuteRenderPass(RenderListId::ShadowGen);
+	//renderView->ExecuteRenderPass(RenderListId::ShadowGen);
 	renderView->ExecuteRenderPass(RenderListId::ZPrePass);
 	renderView->ExecuteRenderPass(RenderListId::LightPass);
 	renderView->ExecuteRenderPass(RenderListId::Opaque);
-	renderView->ExecuteRenderPass(RenderListId::Transparent);
+	//renderView->ExecuteRenderPass(RenderListId::Transparent);
 	renderView->ExecuteRenderPass(RenderListId::PostEffects);
 
 	PopProfileMarker("SCENE");

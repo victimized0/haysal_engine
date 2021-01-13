@@ -8,19 +8,16 @@
 // http://go.microsoft.com/fwlink/?LinkID=615561
 //--------------------------------------------------------------------------------------
 
-#include "pch.h"
+#include "StdAfx.h"
 #include "Keyboard.h"
 
-#include "../PlatformHelpers.h"
-
-using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
-static_assert(sizeof(Keyboard::State) == (256 / 8), "Size mismatch for State");
+static_assert(sizeof(KeyboardState) == (256 / 8), "Size mismatch for State");
 
 namespace
 {
-    void KeyDown(int key, Keyboard::State& state) noexcept
+    void KeyDown(int key, KeyboardState& state) noexcept
     {
         if (key < 0 || key > 0xfe)
             return;
@@ -31,7 +28,7 @@ namespace
         ptr[(key >> 5)] |= bf;
     }
 
-    void KeyUp(int key, Keyboard::State& state) noexcept
+    void KeyUp(int key, KeyboardState& state) noexcept
     {
         if (key < 0 || key > 0xfe)
             return;
@@ -99,14 +96,14 @@ public:
         s_keyboard = nullptr;
     }
 
-    void GetState(State& state) const
+    void GetState(KeyboardState& state) const
     {
-        memcpy(&state, &mState, sizeof(State));
+        memcpy(&state, &mState, sizeof(KeyboardState));
     }
 
     void Reset() noexcept
     {
-        memset(&mState, 0, sizeof(State));
+        memset(&mState, 0, sizeof(KeyboardState));
     }
 
     bool IsConnected() const
@@ -114,7 +111,7 @@ public:
         return true;
     }
 
-    State           mState;
+    KeyboardState   mState;
     Keyboard*       mOwner;
 
     static Keyboard::Impl* s_keyboard;
@@ -122,7 +119,6 @@ public:
 
 
 Keyboard::Impl* Keyboard::Impl::s_keyboard = nullptr;
-
 
 void Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -453,9 +449,9 @@ Keyboard::~Keyboard()
 }
 
 
-Keyboard::State Keyboard::GetState() const
+KeyboardState Keyboard::GetState() const
 {
-    State state;
+    KeyboardState state;
     pImpl->GetState(state);
     return state;
 }
@@ -486,7 +482,7 @@ Keyboard& Keyboard::Get()
 // KeyboardStateTracker
 //======================================================================================
 
-void Keyboard::KeyboardStateTracker::Update(const State& state) noexcept
+void Keyboard::KeyboardStateTracker::Update(const KeyboardState& state) noexcept
 {
     auto currPtr = reinterpret_cast<const uint32_t*>(&state);
     auto prevPtr = reinterpret_cast<const uint32_t*>(&lastState);

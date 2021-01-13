@@ -151,6 +151,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EntitySystem\IEntity.h" />
     <ClInclude Include="EntitySystem\IEntitySystem.h" />
+    <ClInclude Include="GameFramework\IGameFramework.h" />
+    <ClInclude Include="GameFramework\IGameModule.h" />
+    <ClInclude Include="InputModule\IInputSystem.h" />
     <ClInclude Include="Utils\FileHelper.h" />
     <ClInclude Include="InputModule\IInputModule.h" />
     <ClInclude Include="RenderModule\IRenderElement.h" />

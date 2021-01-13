@@ -8,12 +8,9 @@
 // http://go.microsoft.com/fwlink/?LinkID=615561
 //--------------------------------------------------------------------------------------
 
-#include "pch.h"
+#include "StdAfx.h"
 #include "Mouse.h"
 
-#include "../PlatformHelpers.h"
-
-using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
 
@@ -99,9 +96,9 @@ public:
         s_mouse = nullptr;
     }
 
-    void GetState(State& state) const
+    void GetState(MouseState& state) const
     {
-        memcpy(&state, &mState, sizeof(State));
+        memcpy(&state, &mState, sizeof(MouseState));
         state.positionMode = mMode;
 
         DWORD result = WaitForSingleObjectEx(mScrollWheelValue.get(), 0, FALSE);
@@ -137,7 +134,7 @@ public:
         SetEvent(mScrollWheelValue.get());
     }
 
-    void SetMode(Mode mode)
+    void SetMode(MouseMode mode)
     {
         if (mMode == mode)
             return;
@@ -214,7 +211,7 @@ public:
         mWindow = window;
     }
 
-    State           mState;
+    MouseState      mState;
 
     Mouse*          mOwner;
 
@@ -222,7 +219,7 @@ public:
 
 private:
     HWND            mWindow;
-    Mode            mMode;
+    MouseMode       mMode;
 
     ScopedHandle    mScrollWheelValue;
     ScopedHandle    mRelativeRead;
@@ -353,7 +350,7 @@ void Mouse::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
             else
             {
                 int scrollWheel = pImpl->mState.scrollWheelValue;
-                memset(&pImpl->mState, 0, sizeof(State));
+                memset(&pImpl->mState, 0, sizeof(MouseState));
                 pImpl->mState.scrollWheelValue = scrollWheel;
 
                 pImpl->mInFocus = false;
@@ -1050,9 +1047,9 @@ Mouse::~Mouse()
 }
 
 
-Mouse::State Mouse::GetState() const
+MouseState Mouse::GetState() const
 {
-    State state;
+    MouseState state;
     pImpl->GetState(state);
     return state;
 }
@@ -1064,7 +1061,7 @@ void Mouse::ResetScrollWheelValue() noexcept
 }
 
 
-void Mouse::SetMode(Mode mode)
+void Mouse::SetMode(MouseMode mode)
 {
     pImpl->SetMode(mode);
 }
@@ -1101,7 +1098,7 @@ Mouse& Mouse::Get()
 
 #define UPDATE_BUTTON_STATE(field) field = static_cast<ButtonState>( ( !!state.field ) | ( ( !!state.field ^ !!lastState.field ) << 1 ) );
 
-void Mouse::ButtonStateTracker::Update(const Mouse::State& state) noexcept
+void Mouse::ButtonStateTracker::Update(const MouseState& state) noexcept
 {
     UPDATE_BUTTON_STATE(leftButton)
 

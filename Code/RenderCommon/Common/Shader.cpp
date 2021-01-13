@@ -25,11 +25,13 @@ int Shader::Release()
 
 void* Shader::GetOrCreateDeviceShader()
 {
-	if (m_pDeviceShader == nullptr);
-	HRESULT hr = DeviceFactory::Get().CreateDeviceShader(GetShaderBlob(), m_devShaderType, &m_pDeviceShader);
-	if (SUCCEEDED(hr))
-		return m_pDeviceShader;
-	return nullptr;
+	if (m_pDeviceShader == nullptr)
+	{
+		HRESULT hr = DeviceFactory::Get().CreateDeviceShader(GetShaderBlob(), m_devShaderType, &m_pDeviceShader);
+		if (SUCCEEDED(hr))
+			return m_pDeviceShader;
+	}
+	return m_pDeviceShader;
 }
 
 int Shader::ForceRelease()

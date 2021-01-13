@@ -103,16 +103,16 @@
 
 #endif
 
-#include "Renderer.h"
-#include "RenderCommon.h"
-#include "RenderResources.h"
-#include "RenderMesh.h"
-#include "RenderView.h"
-#include "DeviceObjects.h"
-#include "DeviceResources.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GpuBuffer.h"
+#include "Common/Renderer.h"
+#include "Common/RenderCommon.h"
+#include "Common/RenderResources.h"
+#include "Common/RenderMesh.h"
+#include "Common/RenderView.h"
+#include "Common/DeviceObjects.h"
+#include "Common/DeviceResources.h"
+#include "Common/Texture.h"
+#include "Common/Shader.h"
+#include "Common/GpuBuffer.h"
 
 // Include API-specific stuff
 #if RENDERER_DX11

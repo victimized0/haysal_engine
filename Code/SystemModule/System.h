@@ -16,6 +16,7 @@
 #define DLL_PHYSICS_MODULE	"PhysicsModule"
 #define DLL_ENTITY_MODULE	"EntityModule"
 #define DLL_INPUT_MODULE	"InputModule"
+#define DLL_GAME_MODULE		"GameFramework"
 
 class System final : public ISystem, public IWindowMessageHandler
 {
@@ -96,6 +97,8 @@ private:
 	bool							InitAnimModule(const SystemInitParams& startupParams);
 	bool							InitScriptModule(const SystemInitParams& startupParams);
 	bool							InitWorldEngine(const SystemInitParams& startupParams);
+	bool							InitInputSystem(const SystemInitParams& startupParams);
+	bool							InitGameFramework(const SystemInitParams& startupParams);
 	//bool							InitFileSystem(const SystemInitParams& startupParams);
 	//void							InitLog(const SystemInitParams& startupParams);
 	bool							InitEntitySystem(const SystemInitParams& startupParams);
@@ -129,6 +132,8 @@ private:
 		WIN_HMODULE hScript;
 		WIN_HMODULE hWorld;
 		WIN_HMODULE hAnimation;
+		WIN_HMODULE hInput;
+		WIN_HMODULE hGame;
 	};
 	DllHandles m_dll;
 

@@ -21,7 +21,7 @@ void ShaderManager::Init()
 	m_shaderCacheDir	= Path::AppendPath(gEnv->pSystem->GetDataDir(), "Shaders\\");
 	m_shaderCacheFile	= Path::AppendPath(m_shaderCacheDir, "shaders_cache.txt");
 
-	ParseShaderCacheFile();
+	LoadShaderCombinations();
 }
 
 void ShaderManager::ShutDown()
@@ -72,7 +72,10 @@ HRESULT ShaderManager::CompileShader(const ShaderInfo& info, ShaderBlob* pOutBlo
 		{
 			pOutBlob->m_pData = shaderBlob->GetBufferPointer();
 			pOutBlob->m_size = shaderBlob->GetBufferSize();
-			SaveShaderCacheFile();
+
+			uint32 srcChecksum = CalculateShaderCRC(csoPath.c_str());
+			m_shaderCache[info.ShaderName] = info;
+			SaveShaderCombinations();
 		}
 	}
 
@@ -96,8 +99,8 @@ void ShaderManager::LoadShader(const char* filename, Shader* pOutShader)
 	auto it = m_shaderCache.find("shaderName");
 	if (it != m_shaderCache.end())												// Check whether a compiled shader already exists
 	{
-		uint32 srcChecksum = CalculateShaderCRC(srcFilepath.c_str());
-		if (srcChecksum == it->second.CRC32)									// Compare whether a compiled shader checksum equals to the loading shader
+		uint32 csoChecksum = CalculateShaderCRC(csoFilepath.c_str());
+		if (csoChecksum == it->second.CRC32)									// Compare whether a compiled shader checksum equals to the loading shader
 		{																		// If source shader code didn't change, we just load the .cso shader into blob
 			std::wstring widePath = ToWString(csoFilepath.c_str());
 			HRESULT hr = D3DReadFileToBlob(widePath.c_str(), &pOutBlob);		// TODO: When and where will the blob get Released()? A potential memory leak!!!
@@ -117,11 +120,14 @@ void ShaderManager::LoadShader(const char* filename, Shader* pOutShader)
 
 void ShaderManager::PreloadBinaryShaders()
 {
-	ParseShaderCacheFile();
+	LoadShaderCombinations();
 }
 
 void ShaderManager::LoadSystemShaders()
 {
+	if (s_DefaultVS && s_DefaultPS)
+		return;
+
 	s_DefaultVS = new Shader();
 	s_DefaultPS = new Shader();
 
@@ -146,12 +152,12 @@ void ShaderManager::LoadSystemShaders()
 
 uint32 ShaderManager::CalculateShaderCRC(const char* shaderPath)
 {
-	char* pBufferData = nullptr; size_t size;
-	FileHelper::LoadToBuffer(shaderPath, pBufferData, &size);
-	return pBufferData ? CRC::Calculate(pBufferData, size, CRC::CRC_32()) : 0;
+	std::vector<char> buffer;
+	FileHelper::LoadToBuffer(shaderPath, buffer);
+	return buffer.data() ? CRC::Calculate(buffer.data(), buffer.size(), CRC::CRC_32()) : 0;
 }
 
-void ShaderManager::ParseShaderCacheFile()
+void ShaderManager::LoadShaderCombinations()
 {
 	std::string line;
 	std::ifstream shaderCache(m_shaderCacheFile.c_str());
@@ -189,7 +195,7 @@ void ShaderManager::ParseShaderCacheFile()
 	shaderCache.close();
 }
 
-void ShaderManager::SaveShaderCacheFile()
+void ShaderManager::SaveShaderCombinations()
 {
 	std::vector<std::string> shaderHeaders;
 	std::ofstream shaderCache(m_shaderCacheFile.c_str());

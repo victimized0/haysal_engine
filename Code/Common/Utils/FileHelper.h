@@ -6,21 +6,16 @@
 
 namespace FileHelper
 {
-	inline void LoadToBuffer(const char* filepath, char* pOutBuffer, size_t* pOutSize)
+	inline void LoadToBuffer(const char* filepath, std::vector<char>& outBuffer)
 	{
-		std::vector<char> buffer;
 		std::ifstream file(filepath);
 
 		file.seekg(0, std::ios::end);
 		size_t fileLength = file.tellg();
 		file.seekg(0, std::ios::beg);
 
-		buffer.reserve(fileLength);
-		file.read(&buffer[0], sizeof(char) * fileLength);
-
-		std::copy(buffer.begin(), buffer.end(), pOutBuffer);
-		*pOutSize = fileLength;
-
+		outBuffer.resize(fileLength);
+		file.read(&outBuffer[0], outBuffer.size());
 		file.close();
 	}
 }

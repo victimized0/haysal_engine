@@ -9,7 +9,7 @@
 
 cbuffer CB_PerDraw : register(REG_CB_PER_DRAW)
 {
-	float3x4 WorldMatrix;
+	float4x4 WorldMatrix;
 };
 
 cbuffer CB_PerMaterial : register(REG_CB_PER_MATERIAL)

@@ -37,6 +37,8 @@ struct IRenderView
 	virtual int						GetLightsCount() const = 0;
 	//virtual RenderLight&			GetLight(int lightId) = 0;
 
+	virtual void					BeginFrame() = 0;
+
 	virtual void					SetFrameData(void* pData, size_t size) = 0;
 
 	virtual void					Submit(RenderItem item, RenderListId listId) = 0;

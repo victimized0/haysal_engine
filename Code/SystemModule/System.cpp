@@ -3,8 +3,11 @@
 
 #include <WorldModule\IWorldEngine.h>
 #include <RenderModule\IRenderer.h>
+#include <InputModule\IInputSystem.h>
 #include <AIModule\IAISystem.h>
 #include <EntitySystem\IEntitySystem.h>
+#include <GameFramework\IGameFramework.h>
+
 #include "..\EntitySystem\EntitySystem.h"
 
 #if PLATFORM_WINDOWS
@@ -81,6 +84,8 @@ System::~System()
 	SafeFreeLib(m_dll.hRenderer);
 	SafeFreeLib(m_dll.hWorld);
 	SafeFreeLib(m_dll.hAnimation);
+	SafeFreeLib(m_dll.hInput);
+	SafeFreeLib(m_dll.hGame);
 
 	//SAFE_DELETE(m_pResourceManager);
 	//SAFE_DELETE(m_pSystemEventDispatcher);
@@ -120,8 +125,8 @@ bool System::Initialise(SystemInitParams& initParams)
 		return (false);
 	m_timer.Reset();
 
-	//if (!InitInput(initParams))
-	//	return false;
+	if (!InitInputSystem(initParams))
+		return false;
 
 	//if (!InitAnimationSystem(initParams))
 	//	return false;
@@ -138,8 +143,8 @@ bool System::Initialise(SystemInitParams& initParams)
 	if (!InitWorldEngine(initParams))
 		return false;
 
-	//InitGameFramework(initParams);
-	//m_env.pInput->PostInit();
+	if (!InitGameFramework(initParams))
+		return false;
 
 	return true;
 }
@@ -158,11 +163,12 @@ void System::RunMainLoop()
 bool System::Update()
 {
 	Camera camera = GetViewCamera();
-	const int newWidth	= gEnv->pRenderer->GetWidth();
-	const int newHeight = gEnv->pRenderer->GetHeight();
+	const int newWidth	= m_env.pRenderer->GetWidth();
+	const int newHeight = m_env.pRenderer->GetHeight();
 
 	if ((newWidth != camera.GetWidth()) || (newHeight != camera.GetHeight()))
 	{
+		camera.Zoom(-200);
 		camera.SetFrustum( newWidth, newHeight, camera.GetFov(), camera.GetNearPlane(), camera.GetFarPlane() );
 		SetViewCamera(camera);
 	}
@@ -189,8 +195,8 @@ bool System::Update()
 
 	//m_pResourceManager->Update();
 
-	//if (m_env.pWorld)
-	//	m_env.pWorld->Tick();  // clear per frame temp data
+	if (m_env.pWorld)
+		m_env.pWorld->Update();
 
 	if (m_env.pAISystem)
 		m_env.pAISystem->Update();
@@ -200,10 +206,6 @@ bool System::Update()
 
 bool System::DoFrame()
 {
-	//if (m_env.pGameFramework != nullptr)
-	//{
-	//	m_env.pGameFramework->PreSystemUpdate();
-	//}
 	
 	RenderBegin();
 
@@ -212,24 +214,15 @@ bool System::DoFrame()
 
 	}
 
-	//if (m_env.pGameFramework != nullptr)
-	//{
-	//	m_env.pGameFramework->PreRender();
-	//}
+	if (m_env.pGameFramework)
+		m_env.pGameFramework->Update(m_timer.GetFrameTime());
 
 	Render();
 
-	//if (m_env.pGameFramework != nullptr)
-	//{
-	//	m_env.pGameFramework->PostRender(updateFlags);
-	//}
+	//if (m_env.pGameFramework)
+	//	m_env.pGameFramework->PostRender();
 
 	RenderEnd();
-
-	//if (m_env.pGameFramework != nullptr)
-	//{
-	//	m_env.pGameFramework->PostRenderSubmit();
-	//}
 
 	return true;
 }
@@ -347,6 +340,8 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 	}
 	case WM_KEYDOWN:
 	{
+		if (m_env.pInputSystem)
+			m_env.pInputSystem->ProcessMessage(InputType::Keyboard, uMsg, wParam, lParam);
 		if (wParam == VK_ESCAPE)
 		{
 			Quit();
@@ -386,9 +381,13 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 		// Pass HIWORD(wParam) as well to indicate whether this window is minimized or not
 		// HIWORD(wParam) != 0 is minimized, HIWORD(wParam) == 0 is not minimized
 		//OnSystemEvent(ESYSTEM_EVENT_ACTIVATE, LOWORD(wParam) != WA_INACTIVE, HIWORD(wParam));
+		if (m_env.pInputSystem)
+			m_env.pInputSystem->ProcessMessage(InputType::Both, uMsg, wParam, lParam);
 		return true;
 	case WM_SYSKEYDOWN:
 	{
+		if (m_env.pInputSystem)
+			m_env.pInputSystem->ProcessMessage(InputType::Keyboard, uMsg, wParam, lParam);
 		// If ALT is pressed
 		const bool bAltPressed = ((lParam >> 29 & 0x1) != 0);
 		if (bAltPressed)
@@ -426,26 +425,25 @@ bool System::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, L
 	}
 	// Events that should be forwarded to the hardware mouse
 	case WM_MOUSEMOVE:
-		break;
-	case WM_LBUTTONDOWN:
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_LBUTTONDBLCLK:
-		break;
 	case WM_RBUTTONDOWN:
-		break;
 	case WM_RBUTTONUP:
-		break;
-	case WM_RBUTTONDBLCLK:
-		break;
+	case WM_INPUT:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
 	case WM_MBUTTONDOWN:
-		break;
 	case WM_MBUTTONUP:
-		break;
-	case WM_MBUTTONDBLCLK:
-		break;
 	case WM_MOUSEWHEEL:
+	case WM_XBUTTONDOWN:
+	case WM_XBUTTONUP:
+	case WM_MOUSEHOVER:
+		if (m_env.pInputSystem)
+			m_env.pInputSystem->ProcessMessage(InputType::Mouse, uMsg, wParam, lParam);
+		break;
+
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		if (m_env.pInputSystem)
+			m_env.pInputSystem->ProcessMessage(InputType::Keyboard, uMsg, wParam, lParam);
 		break;
 
 	// Any other event doesn't interest us
@@ -623,6 +621,28 @@ bool System::InitWorldEngine(const SystemInitParams& startupParams)
 	return m_env.pWorld->Init();
 }
 
+bool System::InitInputSystem(const SystemInitParams& startupParams)
+{
+	if (!InitModule(startupParams, DLL_INPUT_MODULE))
+		return false;
+
+	if (!m_env.pInputSystem)
+		return false;
+
+	return m_env.pInputSystem->Init();
+}
+
+bool System::InitGameFramework(const SystemInitParams& startupParams)
+{
+	if (!InitModule(startupParams, DLL_GAME_MODULE))
+		return false;
+
+	if (!m_env.pGameFramework)
+		return false;
+
+	return m_env.pGameFramework->Init();
+}
+
 bool System::InitEntitySystem(const SystemInitParams& startupParams)
 {
 	// TODO: Move this to a .dll
@@ -671,6 +691,7 @@ void System::ShutDown()
 	UnloadModule(DLL_PHYSICS_MODULE);
 	UnloadModule(DLL_LUA_MODULE);
 	UnloadModule(DLL_INPUT_MODULE);
+	UnloadModule(DLL_GAME_MODULE);
 
 	CloseRenderModule(); // TODO: might move this somewhere else
 

@@ -17,7 +17,7 @@ public:
 		, m_phi(g_PIdiv2)
 		, m_nearZ(0.1f)
 		, m_farZ(1000.0f)
-		, m_projRatio(0.0f)
+		, m_projRatio(1.0f)
 	{}
 
 	inline void		Move(float d)
@@ -109,7 +109,7 @@ inline void Camera::SetFrustum(int w, int h, float fov, float nearZ, float farZ)
 	m_fov		= fov;
 	m_nearZ		= nearZ;
 	m_farZ		= farZ;
-	m_projRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
+	m_projRatio = static_cast<float>(w) / static_cast<float>(h);
 
 	Frustum::CreateFromMatrix(m_frustum, GetProj());
 }

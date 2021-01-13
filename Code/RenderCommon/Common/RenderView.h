@@ -23,6 +23,8 @@ public:
 	virtual int				GetLightsCount() const override;
 	//virtual RenderLight&	GetLight(int lightId) override;
 
+	virtual void			BeginFrame() override;
+
 	virtual void			Submit(RenderItem item, RenderListId list) override;
 	virtual void			ExecuteRenderPass(RenderListId listId) override;
 

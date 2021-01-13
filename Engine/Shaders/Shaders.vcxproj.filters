@@ -17,5 +17,8 @@
     <FxCompile Include="hlsl\default.hlsl">
       <Filter>hlsl</Filter>
     </FxCompile>
+    <FxCompile Include="z_prepass.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

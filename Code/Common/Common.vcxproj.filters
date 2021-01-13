@@ -38,6 +38,9 @@
     <Filter Include="Interfaces\EntitySystem">
       <UniqueIdentifier>{2fdc4466-05e2-4d26-80cb-88fc7f392927}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces\GameFramework">
+      <UniqueIdentifier>{fd4954b3-31be-4c27-baf4-a12baa8222de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldModule\IWorldModule.h">
@@ -153,6 +156,15 @@
     </ClInclude>
     <ClInclude Include="EntitySystem\IEntitySystem.h">
       <Filter>Interfaces\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InputModule\IInputSystem.h">
+      <Filter>Interfaces\InputModule</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramework\IGameFramework.h">
+      <Filter>Interfaces\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramework\IGameModule.h">
+      <Filter>Interfaces\GameFramework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

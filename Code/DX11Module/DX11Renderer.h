@@ -4,7 +4,7 @@
 
 #include <RenderModule\IRenderModule.h>
 #include <platform.inl>
-#include <Renderer.h>
+#include "Common\Renderer.h"
 
 class DX11Renderer;
 extern DX11Renderer* g_dx11Renderer;

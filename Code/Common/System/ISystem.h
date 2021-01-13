@@ -25,6 +25,8 @@ struct IScripts;
 struct IAnimModule;
 struct ITimer;
 struct IEntitySystem;
+struct IInputSystem;
+struct IGameFramework;
 
 struct SystemInitParams;
 
@@ -39,6 +41,8 @@ struct Environment
 	IScripts*		pScripts		= nullptr;
 	IAnimModule*	pAnimation		= nullptr;
 	ITimer*			pTimer			= nullptr;
+	IInputSystem*	pInputSystem    = nullptr;
+	IGameFramework*	pGameFramework  = nullptr;
 };
 
 extern Environment* gEnv;

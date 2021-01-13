@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="hlsl\default.hlsl" />
+    <FxCompile Include="z_prepass.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

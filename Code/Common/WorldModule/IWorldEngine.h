@@ -18,7 +18,7 @@ struct IWorldEngine
 	virtual void					OnFrameStart() = 0;
 	virtual void					RenderScene(const int renderFlags, const Camera& camera) = 0;
 
-	//virtual const					Camera& GetRenderingCamera() const = 0;
+	virtual const Camera&			GetCamera() const = 0;
 
 	//virtual int						SaveStatObj(IStatObj* pStatObj, TSerialize ser) = 0;
 	virtual struct IIndexedMesh*	CreateIndexedMesh() = 0;
